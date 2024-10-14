@@ -1,0 +1,89 @@
+/* Estilo do contêiner que agrupa a tabela e o botão */
+.container {
+  position: relative;
+  width: 100%; /* Para garantir que a tabela e o botão fiquem no mesmo layout */
+}
+
+/* Estilo para a tabela */
+.table {
+  width: 70%; /* Ajuste conforme necessário */
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilo do botão */
+.botaoAdd {
+  position: absolute;  /* Posiciona o botão de forma absoluta em relação ao contêiner pai */
+  right: 0px; /* Alinha o botão à direita */
+  top: 7%; /* Centraliza verticalmente */
+  transform: translateY(-50%); /* Ajusta o alinhamento vertical */
+}
+
+/* Botão (conforme seu CSS anterior) */
+.Btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 45px;
+  height: 45px;
+  border-radius: calc(45px/2);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition-duration: .3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+  background: linear-gradient(90deg, rgba(0, 151, 178, 1) 35%, rgba(126, 217, 87, 1) 100%);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.sign {
+  width: 100%;
+  font-size: 2.2em;
+  color: white;
+  transition-duration: .3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text {
+  position: absolute;
+  right: 0%;
+  width: 0%;
+  opacity: 0;
+  color: white;
+  font-size: 1.4em;
+  font-weight: 500;
+  transition-duration: .3s;
+}
+
+.Btn:hover {
+  width: 155px;
+  transition-duration: .3s;
+}
+
+.Btn:hover .sign {
+  width: 30%;
+  transition-duration: .3s;
+  padding-left: 15px;
+}
+
+.Btn:hover .text {
+  opacity: 1;
+  width: 70%;
+  transition-duration: .3s;
+  padding-right: 15px;
+}
+
+.Btn:active {
+  transform: translate(2px, 2px);
+}

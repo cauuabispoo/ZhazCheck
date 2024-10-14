@@ -1,0 +1,63 @@
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZhazTech</title>
+    <link rel="shortcut icon" href="../img/favicon8.ico">
+    <link rel="stylesheet" href="../css/tela_lacre/tela_lacre.css">
+    <link rel="stylesheet" href="../css/css_geral/select.css">
+    <link rel="stylesheet" href="../css/css_geral/header.css">
+    <link rel="stylesheet" href="../css/css_geral/footer.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo_caixa">
+            <h1 class="logo_titulo">ZhazTech</h1>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="potencial">Garantia</h1>
+        <div id="alertBox" class="alert-box hidden">Por favor, preencha os campos</div>
+
+        <div class="height">
+            <div class="input-group">
+                <label for="OSAnterior">OS anterior:<sup>*</sup></label>
+                <input id="OSAnterior" type="text" autocomplete="off" name="OSAnterior" class="input" maxlength="6" pattern="([0-9]{6})"/>
+            </div>
+
+            <div class="input-group">
+                <label for="dateManutencao">Data da manutenção:<sup>*</sup></label>
+                <input id="dateManutencao" type="date" autocomplete="off" name="dateManutencao" class="input" />
+            </div>
+
+            <div class="input-group">
+                <label for="Service">Serviço feito:<sup>*</sup></label>
+                <input id="Service" type="text" autocomplete="off" name="service" class="input" maxlength="50"/>
+            </div>
+
+        </div>
+
+        <div class="div_voltar">
+            <button id="goBack" class="botao_voltar" >Voltar</button>
+        </div>
+        <div class="div_continuar">
+            <button id="submitButton" class="botao_continuar">Continuar</button>
+        </div>
+    </main>
+
+    <footer>
+        <div>
+            <p class="idea">Idealizado por</p>
+            <h1 class="assinatura">CB</h1>
+        </div>
+    </footer>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src="../js/tela_lacre/tela_lacre.js"></script>
+</body>
+
+</html>

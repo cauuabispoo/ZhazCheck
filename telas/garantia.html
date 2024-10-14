@@ -1,0 +1,62 @@
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZhazTech</title>
+    <link rel="shortcut icon" href="../img/favicon8.ico">
+    <link rel="stylesheet" href="../css/tela_garantia/tela_garantia.css">
+    <link rel="stylesheet" href="../css/css_geral/select.css">
+    <link rel="stylesheet" href="../css/css_geral/header.css">
+    <link rel="stylesheet" href="../css/css_geral/footer.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo_caixa">
+            <h1 class="logo_titulo">ZhazTech</h1>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="potencial">Selecione</h1>
+        <section>
+            <h2 class="title">Deseja fazer o checklist?</h2>
+            <div class="selection">
+                <select name="response" id="response" class="custom-select sources" placeholder="Selecione">
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            </div>
+        </section>
+        <div id="additionalContent" class="hidden1"></div>
+        <div id="alertBox1" class="alert-box hidden">Por favor, preencha os campos</div>
+        <section>
+            <h2 class="title">Possui lacre de garantia Zhaz?</h2>
+            <div class="selection">
+                <select name="lacre" id="lacre" class="custom-select sources" placeholder="Selecione">
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            </div>
+        </section>
+        <div class="div_voltar">
+            <button class="botao_voltar" id="goBack">Voltar</button>
+        </div>
+        <div class="div_continuar">
+            <button id="submitButton" class="botao_continuar">Continuar</button>
+        </div>
+    </main>
+
+    <footer>
+        <div>
+            <p class="idea">Idealizado por</p>
+            <h1 class="assinatura">CB</h1>
+        </div>
+    </footer>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src="../js/tela_garantia/tela_garantia.js"></script>
+</body>
+
+</html>

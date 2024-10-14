@@ -1,0 +1,57 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Arial";
+    min-height: 100vh;
+    /* Preenche a tela inteira */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+header {
+    background: linear-gradient(90deg, rgba(0, 151, 178, 1) 35%, rgba(126, 217, 87, 1) 100%);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    text-align: center;
+    padding: 15px 0;
+}
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+.logo_titulo {
+    font-size: 50;
+    color: white;
+    font-weight: bold;
+}
+main {
+    text-align: center;
+}
+.potencial {
+    font-size: 50px;
+    padding: 120px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    text-align: center;
+    width: 100%;
+}

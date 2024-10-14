@@ -1,0 +1,50 @@
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZhazTech</title>
+  <link rel="shortcut icon" href="../img/favicon8.ico">
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+  <link rel="stylesheet" href="../css/tela_equipamento/tela_equipamento.css">
+  <link rel="stylesheet" href="../css/css_geral/select.css">
+  <link rel="stylesheet" href="../css/css_geral/header.css">
+  <link rel="stylesheet" href="../css/css_geral/footer.css">
+</head>
+
+<body>
+  <header>
+    <div class="logo_caixa">
+      <h1 class="logo_titulo">ZhazTech</h1>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h1 class="potencial1">Qual o equipamento?</h1>
+      <div id="alertBox" class="alert-box hidden">Por favor, selecione uma opção!</div>
+      <select name="potencial" id="potencial" class="custom-select sources" placeholder="Selecione">
+        <option value="coletor">Coletor de dados</option>
+        <option value="leitor">Leitor de dados</option>
+        <option value="impressora">Impressora Térmica</option>
+        <option value="wifiImpressora">Impressora Térmica c/ placa de rede</option>
+        <option value="celular">Celular/Tablet</option>
+      </select>
+    </section>
+    <div class="botao">
+        <button id="proceed">Continuar</button>
+    </div>
+  </main>
+
+  <footer>
+    <div>
+      <p class="idea">Idealizado por</p>
+      <h1 class="assinatura">CB</h1>
+    </div>
+  </footer>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+  <script src="../js/tela_equipamento/tela_equipamento.js"></script>
+</body>
+
+</html>
