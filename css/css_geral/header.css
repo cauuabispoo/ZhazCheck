@@ -11,7 +11,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    background: rgb(226,225,233);
+    background: linear-gradient(90deg, rgba(226,225,233,1) 0%, rgba(220,226,227,1) 100%); 
 }
+
+
 
 
 header {
