@@ -8,6 +8,7 @@ const dados = [
     { id: 6, nome: 'Restauração da mémoria', equipamentos: ['coletor', 'celular'], valor: '6' },
     { id: 7, nome: 'Upgrade de Firmware', equipamentos: ['coletor', 'impressora', 'wifiImpressora', 'celular'], valor: '7' },
     { id: 8, nome: 'Downgrade de Firmware', equipamentos: ['coletor', 'impressora', 'wifiImpressora', 'celular'], valor: '8' },
+    { id: 9, nome: 'Acessórios', equipamentos: ['coletor', 'impressora', 'wifiImpressora', 'celular'], valor: '9' },
 ];
 
 
@@ -165,6 +166,18 @@ async function carregarOpcoes() {
     inicializarSelectCustomizado(); // Atualiza o select customizado
 }
 
+
+
+let valorSelecionadoGlobal = ''; // Variável global para armazenar o valor selecionado
+let pecaSelecionadoGlobal = '';
+let peca1SelecionadoGlobal = '';
+let peca2SelecionadoGlobal = '';
+let nivelSelecionadoGlobal = '';
+let causaDefeitoSelecionadoGlobal = '';
+let obsDefeitoSelecionadoGlobal = '';
+let opcSelecionadoGlobal = '';
+
+
 // Função para inicializar ou atualizar o select customizado
 function inicializarSelectCustomizado() {
     $(".custom-select").each(function () {
@@ -199,7 +212,6 @@ function inicializarSelectCustomizado() {
         event.stopPropagation();
     });
 
-    let valorSelecionadoGlobal = ''; // Variável global para armazenar o valor selecionado
 
     // Evento para selecionar uma opção
     $(".custom-option").on("click", function () {
@@ -217,6 +229,28 @@ function inicializarSelectCustomizado() {
         if (select.attr('id') === 'response') {
             valorSelecionadoGlobal = value; // Atualiza o valor selecionado global
         }
+        if (select.attr('id') === 'peca') {
+            pecaSelecionadoGlobal = value; // Atualiza o valor selecionado global
+        }
+        if (select.attr('id') === 'peca1') {
+            peca1SelecionadoGlobal = value; // Atualiza o valor selecionado global
+        }
+        if (select.attr('id') === 'peca2') {
+            peca2SelecionadoGlobal = value; // Atualiza o valor selecionado global
+        }
+        if (select.attr('id') === 'nivel') {
+            nivelSelecionadoGlobal = value; // Atualiza o valor selecionado global
+        }
+        if (select.attr('id') === 'causaDefeito') {
+            causaDefeitoSelecionadoGlobal = value; // Atualiza o valor selecionado global
+        }
+        if (select.attr('id') === 'obsDefeito') {
+            obsDefeitoSelecionadoGlobal = value; // Atualiza o valor selecionado global
+        }
+        if (select.attr('id') === 'opc') {
+            opcSelecionadoGlobal = value; // Atualiza o valor selecionado global
+        }
+        
 
         // Exibe ou oculta elementos com base no valor selecionado
         exibirElementosPorValor(valorSelecionadoGlobal);
@@ -286,29 +320,216 @@ function adicionarAoLocalStorage(chave, valor) {
 $(document).on("click", ".Btn", function () {
     const alertBox = document.getElementById("alertBox");
 
-    // Seleciona os valores do select mais próximo do botão clicado
-    const $parent = $(this).closest("tr"); // Supondo que o botão está dentro de uma linha <tr>
-    const valorSelecionado = $parent.find("#peca").val();
-    const servicoSelecionado = $parent.find("#response").val();
+    if (valorSelecionadoGlobal === 1) {
 
-    const chave = 'observacoes'; // A chave para o localStorage
-    const novoItem = { valorSelecionado, servicoSelecionado };
+        const chave = 'observacoes'; // A chave para o localStorage
+        const novoItem = { valorSelecionadoGlobal, pecaSelecionadoGlobal, causaDefeitoSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
 
-    console.log("Valor Selecionado:", valorSelecionado);
-    console.log("Serviço Selecionado:", servicoSelecionado);
+        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
+        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
+        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
+        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
+        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
 
-    if (valorSelecionado && servicoSelecionado) {
-        adicionarAoLocalStorage(chave, novoItem);
-        location.replace(location.href); // Recarrega a página
-    } else {
-        alertBox.classList.remove("hidden");
-        alertBox.style.display = "block";
+        if ( pecaSelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
+            adicionarAoLocalStorage(chave, novoItem);
+            location.replace(location.href); // Recarrega a página
+        } else {
+            alertBox.classList.remove("hidden");
+            alertBox.style.display = "block";
 
-        // Oculta o alerta após 3 segundos
-        setTimeout(() => {
-            alertBox.style.display = "none";
-        }, 3000);
+            // Oculta o alerta após 3 segundos
+            setTimeout(() => {
+                alertBox.style.display = "none";
+            }, 3000);
+        }
+
+    } else if (valorSelecionadoGlobal === 2) {
+        const chave = 'observacoes'; // A chave para o localStorage
+        const novoItem = { valorSelecionadoGlobal, nivelSelecionadoGlobal, peca1SelecionadoGlobal, causaDefeitoSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
+
+        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
+        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
+        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
+        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
+        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
+
+        if ( nivelSelecionadoGlobal && peca1SelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
+            adicionarAoLocalStorage(chave, novoItem);
+            location.replace(location.href); // Recarrega a página
+        } else {
+            alertBox.classList.remove("hidden");
+            alertBox.style.display = "block";
+
+            // Oculta o alerta após 3 segundos
+            setTimeout(() => {
+                alertBox.style.display = "none";
+            }, 3000);
+        }
+
+    } else if (valorSelecionadoGlobal === 3) {
+        const chave = 'observacoes'; // A chave para o localStorage
+        const novoItem = { valorSelecionadoGlobal, peca2SelecionadoGlobal, causaDefeitoSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
+
+        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
+        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
+        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
+        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
+        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
+
+        if ( peca2SelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
+            adicionarAoLocalStorage(chave, novoItem);
+            location.replace(location.href); // Recarrega a página
+        } else {
+            alertBox.classList.remove("hidden");
+            alertBox.style.display = "block";
+
+            // Oculta o alerta após 3 segundos
+            setTimeout(() => {
+                alertBox.style.display = "none";
+            }, 3000);
+        }
+
+    } else if (valorSelecionadoGlobal === 4) {
+        const chave = 'observacoes'; // A chave para o localStorage
+        const novoItem = { valorSelecionadoGlobal, causaDefeitoSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
+
+        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
+        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
+        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
+        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
+        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
+
+        if ( causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
+            adicionarAoLocalStorage(chave, novoItem);
+            location.replace(location.href); // Recarrega a página
+        } else {
+            alertBox.classList.remove("hidden");
+            alertBox.style.display = "block";
+
+            // Oculta o alerta após 3 segundos
+            setTimeout(() => {
+                alertBox.style.display = "none";
+            }, 3000);
+        }
+
+    } else if (valorSelecionadoGlobal === 5) {
+        const chave = 'observacoes'; // A chave para o localStorage
+        const novoItem = { valorSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
+
+        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
+        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
+        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
+        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
+        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
+
+        if ( opcSelecionadoGlobal) {
+            adicionarAoLocalStorage(chave, novoItem);
+            location.replace(location.href); // Recarrega a página
+        } else {
+            alertBox.classList.remove("hidden");
+            alertBox.style.display = "block";
+
+            // Oculta o alerta após 3 segundos
+            setTimeout(() => {
+                alertBox.style.display = "none";
+            }, 3000);
+        }
+
+    } else if (valorSelecionadoGlobal === 6) {
+        const chave = 'observacoes'; // A chave para o localStorage
+        const novoItem = { valorSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
+
+        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
+        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
+        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
+        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
+        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
+
+        if ( opcSelecionadoGlobal) {
+            adicionarAoLocalStorage(chave, novoItem);
+            location.replace(location.href); // Recarrega a página
+        } else {
+            alertBox.classList.remove("hidden");
+            alertBox.style.display = "block";
+
+            // Oculta o alerta após 3 segundos
+            setTimeout(() => {
+                alertBox.style.display = "none";
+            }, 3000);
+        }
+
+    } else if (valorSelecionadoGlobal === 7) {
+        const chave = 'observacoes'; // A chave para o localStorage
+        const novoItem = { valorSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
+
+        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
+        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
+        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
+        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
+        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
+
+        if ( opcSelecionadoGlobal) {
+            adicionarAoLocalStorage(chave, novoItem);
+            location.replace(location.href); // Recarrega a página
+        } else {
+            alertBox.classList.remove("hidden");
+            alertBox.style.display = "block";
+
+            // Oculta o alerta após 3 segundos
+            setTimeout(() => {
+                alertBox.style.display = "none";
+            }, 3000);
+        }
+
+    } else if (valorSelecionadoGlobal === 8) {
+        const chave = 'observacoes'; // A chave para o localStorage
+        const novoItem = { valorSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
+
+        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
+        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
+        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
+        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
+        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
+
+        if ( opcSelecionadoGlobal) {
+            adicionarAoLocalStorage(chave, novoItem);
+            location.replace(location.href); // Recarrega a página
+        } else {
+            alertBox.classList.remove("hidden");
+            alertBox.style.display = "block";
+
+            // Oculta o alerta após 3 segundos
+            setTimeout(() => {
+                alertBox.style.display = "none";
+            }, 3000);
+        }
+
+    } else if (valorSelecionadoGlobal === 9) {
+        const chave = 'observacoes'; // A chave para o localStorage
+        const novoItem = { valorSelecionadoGlobal, peca3SelecionadoGlobal, causaDefeitoSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
+
+        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
+        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
+        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
+        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
+        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
+
+        if ( peca3SelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
+            adicionarAoLocalStorage(chave, novoItem);
+            location.replace(location.href); // Recarrega a página
+        } else {
+            alertBox.classList.remove("hidden");
+            alertBox.style.display = "block";
+
+            // Oculta o alerta após 3 segundos
+            setTimeout(() => {
+                alertBox.style.display = "none";
+            }, 3000);
+        }
     }
+
+
 });
 
 
@@ -318,8 +539,6 @@ document.getElementById("goBack").addEventListener("click", function () {
     localStorage.removeItem("osAnterior");
     localStorage.removeItem("dataManutencao");
     localStorage.removeItem("obsUltimoServico");
-    localStorage.removeItem("pecaSelecionada");
-    localStorage.removeItem("servicoSelecionado");
     localStorage.removeItem("observacoes");
     const checkValue = localStorage.getItem('check');
     const lacreValue = localStorage.getItem('lacre');
@@ -333,5 +552,6 @@ document.getElementById("goBack").addEventListener("click", function () {
 });
 
 document.getElementById("submitButton").addEventListener("click", function () {
+    window.location.href = "laudoPronto.html"
 
 });
