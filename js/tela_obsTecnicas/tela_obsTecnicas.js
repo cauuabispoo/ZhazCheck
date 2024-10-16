@@ -544,6 +544,8 @@ document.getElementById("goBack").addEventListener("click", function () {
     const lacreValue = localStorage.getItem('lacre');
     if (checkValue === 'nao' && lacreValue === 'nao') {
         window.location.href = "garantia.html";
+        localStorage.removeItem("lacre");
+        localStorage.removeItem("check");
     } else if (checkValue === 'sim') {
         window.location.href = "checklist.html";
     } else if (checkValue === 'nao' && lacreValue === 'sim') {
