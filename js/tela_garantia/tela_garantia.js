@@ -145,6 +145,7 @@ document.getElementById("submitButton").addEventListener("click", function () {
                     // Verificar se o checkbox está selecionado
                     if (isChecked) {
                         // Se o checkbox estiver selecionado, salva valores vazios e não exibe alerta
+                        localStorage.setItem("imei", "/");
                         localStorage.setItem("mac", "/"); // Armazena valor vazio para MAC
                         localStorage.setItem("serial", "/"); // Armazena valor vazio para S/N
                         if (ver_lacre === 'sim') {
@@ -166,6 +167,7 @@ document.getElementById("submitButton").addEventListener("click", function () {
                             // Salvar os valores no localStorage
                             localStorage.setItem("mac", macValue); // Salva em maiúsculas
                             localStorage.setItem("serial", serialValue); // Salva em maiúsculas
+                            localStorage.setItem("imei", "/");
                             if (ver_lacre === 'sim') {
                                 window.location.href = "lacre.html";
                             } else {
@@ -182,6 +184,7 @@ document.getElementById("submitButton").addEventListener("click", function () {
                     // Verificar se o checkbox está selecionado
                     if (isChecked) {
                         // Se o checkbox estiver selecionado, salva valores vazios e não exibe alerta
+                        localStorage.setItem("imei", "/");
                         localStorage.setItem("mac", "/"); // Armazena valor vazio para MAC
                         localStorage.setItem("serial", "/"); // Armazena valor vazio para S/N
                         if (ver_lacre === 'sim') {
@@ -203,6 +206,7 @@ document.getElementById("submitButton").addEventListener("click", function () {
                             // Salvar os valores no localStorage
                             localStorage.setItem("mac", "/"); // Salva em maiúsculas
                             localStorage.setItem("serial", serialValue); // Salva em maiúsculas
+                            localStorage.setItem("imei", "/");
                             if (ver_lacre === 'sim') {
                                 window.location.href = "lacre.html";
                             } else {
@@ -219,6 +223,7 @@ document.getElementById("submitButton").addEventListener("click", function () {
                     // Verificar se o checkbox está selecionado
                     if (isChecked) {
                         // Se o checkbox estiver selecionado, salva valores vazios e não exibe alerta
+                        localStorage.setItem("imei", "/");
                         localStorage.setItem("mac", "/"); // Armazena valor vazio para MAC
                         localStorage.setItem("serial", "/"); // Armazena valor vazio para S/N
                         if (ver_lacre === 'sim') {
@@ -240,6 +245,7 @@ document.getElementById("submitButton").addEventListener("click", function () {
                             // Salvar os valores no localStorage
                             localStorage.setItem("mac", "/"); // Salva em maiúsculas
                             localStorage.setItem("serial", serialValue); // Salva em maiúsculas
+                            localStorage.setItem("imei", "/");
                             if (ver_lacre === 'sim') {
                                 window.location.href = "lacre.html";
                             } else {
@@ -257,6 +263,7 @@ document.getElementById("submitButton").addEventListener("click", function () {
                     // Verificar se o checkbox está selecionado
                     if (isChecked) {
                         // Se o checkbox estiver selecionado, salva valores vazios e não exibe alerta
+                        localStorage.setItem("imei", "/");
                         localStorage.setItem("mac", "/"); // Armazena valor vazio para MAC
                         localStorage.setItem("serial", "/"); // Armazena valor vazio para S/N
                         if (ver_lacre === 'sim') {
@@ -278,6 +285,7 @@ document.getElementById("submitButton").addEventListener("click", function () {
                             // Salvar os valores no localStorage
                             localStorage.setItem("mac", macValue); // Salva em maiúsculas
                             localStorage.setItem("serial", serialValue); // Salva em maiúsculas
+                            localStorage.setItem("imei", "/");
                             if (ver_lacre === 'sim') {
                                 window.location.href = "lacre.html";
                             } else {

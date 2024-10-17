@@ -172,6 +172,7 @@ let valorSelecionadoGlobal = ''; // Variável global para armazenar o valor sele
 let pecaSelecionadoGlobal = '';
 let peca1SelecionadoGlobal = '';
 let peca2SelecionadoGlobal = '';
+let peca3SelecionadoGlobal = '';
 let nivelSelecionadoGlobal = '';
 let causaDefeitoSelecionadoGlobal = '';
 let obsDefeitoSelecionadoGlobal = '';
@@ -238,14 +239,14 @@ function inicializarSelectCustomizado() {
         if (select.attr('id') === 'peca2') {
             peca2SelecionadoGlobal = value; // Atualiza o valor selecionado global
         }
+        if (select.attr('id') === 'peca3') {
+            peca3SelecionadoGlobal = value; // Atualiza o valor selecionado global
+        }
         if (select.attr('id') === 'nivel') {
             nivelSelecionadoGlobal = value; // Atualiza o valor selecionado global
         }
         if (select.attr('id') === 'causaDefeito') {
             causaDefeitoSelecionadoGlobal = value; // Atualiza o valor selecionado global
-        }
-        if (select.attr('id') === 'obsDefeito') {
-            obsDefeitoSelecionadoGlobal = value; // Atualiza o valor selecionado global
         }
         if (select.attr('id') === 'opc') {
             opcSelecionadoGlobal = value; // Atualiza o valor selecionado global
@@ -319,9 +320,11 @@ function adicionarAoLocalStorage(chave, valor) {
 // Ação para confirmar e salvar a escolha no localStorage
 $(document).on("click", ".Btn", function () {
     const alertBox = document.getElementById("alertBox");
+    
 
     if (valorSelecionadoGlobal === 1) {
 
+        obsDefeitoSelecionadoGlobal = document.getElementById("obsDefeito").value.trim().toUpperCase();
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, pecaSelecionadoGlobal, causaDefeitoSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
 
@@ -345,6 +348,7 @@ $(document).on("click", ".Btn", function () {
         }
 
     } else if (valorSelecionadoGlobal === 2) {
+        obsDefeitoSelecionadoGlobal = document.getElementById("obsDefeito1").value.trim().toUpperCase();
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, nivelSelecionadoGlobal, peca1SelecionadoGlobal, causaDefeitoSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
 
@@ -368,6 +372,7 @@ $(document).on("click", ".Btn", function () {
         }
 
     } else if (valorSelecionadoGlobal === 3) {
+        obsDefeitoSelecionadoGlobal = document.getElementById("obsDefeito2").value.trim().toUpperCase();
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, peca2SelecionadoGlobal, causaDefeitoSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
 
@@ -391,6 +396,7 @@ $(document).on("click", ".Btn", function () {
         }
 
     } else if (valorSelecionadoGlobal === 4) {
+        obsDefeitoSelecionadoGlobal = document.getElementById("obsDefeito3").value.trim().toUpperCase();
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, causaDefeitoSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
 
@@ -414,6 +420,7 @@ $(document).on("click", ".Btn", function () {
         }
 
     } else if (valorSelecionadoGlobal === 5) {
+        obsDefeitoSelecionadoGlobal = document.getElementById("obsDefeito4").value.trim().toUpperCase();
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
 
@@ -437,6 +444,7 @@ $(document).on("click", ".Btn", function () {
         }
 
     } else if (valorSelecionadoGlobal === 6) {
+        obsDefeitoSelecionadoGlobal = document.getElementById("obsDefeito5").value.trim().toUpperCase();
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
 
@@ -460,6 +468,7 @@ $(document).on("click", ".Btn", function () {
         }
 
     } else if (valorSelecionadoGlobal === 7) {
+        obsDefeitoSelecionadoGlobal = document.getElementById("obsDefeito6").value.trim().toUpperCase();
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
 
@@ -483,6 +492,7 @@ $(document).on("click", ".Btn", function () {
         }
 
     } else if (valorSelecionadoGlobal === 8) {
+        obsDefeitoSelecionadoGlobal = document.getElementById("obsDefeito7").value.trim().toUpperCase();
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
 
@@ -506,6 +516,7 @@ $(document).on("click", ".Btn", function () {
         }
 
     } else if (valorSelecionadoGlobal === 9) {
+        obsDefeitoSelecionadoGlobal = document.getElementById("obsDefeito8").value.trim().toUpperCase();
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, peca3SelecionadoGlobal, causaDefeitoSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
 

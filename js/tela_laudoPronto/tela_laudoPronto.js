@@ -5,18 +5,18 @@
 //       alert('Nenhuma opção salva no localStorage!');
 //       return;
 //     }
-  
+
 //     try {
 //       const resposta = await fetch('opcoes.csv'); // Carrega o CSV
 //       const textoCSV = await resposta.text();
-  
+
 //       // Converte o CSV em uma lista de objetos
 //       const linhas = textoCSV.trim().split('\n').slice(1); // Ignora o cabeçalho
 //       const dados = linhas.map(linha => {
 //         const [id, nome] = linha.split(','); // Ignoramos 'equipamentos' aqui
 //         return { id, nome };
 //       });
-  
+
 //       // Busca o nome correspondente ao ID salvo
 //       const opcao = dados.find(item => item.id === idSelecionado);
 //       if (opcao) {
@@ -28,7 +28,7 @@
 //       console.error('Erro ao carregar o CSV:', erro);
 //     }
 //   }
-  
+
 //   // Carregar a opção selecionada ao inicializar a página
 //   $(document).ready(() => {
 //     buscarOpcaoSelecionada();
@@ -57,7 +57,7 @@ async function carregarPecas() {
 
   const mapaPecas = {};
   linhas.forEach((linha) => {
-    const [id, nome] = linha.split(",");
+    const [id, nome, equipamento] = linha.split(",");
     mapaPecas[id.trim()] = nome.trim();
   });
   return mapaPecas;
@@ -169,18 +169,33 @@ async function gerarLaudo() {
   const imei = localStorage.getItem("imei");
   const observacoes = JSON.parse(localStorage.getItem("observacoes")) || [];
 
+
+  // Função para verificar se está em garantia (3 meses = 90 dias)
+  function estaEmGarantia(dataManutencao) {
+    const dataManut = new Date(dataManutencao); // Converter para objeto Date
+    const hoje = new Date(); // Data atual
+
+    // Calcular a diferença em milissegundos e converter para dias
+    const diferencaDias = Math.floor((hoje - dataManut) / (1000 * 60 * 60 * 24));
+
+    // Verificar se a diferença é menor ou igual a 90 dias
+    return diferencaDias <= 90;
+  }
+
   // Informações básicas
   let infoBasica = "";
   if (lacre === "sim") {
-    infoBasica = `OS ANTERIOR: ${osAnterior} - DATA DA MANUTENÇÃO: ${dataManutencao} - OBS: ${obsUltimoServico}\n`;
+    const garantiaStatus = estaEmGarantia(dataManutencao) ? "EM GARANTIA" : "FORA DE GARANTIA";
+
+    infoBasica = `OS ANTERIOR: ${osAnterior} - DATA DA MANUTENÇÃO: ${dataManutencao} - OBS: ${obsUltimoServico} - ${garantiaStatus}\n`;
   }
 
   // Informações do MAC, Serial e IMEI (sem hifens desnecessários)
-  let identificadores = [mac !== "/" ? `MAC: ${mac}` : "", 
-                         serial !== "/" ? `SERIAL: ${serial}` : "", 
-                         imei !== "/" ? `IMEI: ${imei}` : ""]
-                         .filter(Boolean) // Remove entradas vazias
-                         .join(" - "); // Junta com hifens apenas se houver mais de um valor
+  let identificadores = [mac !== "/" ? `MAC: ${mac}` : "",
+  serial !== "/" ? `SERIAL: ${serial}` : "",
+  imei !== "/" ? `IMEI: ${imei}` : ""]
+    .filter(Boolean) // Remove entradas vazias
+    .join(" - "); // Junta com hifens apenas se houver mais de um valor
 
   if (identificadores) {
     identificadores = `\n- ${identificadores}\n`; // Adiciona o identificador com quebra de linha
@@ -190,7 +205,11 @@ async function gerarLaudo() {
   let diagnostico = "";
   let substituicaoNecessaria = "";
   let substituicaoOpcional = "";
+  let instalacaoNecessaria = "";
   let instalacaoOpcional = "";
+  let recuperacaoNecessaria = "";
+  let recuperacaoOpcional = "";
+  let sistema = "";
 
   // Processa as observações e distribui conforme o tipo
   for (const obs of observacoes) {
@@ -206,66 +225,84 @@ async function gerarLaudo() {
         diagnostico += `  - ${peca1} ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           substituicaoNecessaria += `  - ${peca1}\n`;
+        } else {
+          substituicaoOpcional += `  - ${peca1}\n`;
         }
         break;
 
       case 2: // Recuperação de placa
         const peca2 = pecas[obs.peca1SelecionadoGlobal] || "PEÇA DESCONHECIDA";
         const nivel = obs.nivelSelecionadoGlobal === "n1" ? "N1" : obs.nivelSelecionadoGlobal === "n2" ? "N2" : "N3";
-        diagnostico += `  - ${peca2} -> ${causa}\n`;
+        diagnostico += `  - ${peca2} ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          substituicaoNecessaria += `NECESSÁRIO A RECUPERAÇÃO DO(S) ITEM(S):\n  - ${peca2} -> ${nivel}\n`;
+          recuperacaoNecessaria += `  - ${peca2} -> ${nivel}\n`;
+        } else {
+          recuperacaoOpcional += `  - ${peca2} -> ${nivel}\n`;
         }
         break;
 
       case 3: // Recuperação de carcaça
         const peca3 = pecas[obs.peca2SelecionadoGlobal] || "PEÇA DESCONHECIDA";
-        diagnostico += `  - ${peca3} -> ${causa}\n`;
+        diagnostico += `  - ${peca3} ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          substituicaoNecessaria += `NECESSÁRIO A RECUPERAÇÃO DO(S) ITEM(S):\n  - ${peca3}\n`;
+          recuperacaoNecessaria += `  - ${peca3}\n`;
+        } else {
+          recuperacaoOpcional += `  - ${peca3}\n`;
         }
         break;
 
       case 4: // Recuperação de bateria
-        diagnostico += `  - CARCAÇA DA BATERIA QUEBRADA -> ${causa}\n`;
+        diagnostico += `  - CARCAÇA DA BATERIA ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          substituicaoNecessaria += `NECESSÁRIO A RECUPERAÇÃO DA BATERIA -> (SV0080)\n`;
+          sistema += `NECESSÁRIO A RECUPERAÇÃO DA BATERIA -> (SV0080)\n\n`;
+        } else {
+          sistema += `RECUPERAÇÃO OPCIONAL DA BATERIA -> (SV0080)\n\n`;
         }
         break;
 
       case 5: // Atualização do sistema Android
         diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          substituicaoNecessaria += `NECESSÁRIO A ATUALIZAÇÃO DO SISTEMA ANDROID -> (SV0035)\n`;
+          sistema += `NECESSÁRIO A ATUALIZAÇÃO DO SISTEMA ANDROID -> (SV0035)\n\n`;
+        } else {
+          sistema += `ATUALIZAÇÃO OPCIONAL DO SISTEMA ANDROID -> (SV0035)\n\n`;
         }
         break;
 
       case 6: // Restauração da memória
         diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          substituicaoNecessaria += `NECESSÁRIO A RESTAURAÇÃO DA MEMÓRIA FLASH ROM -> (SV0064)\n`;
+          sistema += `NECESSÁRIO A RESTAURAÇÃO DA MEMÓRIA FLASH ROM -> (SV0064)\n\n`;
+        } else {
+          sistema += `RESTAURAÇÃO OPCIONAL DA MEMÓRIA FLASH ROM -> (SV0064)\n\n`;
         }
         break;
 
       case 7: // Upgrade de Firmware
         diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          substituicaoNecessaria += `NECESSÁRIO O UPGRADE DA FIRMWARE -> (SV0075)\n`;
+          sistema += `NECESSÁRIO O UPGRADE DA FIRMWARE -> (SV0075)\n\n`;
+        } else {
+          sistema += `UPGRADE OPCIONAL DA FIRMWARE -> (SV0075)\n\n`;
         }
         break;
 
       case 8: // Downgrade de Firmware
         diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          substituicaoNecessaria += `NECESSÁRIO O DOWNGRADE DA FIRMWARE -> (SV0076)\n`;
+          sistema += `NECESSÁRIO O DOWNGRADE DA FIRMWARE -> (SV0076)\n\n`;
+        } else {
+          sistema += `DOWNGRADE OPCIONAL DA FIRMWARE -> (SV0076)\n\n`;
         }
         break;
 
       case 9: // Acessórios
         const pecaAcessorio = pecas[obs.peca3SelecionadoGlobal] || "PEÇA DESCONHECIDA";
-        diagnostico += `  - ${pecaAcessorio} -> ${causa}\n`;
+        diagnostico += `  - ${pecaAcessorio} ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          substituicaoOpcional += `  - ${pecaAcessorio}\n`;
+          instalacaoNecessaria += `  - ${pecaAcessorio}\n`;
+        } else {
+          instalacaoOpcional += `  - ${pecaAcessorio}\n`;
         }
         break;
 
@@ -275,19 +312,43 @@ async function gerarLaudo() {
   }
 
   // Monta o laudo com os blocos dinâmicos
-  let laudo = `${infoBasica}${identificadores}\nCONFORME O DIAGNÓSTICO TÉCNICO, FOI OBSERVADO:\n${diagnostico}\n`;
+  let laudo = `${infoBasica}${identificadores}CONFORME O DIAGNÓSTICO TÉCNICO, FOI OBSERVADO:\n`;
 
-  laudo += "SOLUÇÃO:\n";
-  if (substituicaoNecessaria) {
-    laudo += `${substituicaoNecessaria}\n`;
-  }
-  
-  if (substituicaoOpcional) {
-    laudo += `SUBSTITUIÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${substituicaoOpcional}\n`;
-  }
+  if (diagnostico) {
+    laudo += `${diagnostico}\n`;
 
-  if (instalacaoOpcional) {
-    laudo += `INSTALAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${instalacaoOpcional}\n`;
+
+    laudo += "SOLUÇÃO:\n";
+    if (sistema) {
+      laudo += `${sistema}\n`;
+    }
+
+    if (substituicaoNecessaria) {
+      laudo += `NECESSÁRIO A SUBSTITUIÇÃO DO(S) SEGUINTE(S) ITEM(S):\n${substituicaoNecessaria}\n`;
+    }
+
+    if (substituicaoOpcional) {
+      laudo += `SUBSTITUIÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${substituicaoOpcional}\n`;
+    }
+
+    if (recuperacaoNecessaria) {
+      laudo += `NECESSÁRIO A RECUPERAÇÃO DO(S) SEGUINTE(S) ITEM(S):\n${recuperacaoNecessaria}\n`;
+    }
+
+    if (recuperacaoOpcional) {
+      laudo += `RECUPERAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${substituicaoOpcional}\n`;
+    }
+
+    if (instalacaoNecessaria) {
+      laudo += `NECESSÁRIO A INSTALAÇÃO DO(S) SEGUINTE(S) ITEM(S):\n${instalacaoOpcional}\n`;
+    }
+
+    if (instalacaoOpcional) {
+      laudo += `INSTALAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${instalacaoOpcional}\n`;
+    }
+
+  } else {
+    laudo += `FORAM REALIZADOS TODOS OS TESTES E O EQUIPAMENTO NÃO APRESENTOU NENHUM DEFEITO\n\n`;
   }
 
   laudo += "REVISÃO E LIMPEZA - (MÃO DE OBRA)";
