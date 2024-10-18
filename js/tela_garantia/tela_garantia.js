@@ -95,19 +95,19 @@ function showAdditionalContent() {
     if (selectedOption) {
         // Exibe conteúdo baseado na seleção
         if (selectedOption === "coletor") {
-            resultDiv.innerHTML = "<div id='alertBox' class='alert-box hidden'>Por favor, preencha os campos MAC e S/N</div><div id='additionalContent' class='hidden'></div><div class='height'><label for='Height'>MAC:<sup>*</sup></label><input id='Height' type='text' autocomplete='off' name='mac' class='input' maxlength='17'/><label for='SerialNumber'>S/N:<sup>*</sup></label><input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' /><div class='content'><label class='checkBox'><input type='checkbox' id='ch1'><div class='transition'></div></label></div><label for='ch1'>Não possui</label></div>";
+            resultDiv.innerHTML = "<div id='alertBox' class='alert-box hidden'>Por favor, preencha os campos!</div><div id='additionalContent' class='hidden'></div><div class='height'><label for='Height'>MAC:<sup>*</sup></label><input id='Height' type='text' autocomplete='off' name='mac' class='input' maxlength='17'/><label for='SerialNumber'>S/N:<sup>*</sup></label><input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' /><div class='content'><label class='checkBox'><input type='checkbox' id='ch1'><div class='transition'></div></label></div><label for='ch1'>Não possui</label></div>";
 
         } else if (selectedOption === "leitor") {
-            resultDiv.innerHTML = "<div id='alertBox' class='alert-box hidden'>Por favor, preencha o campo S/N</div><div id='additionalContent' class='hidden'></div><div class='height'><label for='SerialNumber'>S/N:<sup>*</sup></label><input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' /><div class='content'><label class='checkBox'><input type='checkbox' id='ch1'><div class='transition'></div></label></div><label for='ch1'>Não possui</label></div>";
+            resultDiv.innerHTML = "<div id='alertBox' class='alert-box hidden'>Por favor, preencha os campos!</div><div id='additionalContent' class='hidden'></div><div class='height'><label for='SerialNumber'>S/N:<sup>*</sup></label><input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' /><div class='content'><label class='checkBox'><input type='checkbox' id='ch1'><div class='transition'></div></label></div><label for='ch1'>Não possui</label></div>";
 
         } else if (selectedOption === "impressora") {
-            resultDiv.innerHTML = "<div id='alertBox' class='alert-box hidden'>Por favor, preencha o campo S/N</div><div id='additionalContent' class='hidden'></div><div class='height'><label for='SerialNumber'>S/N:<sup>*</sup></label><input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' /><div class='content'><label class='checkBox'><input type='checkbox' id='ch1'><div class='transition'></div></label></div><label for='ch1'>Não possui</label></div>";
+            resultDiv.innerHTML = "<div id='alertBox' class='alert-box hidden'>Por favor, preencha os campos!</div><div id='additionalContent' class='hidden'></div><div class='height'><label for='SerialNumber'>S/N:<sup>*</sup></label><input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' /><div class='content'><label class='checkBox'><input type='checkbox' id='ch1'><div class='transition'></div></label></div><label for='ch1'>Não possui</label></div>";
 
         } else if (selectedOption === "wifiImpressora") {
-            resultDiv.innerHTML = "<div id='alertBox' class='alert-box hidden'>Por favor, preencha os campos MAC e S/N</div><div id='additionalContent' class='hidden'></div><div class='height'><label for='Height'>MAC:<sup>*</sup></label><input id='Height' type='text' autocomplete='off' name='mac' class='input' maxlength='17'/><label for='SerialNumber'>S/N:<sup>*</sup></label><input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' /><div class='content'><label class='checkBox'><input type='checkbox' id='ch1'><div class='transition'></div></label></div><label for='ch1'>Não possui</label></div>";
+            resultDiv.innerHTML = "<div id='alertBox' class='alert-box hidden'>Por favor, preencha os campos!</div><div id='additionalContent' class='hidden'></div><div class='height'><label for='Height'>MAC:<sup>*</sup></label><input id='Height' type='text' autocomplete='off' name='mac' class='input' maxlength='17'/><label for='SerialNumber'>S/N:<sup>*</sup></label><input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' /><div class='content'><label class='checkBox'><input type='checkbox' id='ch1'><div class='transition'></div></label></div><label for='ch1'>Não possui</label></div>";
 
         } else if (selectedOption === "celular") {
-            resultDiv.innerHTML = "<div id='alertBox' class='alert-box hidden'>Por favor, preencha os campos MAC, S/N e Imei!</div><div id='additionalContent' class='hidden'></div><div class='height'><label for='Height'>MAC:<sup>*</sup></label><input id='Height' type='text' autocomplete='off' name='mac' class='input' maxlength='17'/><label for='SerialNumber'>S/N:<sup>*</sup></label><input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' /><label for='Imei'>IMEI:<sup>*</sup></label><input id='Imei' type='text' autocomplete='off' name='serial' class='input' maxlength='15'/><div class='content'><label class='checkBox'><input type='checkbox' id='ch1'><div class='transition'></div></label></div><label for='ch1'>Não possui</label></div>";
+            resultDiv.innerHTML = "<div id='alertBox' class='alert-box hidden'>Por favor, preencha os campos!</div><div id='additionalContent' class='hidden'></div><div class='height'><label for='Height'>MAC:<sup>*</sup></label><input id='Height' type='text' autocomplete='off' name='mac' class='input' maxlength='17'/><label for='SerialNumber'>S/N:<sup>*</sup></label><input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' /><label for='Imei'>IMEI:<sup>*</sup></label><input id='Imei' type='text' autocomplete='off' name='serial' class='input' maxlength='15'/><div class='content'><label class='checkBox'><input type='checkbox' id='ch1'><div class='transition'></div></label></div><label for='ch1'>Não possui</label></div>";
 
 
         }
@@ -131,7 +131,7 @@ document.getElementById("submitButton").addEventListener("click", function () {
 
     var selectedOption = localStorage.getItem("selectedOption");
 
-    if (!ver_lacre || !ver_serial) {
+    if (!ver_lacre || !ver_check) {
         if (ver_check === 'nao') {
             if (selectedOption) {
                 // Exibe conteúdo baseado na seleção
@@ -150,8 +150,16 @@ document.getElementById("submitButton").addEventListener("click", function () {
                         localStorage.setItem("serial", "/"); // Armazena valor vazio para S/N
                         if (ver_lacre === 'sim') {
                             window.location.href = "lacre.html";
-                        } else {
+                        } else if (ver_lacre === 'nao'){
                             window.location.href = "obsTecnicas.html";
+                        } else if (!ver_lacre) {
+                            alertBox.classList.remove("hidden");
+                            alertBox.style.display = "block";
+
+                            // Oculta o alerta após 3 segundos
+                            setTimeout(() => {
+                                alertBox.style.display = "none";
+                            }, 3000);
                         }
                     } else {
                         // Verificar se os campos estão preenchidos
@@ -170,8 +178,16 @@ document.getElementById("submitButton").addEventListener("click", function () {
                             localStorage.setItem("imei", "/");
                             if (ver_lacre === 'sim') {
                                 window.location.href = "lacre.html";
-                            } else {
+                            } else if (ver_lacre === 'nao'){
                                 window.location.href = "obsTecnicas.html";
+                            } else if (!ver_lacre) {
+                                alertBox.classList.remove("hidden");
+                                alertBox.style.display = "block";
+    
+                                // Oculta o alerta após 3 segundos
+                                setTimeout(() => {
+                                    alertBox.style.display = "none";
+                                }, 3000);
                             }
                         }
                     }
@@ -189,8 +205,16 @@ document.getElementById("submitButton").addEventListener("click", function () {
                         localStorage.setItem("serial", "/"); // Armazena valor vazio para S/N
                         if (ver_lacre === 'sim') {
                             window.location.href = "lacre.html";
-                        } else {
+                        } else if (ver_lacre === 'nao'){
                             window.location.href = "obsTecnicas.html";
+                        } else if (!ver_lacre) {
+                            alertBox.classList.remove("hidden");
+                            alertBox.style.display = "block";
+
+                            // Oculta o alerta após 3 segundos
+                            setTimeout(() => {
+                                alertBox.style.display = "none";
+                            }, 3000);
                         }
                     } else {
                         // Verificar se os campos estão preenchidos
@@ -209,8 +233,16 @@ document.getElementById("submitButton").addEventListener("click", function () {
                             localStorage.setItem("imei", "/");
                             if (ver_lacre === 'sim') {
                                 window.location.href = "lacre.html";
-                            } else {
+                            } else if (ver_lacre === 'nao'){
                                 window.location.href = "obsTecnicas.html";
+                            } else if (!ver_lacre) {
+                                alertBox.classList.remove("hidden");
+                                alertBox.style.display = "block";
+    
+                                // Oculta o alerta após 3 segundos
+                                setTimeout(() => {
+                                    alertBox.style.display = "none";
+                                }, 3000);
                             }
                         }
                     }
@@ -228,8 +260,16 @@ document.getElementById("submitButton").addEventListener("click", function () {
                         localStorage.setItem("serial", "/"); // Armazena valor vazio para S/N
                         if (ver_lacre === 'sim') {
                             window.location.href = "lacre.html";
-                        } else {
+                        } else if (ver_lacre === 'nao'){
                             window.location.href = "obsTecnicas.html";
+                        } else if (!ver_lacre) {
+                            alertBox.classList.remove("hidden");
+                            alertBox.style.display = "block";
+
+                            // Oculta o alerta após 3 segundos
+                            setTimeout(() => {
+                                alertBox.style.display = "none";
+                            }, 3000);
                         }
                     } else {
                         // Verificar se os campos estão preenchidos
@@ -248,8 +288,16 @@ document.getElementById("submitButton").addEventListener("click", function () {
                             localStorage.setItem("imei", "/");
                             if (ver_lacre === 'sim') {
                                 window.location.href = "lacre.html";
-                            } else {
+                            } else if (ver_lacre === 'nao'){
                                 window.location.href = "obsTecnicas.html";
+                            } else if (!ver_lacre) {
+                                alertBox.classList.remove("hidden");
+                                alertBox.style.display = "block";
+    
+                                // Oculta o alerta após 3 segundos
+                                setTimeout(() => {
+                                    alertBox.style.display = "none";
+                                }, 3000);
                             }
                         }
                     }
@@ -268,8 +316,16 @@ document.getElementById("submitButton").addEventListener("click", function () {
                         localStorage.setItem("serial", "/"); // Armazena valor vazio para S/N
                         if (ver_lacre === 'sim') {
                             window.location.href = "lacre.html";
-                        } else {
+                        } else if (ver_lacre === 'nao'){
                             window.location.href = "obsTecnicas.html";
+                        } else if (!ver_lacre) {
+                            alertBox.classList.remove("hidden");
+                            alertBox.style.display = "block";
+
+                            // Oculta o alerta após 3 segundos
+                            setTimeout(() => {
+                                alertBox.style.display = "none";
+                            }, 3000);
                         }
                     } else {
                         // Verificar se os campos estão preenchidos
@@ -288,8 +344,16 @@ document.getElementById("submitButton").addEventListener("click", function () {
                             localStorage.setItem("imei", "/");
                             if (ver_lacre === 'sim') {
                                 window.location.href = "lacre.html";
-                            } else {
+                            } else if (ver_lacre === 'nao'){
                                 window.location.href = "obsTecnicas.html";
+                            } else if (!ver_lacre) {
+                                alertBox.classList.remove("hidden");
+                                alertBox.style.display = "block";
+    
+                                // Oculta o alerta após 3 segundos
+                                setTimeout(() => {
+                                    alertBox.style.display = "none";
+                                }, 3000);
                             }
                         }
                     }
@@ -309,8 +373,16 @@ document.getElementById("submitButton").addEventListener("click", function () {
                         localStorage.setItem("serial", "/"); // Armazena valor vazio para S/N
                         if (ver_lacre === 'sim') {
                             window.location.href = "lacre.html";
-                        } else {
+                        } else if (ver_lacre === 'nao'){
                             window.location.href = "obsTecnicas.html";
+                        } else if (!ver_lacre) {
+                            alertBox.classList.remove("hidden");
+                            alertBox.style.display = "block";
+
+                            // Oculta o alerta após 3 segundos
+                            setTimeout(() => {
+                                alertBox.style.display = "none";
+                            }, 3000);
                         }
                     } else {
                         // Verificar se os campos estão preenchidos
@@ -329,8 +401,16 @@ document.getElementById("submitButton").addEventListener("click", function () {
                             localStorage.setItem("imei", imeiValue);
                             if (ver_lacre === 'sim') {
                                 window.location.href = "lacre.html";
-                            } else {
+                            } else if (ver_lacre === 'nao'){
                                 window.location.href = "obsTecnicas.html";
+                            } else if (!ver_lacre) {
+                                alertBox.classList.remove("hidden");
+                                alertBox.style.display = "block";
+    
+                                // Oculta o alerta após 3 segundos
+                                setTimeout(() => {
+                                    alertBox.style.display = "none";
+                                }, 3000);
                             }
                         }
                     }

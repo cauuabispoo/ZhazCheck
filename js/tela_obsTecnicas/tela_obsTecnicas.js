@@ -36,6 +36,7 @@ async function carregarOpcoes() {
 
     try {
         const resposta = await fetch('../csv/pecas.csv'); // Carrega o CSV
+        // const resposta = await fetch('../csv/CadastroItens(CadastroItens).csv');
         const textoCSV = await resposta.text();
 
         // Converte o CSV em uma lista de objetos
@@ -47,9 +48,9 @@ async function carregarOpcoes() {
 
         // Filtra e adiciona as opções ao select
         dados.forEach(item => {
-            if (item.equipamentos.includes(comparaSelectedOption)) {
+           // if (item.equipamentos.includes(comparaSelectedOption)) {
                 select1.append(`<option value="${item.id}">${item.nome}</option>`);
-            }
+           // }
         });
 
         if (select1.find('option').length === 1) {

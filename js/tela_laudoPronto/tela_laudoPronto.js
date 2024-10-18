@@ -254,55 +254,54 @@ async function gerarLaudo() {
       case 4: // Recuperação de bateria
         diagnostico += `  - CARCAÇA DA BATERIA ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          sistema += `NECESSÁRIO A RECUPERAÇÃO DA BATERIA -> (SV0080)\n\n`;
+          sistema += `NECESSÁRIO A RECUPERAÇÃO DA BATERIA -> (SV0071)\n\n`;
         } else {
-          sistema += `RECUPERAÇÃO OPCIONAL DA BATERIA -> (SV0080)\n\n`;
+          sistema += `RECUPERAÇÃO OPCIONAL DA BATERIA -> (SV0071)\n\n`;
         }
         break;
 
       case 5: // Atualização do sistema Android
         diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          sistema += `NECESSÁRIO A ATUALIZAÇÃO DO SISTEMA ANDROID -> (SV0035)\n\n`;
+          sistema += `NECESSÁRIO A ATUALIZAÇÃO DO SISTEMA ANDROID -> (SV0042)\n\n`;
         } else {
-          sistema += `ATUALIZAÇÃO OPCIONAL DO SISTEMA ANDROID -> (SV0035)\n\n`;
+          sistema += `ATUALIZAÇÃO OPCIONAL DO SISTEMA ANDROID -> (SV0042)\n\n`;
         }
         break;
 
       case 6: // Restauração da memória
         diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          sistema += `NECESSÁRIO A RESTAURAÇÃO DA MEMÓRIA FLASH ROM -> (SV0064)\n\n`;
+          sistema += `NECESSÁRIO A RESTAURAÇÃO DA MEMÓRIA FLASH ROM -> (SV0040)\n\n`;
         } else {
-          sistema += `RESTAURAÇÃO OPCIONAL DA MEMÓRIA FLASH ROM -> (SV0064)\n\n`;
+          sistema += `RESTAURAÇÃO OPCIONAL DA MEMÓRIA FLASH ROM -> (SV0040)\n\n`;
         }
         break;
 
       case 7: // Upgrade de Firmware
         diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          sistema += `NECESSÁRIO O UPGRADE DA FIRMWARE -> (SV0075)\n\n`;
+          sistema += `NECESSÁRIO O UPGRADE DA FIRMWARE -> (SV0046)\n\n`;
         } else {
-          sistema += `UPGRADE OPCIONAL DA FIRMWARE -> (SV0075)\n\n`;
+          sistema += `UPGRADE OPCIONAL DA FIRMWARE -> (SV0046)\n\n`;
         }
         break;
 
       case 8: // Downgrade de Firmware
         diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          sistema += `NECESSÁRIO O DOWNGRADE DA FIRMWARE -> (SV0076)\n\n`;
+          sistema += `NECESSÁRIO O DOWNGRADE DA FIRMWARE -> (SV0047)\n\n`;
         } else {
-          sistema += `DOWNGRADE OPCIONAL DA FIRMWARE -> (SV0076)\n\n`;
+          sistema += `DOWNGRADE OPCIONAL DA FIRMWARE -> (SV0047)\n\n`;
         }
         break;
 
       case 9: // Acessórios
         const pecaAcessorio = pecas[obs.peca3SelecionadoGlobal] || "PEÇA DESCONHECIDA";
-        diagnostico += `  - ${pecaAcessorio} ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          instalacaoNecessaria += `  - ${pecaAcessorio}\n`;
+          instalacaoNecessaria += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         } else {
-          instalacaoOpcional += `  - ${pecaAcessorio}\n`;
+          instalacaoOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         }
         break;
 
@@ -348,7 +347,7 @@ async function gerarLaudo() {
     }
 
   } else {
-    laudo += `FORAM REALIZADOS TODOS OS TESTES E O EQUIPAMENTO NÃO APRESENTOU NENHUM DEFEITO\n\n`;
+    laudo += `  - FORAM REALIZADOS TODOS OS TESTES E O EQUIPAMENTO NÃO APRESENTOU NENHUM DEFEITO\n\n`;
   }
 
   laudo += "REVISÃO E LIMPEZA - (MÃO DE OBRA)";

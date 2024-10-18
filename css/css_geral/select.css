@@ -53,7 +53,7 @@ select {
 .custom-select-trigger {
   position: relative;
   display: block;
-  min-width: 130px;
+  min-width: 250px;
   padding: 0 104px 0 25px;
   font-weight: 100;
   color: #6e7c83;
@@ -120,7 +120,7 @@ select {
   pointer-events: none;
   transform: translateY(-15px);
   border: 0;
-    z-index: 1000; /* Z-index para a lista de opções */
+  z-index: 1000; /* Z-index para a lista de opções */
 }
 .custom-select.opened .custom-options {
   opacity: 1;
@@ -140,7 +140,7 @@ select {
   padding: 0 22px;
   font: 13px/1.5 "Roboto", sans-serif;
   font-weight: 600;
-  color: #b5b5b5;
+  color: #6e7c83;
   line-height: 47px;
   cursor: pointer;
   transition: all 0.05s ease-in-out;
