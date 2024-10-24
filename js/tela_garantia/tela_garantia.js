@@ -1,3 +1,15 @@
+$(document).ready(() => {
+    const verficaEquipamento = localStorage.getItem('selectedOption');
+
+    if(!verficaEquipamento){
+        window.location.href = "equipamento.html";
+        localStorage.clear();
+    }
+});
+
+
+
+
 // Inicialização da custom select
 $(".custom-select").each(function () {
     var classes = $(this).attr("class"),
@@ -81,8 +93,6 @@ function handleResponse(selectedValue) {
 function handleLacre(selectedValue) {
     if (selectedValue === "nao" || "sim") {
         localStorage.setItem("lacre", selectedValue);
-    } else {
-
     }
 }
 
@@ -101,10 +111,7 @@ function showAdditionalContent() {
             resultDiv.innerHTML = "<div id='alertBox' class='alert-box hidden'>Por favor, preencha os campos!</div><div id='additionalContent' class='hidden'></div><div class='height'><label for='SerialNumber'>S/N:<sup>*</sup></label><input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' /><div class='content'><label class='checkBox'><input type='checkbox' id='ch1'><div class='transition'></div></label></div><label for='ch1'>Não possui</label></div>";
 
         } else if (selectedOption === "impressora") {
-            resultDiv.innerHTML = "<div id='alertBox' class='alert-box hidden'>Por favor, preencha os campos!</div><div id='additionalContent' class='hidden'></div><div class='height'><label for='SerialNumber'>S/N:<sup>*</sup></label><input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' /><div class='content'><label class='checkBox'><input type='checkbox' id='ch1'><div class='transition'></div></label></div><label for='ch1'>Não possui</label></div>";
-
-        } else if (selectedOption === "wifiImpressora") {
-            resultDiv.innerHTML = "<div id='alertBox' class='alert-box hidden'>Por favor, preencha os campos!</div><div id='additionalContent' class='hidden'></div><div class='height'><label for='Height'>MAC:<sup>*</sup></label><input id='Height' type='text' autocomplete='off' name='mac' class='input' maxlength='17'/><label for='SerialNumber'>S/N:<sup>*</sup></label><input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' /><div class='content'><label class='checkBox'><input type='checkbox' id='ch1'><div class='transition'></div></label></div><label for='ch1'>Não possui</label></div>";
+            resultDiv.innerHTML = "<div id='alertBox' class='alert-box hidden'>Por favor, preencha os campos!</div><div id='additionalContent' class='hidden'></div><div class='height'><label for='Height'>MAC:</label><input id='Height' type='text' autocomplete='off' name='mac' class='input' maxlength='17'/><label for='SerialNumber'>S/N:<sup>*</sup></label><input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' /><div class='content'><label class='checkBox'><input type='checkbox' id='ch1'><div class='transition'></div></label></div><label for='ch1'>Não possui</label></div>";
 
         } else if (selectedOption === "celular") {
             resultDiv.innerHTML = "<div id='alertBox' class='alert-box hidden'>Por favor, preencha os campos!</div><div id='additionalContent' class='hidden'></div><div class='height'><label for='Height'>MAC:<sup>*</sup></label><input id='Height' type='text' autocomplete='off' name='mac' class='input' maxlength='17'/><label for='SerialNumber'>S/N:<sup>*</sup></label><input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' /><label for='Imei'>IMEI:<sup>*</sup></label><input id='Imei' type='text' autocomplete='off' name='serial' class='input' maxlength='15'/><div class='content'><label class='checkBox'><input type='checkbox' id='ch1'><div class='transition'></div></label></div><label for='ch1'>Não possui</label></div>";
@@ -114,12 +121,10 @@ function showAdditionalContent() {
     }
 }
 
-// Continue com o restante da lógica de submit e manipulação de eventos como no seu código original
 
 
 document.getElementById("goBack").addEventListener("click", function () {
     localStorage.clear();
-
     window.location.href = "equipamento.html";
 });
 
@@ -131,7 +136,7 @@ document.getElementById("submitButton").addEventListener("click", function () {
 
     var selectedOption = localStorage.getItem("selectedOption");
 
-    if (!ver_lacre || !ver_check) {
+    if (ver_lacre || ver_check) {
         if (ver_check === 'nao') {
             if (selectedOption) {
                 // Exibe conteúdo baseado na seleção
@@ -248,6 +253,7 @@ document.getElementById("submitButton").addEventListener("click", function () {
                     }
                 } else if (selectedOption === "impressora") {
                     // Obter valores dos inputs
+                    const macValue = document.getElementById("Height").value.trim().toUpperCase();
                     const serialValue = document.getElementById("SerialNumber").value.trim().toUpperCase(); // Armazenar em maiúsculas
                     const isChecked = document.getElementById("ch1").checked;
                     const alertBox = document.getElementById("alertBox");
@@ -282,64 +288,11 @@ document.getElementById("submitButton").addEventListener("click", function () {
                                 alertBox.style.display = "none";
                             }, 3000);
                         } else {
-                            // Salvar os valores no localStorage
-                            localStorage.setItem("mac", "/"); // Salva em maiúsculas
-                            localStorage.setItem("serial", serialValue); // Salva em maiúsculas
-                            localStorage.setItem("imei", "/");
-                            if (ver_lacre === 'sim') {
-                                window.location.href = "lacre.html";
-                            } else if (ver_lacre === 'nao'){
-                                window.location.href = "obsTecnicas.html";
-                            } else if (!ver_lacre) {
-                                alertBox.classList.remove("hidden");
-                                alertBox.style.display = "block";
-    
-                                // Oculta o alerta após 3 segundos
-                                setTimeout(() => {
-                                    alertBox.style.display = "none";
-                                }, 3000);
+                            if (macValue){
+                                localStorage.setItem("mac", macValue);
+                            } else {
+                                localStorage.setItem("mac", "/");
                             }
-                        }
-                    }
-                } else if (selectedOption === "wifiImpressora") {
-                    // Obter valores dos inputs
-                    const macValue = document.getElementById("Height").value.trim().toUpperCase(); // Armazenar em maiúsculas
-                    const serialValue = document.getElementById("SerialNumber").value.trim().toUpperCase(); // Armazenar em maiúsculas
-                    const isChecked = document.getElementById("ch1").checked;
-                    const alertBox = document.getElementById("alertBox");
-
-                    // Verificar se o checkbox está selecionado
-                    if (isChecked) {
-                        // Se o checkbox estiver selecionado, salva valores vazios e não exibe alerta
-                        localStorage.setItem("imei", "/");
-                        localStorage.setItem("mac", "/"); // Armazena valor vazio para MAC
-                        localStorage.setItem("serial", "/"); // Armazena valor vazio para S/N
-                        if (ver_lacre === 'sim') {
-                            window.location.href = "lacre.html";
-                        } else if (ver_lacre === 'nao'){
-                            window.location.href = "obsTecnicas.html";
-                        } else if (!ver_lacre) {
-                            alertBox.classList.remove("hidden");
-                            alertBox.style.display = "block";
-
-                            // Oculta o alerta após 3 segundos
-                            setTimeout(() => {
-                                alertBox.style.display = "none";
-                            }, 3000);
-                        }
-                    } else {
-                        // Verificar se os campos estão preenchidos
-                        if (!macValue || !serialValue) {
-                            alertBox.classList.remove("hidden");
-                            alertBox.style.display = "block";
-
-                            // Oculta o alerta após 3 segundos
-                            setTimeout(() => {
-                                alertBox.style.display = "none";
-                            }, 3000);
-                        } else {
-                            // Salvar os valores no localStorage
-                            localStorage.setItem("mac", macValue); // Salva em maiúsculas
                             localStorage.setItem("serial", serialValue); // Salva em maiúsculas
                             localStorage.setItem("imei", "/");
                             if (ver_lacre === 'sim') {

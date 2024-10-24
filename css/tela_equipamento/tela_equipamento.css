@@ -5,7 +5,7 @@
     border-radius: 5px;
     text-align: center;
     position: absolute;
-    top: 300px;  /* Ajusta a posição da caixa em relação ao select */
+    top: 270px;  /* Ajusta a posição da caixa em relação ao select */
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -26,6 +26,7 @@
     text-align: center;
     width: 100%;
 }
+
 
 .botao {
     padding: 10px;

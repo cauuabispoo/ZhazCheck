@@ -44,7 +44,15 @@ document.getElementById("submitButton").addEventListener("click", function () {
 
 //MAXIMO DE CARACTERES NO INPUT NUMBER
 $(document).ready(function () {
-    $("#OSAnterior").keyup(function () {
-        $("#OSAnterior").val(this.value.match(/[0-9]*/));
-    });
+    const verficaEquipamento = localStorage.getItem('selectedOption');
+    const verficaCheck = localStorage.getItem('check');
+
+    if (!verficaEquipamento || !verficaCheck) {
+        window.location.href = "equipamento.html";
+        localStorage.clear();
+    } else {
+        $("#OSAnterior").keyup(function () {
+            $("#OSAnterior").val(this.value.match(/[0-9]*/));
+        });
+    }
 });

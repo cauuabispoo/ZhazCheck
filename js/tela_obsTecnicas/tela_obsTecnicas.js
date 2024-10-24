@@ -1,20 +1,21 @@
 // Dados locais: cada item pode ter múltiplos tipos de equipamentos associados
 const dados = [
-    { id: 1, nome: 'Substituição de componente', equipamentos: ['coletor', 'leitor', 'impressora', 'wifiImpressora', 'celular'], valor: '1' },
-    { id: 2, nome: 'Recuperação de placa', equipamentos: ['coletor', 'leitor', 'impressora', 'wifiImpressora', 'celular'], valor: '2' },
-    { id: 3, nome: 'Recuperação de carcaça', equipamentos: ['coletor', 'leitor', 'impressora', 'wifiImpressora', 'celular'], valor: '3' },
+    { id: 1, nome: 'Substituição de componente', equipamentos: ['coletor', 'leitor', 'impressora', 'celular'], valor: '1' },
+    { id: 2, nome: 'Recuperação de placa', equipamentos: ['coletor', 'leitor', 'impressora', 'celular'], valor: '2' },
+    { id: 3, nome: 'Recuperação de carcaça', equipamentos: ['coletor', 'leitor', 'impressora', 'celular'], valor: '3' },
     { id: 4, nome: 'Recuperação de bateria Skorpio', equipamentos: ['coletor'], valor: '4' },
     { id: 5, nome: 'Atualização do sistema Android', equipamentos: ['coletor', 'celular'], valor: '5' },
     { id: 6, nome: 'Restauração da mémoria', equipamentos: ['coletor', 'celular'], valor: '6' },
-    { id: 7, nome: 'Upgrade de Firmware', equipamentos: ['coletor', 'impressora', 'wifiImpressora', 'celular'], valor: '7' },
-    { id: 8, nome: 'Downgrade de Firmware', equipamentos: ['coletor', 'impressora', 'wifiImpressora', 'celular'], valor: '8' },
-    { id: 9, nome: 'Acessórios', equipamentos: ['coletor', 'impressora', 'wifiImpressora', 'celular'], valor: '9' },
+    { id: 7, nome: 'Upgrade de Firmware', equipamentos: ['coletor', 'impressora', 'celular'], valor: '7' },
+    { id: 8, nome: 'Downgrade de Firmware', equipamentos: ['coletor', 'impressora', 'celular'], valor: '8' },
+    { id: 9, nome: 'Acessórios', equipamentos: ['coletor', 'impressora', 'celular'], valor: '9' },
 ];
 
 
 // Função para carregar opções no select com base no localStorage
 async function carregarOpcoes() {
     const tipoEquipamento = localStorage.getItem('selectedOption'); // Valor do localStorage
+    const modeloEquipamento = localStorage.getItem('modeloEquipamento');
     const select = $("#response");
     select.empty(); // Limpa o select
 
@@ -29,13 +30,8 @@ async function carregarOpcoes() {
     select1.empty(); // Limpa o select
     select1.append('<option value="" disabled selected></option>'); // Placeholder
 
-    var comparaSelectedOption = tipoEquipamento.toLowerCase(); // Converter para minúsculo
-    if (comparaSelectedOption === 'wifiimpressora') {
-        comparaSelectedOption = 'impressora';
-    }
-
     try {
-        const resposta = await fetch('../csv/pecas.csv'); // Carrega o CSV
+        const resposta = await fetch('../csv/CadastroItens(CadastroItens).csv'); // Carrega o CSV
         // const resposta = await fetch('../csv/CadastroItens(CadastroItens).csv');
         const textoCSV = await resposta.text();
 
@@ -43,14 +39,14 @@ async function carregarOpcoes() {
         const linhas = textoCSV.trim().split('\n').slice(1); // Ignora o cabeçalho
         const dados = linhas.map(linha => {
             const [id, nome, equipamentos] = linha.split(',');
-            return { id, nome, equipamentos: equipamentos.toLowerCase() }; // Converter para minúsculo
+            return { id: id.toUpperCase, nome, equipamentos }; // Converter para minúsculo
         });
 
         // Filtra e adiciona as opções ao select
         dados.forEach(item => {
-           // if (item.equipamentos.includes(comparaSelectedOption)) {
+            if (item.nome.toLowerCase().includes(modeloEquipamento.toLowerCase())) { // Verifica se o nome contém o valor do localStorage
                 select1.append(`<option value="${item.id}">${item.nome}</option>`);
-           // }
+            }
         });
 
         if (select1.find('option').length === 1) {
@@ -64,25 +60,22 @@ async function carregarOpcoes() {
     select2.empty(); // Limpa o select
     select2.append('<option value="" disabled selected></option>'); // Placeholder
 
-    var comparaSelectedOption = tipoEquipamento.toLowerCase(); // Converter para minúsculo
-    if (comparaSelectedOption === 'wifiimpressora') {
-        comparaSelectedOption = 'impressora';
-    }
 
     try {
-        const resposta = await fetch('../csv/pecas.csv'); // Carrega o CSV
+        const resposta = await fetch('../csv/CadastroItens(CadastroItens).csv'); // Carrega o CSV
+        // const resposta = await fetch('../csv/CadastroItens(CadastroItens).csv');
         const textoCSV = await resposta.text();
 
         // Converte o CSV em uma lista de objetos
         const linhas = textoCSV.trim().split('\n').slice(1); // Ignora o cabeçalho
         const dados = linhas.map(linha => {
             const [id, nome, equipamentos] = linha.split(',');
-            return { id, nome, equipamentos: equipamentos.toLowerCase() }; // Converter para minúsculo
+            return { id: id.toUpperCase, nome, equipamentos }; // Converter para minúsculo
         });
 
         // Filtra e adiciona as opções ao select
         dados.forEach(item => {
-            if (item.equipamentos.includes(comparaSelectedOption)) {
+            if (item.nome.toLowerCase().includes(modeloEquipamento.toLowerCase())) { // Verifica se o nome contém o valor do localStorage
                 select2.append(`<option value="${item.id}">${item.nome}</option>`);
             }
         });
@@ -99,25 +92,22 @@ async function carregarOpcoes() {
     select3.empty(); // Limpa o select
     select3.append('<option value="" disabled selected></option>'); // Placeholder
 
-    var comparaSelectedOption = tipoEquipamento.toLowerCase(); // Converter para minúsculo
-    if (comparaSelectedOption === 'wifiimpressora') {
-        comparaSelectedOption = 'impressora';
-    }
 
     try {
-        const resposta = await fetch('../csv/pecas.csv'); // Carrega o CSV
+        const resposta = await fetch('../csv/CadastroItens(CadastroItens).csv'); // Carrega o CSV
+        // const resposta = await fetch('../csv/CadastroItens(CadastroItens).csv');
         const textoCSV = await resposta.text();
 
         // Converte o CSV em uma lista de objetos
         const linhas = textoCSV.trim().split('\n').slice(1); // Ignora o cabeçalho
         const dados = linhas.map(linha => {
             const [id, nome, equipamentos] = linha.split(',');
-            return { id, nome, equipamentos: equipamentos.toLowerCase() }; // Converter para minúsculo
+            return { id: id.toUpperCase, nome, equipamentos }; // Converter para minúsculo
         });
 
         // Filtra e adiciona as opções ao select
         dados.forEach(item => {
-            if (item.equipamentos.includes(comparaSelectedOption)) {
+            if (item.nome.toLowerCase().includes(modeloEquipamento.toLowerCase())) { // Verifica se o nome contém o valor do localStorage
                 select3.append(`<option value="${item.id}">${item.nome}</option>`);
             }
         });
@@ -134,25 +124,22 @@ async function carregarOpcoes() {
     select4.empty(); // Limpa o select
     select4.append('<option value="" disabled selected></option>'); // Placeholder
 
-    var comparaSelectedOption = tipoEquipamento.toLowerCase(); // Converter para minúsculo
-    if (comparaSelectedOption === 'wifiimpressora') {
-        comparaSelectedOption = 'impressora';
-    }
 
     try {
-        const resposta = await fetch('../csv/pecas.csv'); // Carrega o CSV
+        const resposta = await fetch('../csv/CadastroItens(CadastroItens).csv'); // Carrega o CSV
+        // const resposta = await fetch('../csv/CadastroItens(CadastroItens).csv');
         const textoCSV = await resposta.text();
 
         // Converte o CSV em uma lista de objetos
         const linhas = textoCSV.trim().split('\n').slice(1); // Ignora o cabeçalho
         const dados = linhas.map(linha => {
             const [id, nome, equipamentos] = linha.split(',');
-            return { id, nome, equipamentos: equipamentos.toLowerCase() }; // Converter para minúsculo
+            return { id: id.toUpperCase, nome, equipamentos }; // Converter para minúsculo
         });
 
         // Filtra e adiciona as opções ao select
         dados.forEach(item => {
-            if (item.equipamentos.includes(comparaSelectedOption)) {
+            if (item.nome.toLowerCase().includes(modeloEquipamento.toLowerCase())) { // Verifica se o nome contém o valor do localStorage
                 select4.append(`<option value="${item.id}">${item.nome}</option>`);
             }
         });
@@ -165,7 +152,10 @@ async function carregarOpcoes() {
     }
 
     inicializarSelectCustomizado(); // Atualiza o select customizado
+    
 }
+
+
 
 
 
@@ -229,30 +219,30 @@ function inicializarSelectCustomizado() {
 
         // Atualiza a variável global quando uma opção é selecionada
         if (select.attr('id') === 'response') {
-            valorSelecionadoGlobal = value; // Atualiza o valor selecionado global
+            valorSelecionadoGlobal = value;
         }
         if (select.attr('id') === 'peca') {
-            pecaSelecionadoGlobal = value; // Atualiza o valor selecionado global
+            pecaSelecionadoGlobal = value;
         }
         if (select.attr('id') === 'peca1') {
-            peca1SelecionadoGlobal = value; // Atualiza o valor selecionado global
+            peca1SelecionadoGlobal = value;
         }
         if (select.attr('id') === 'peca2') {
-            peca2SelecionadoGlobal = value; // Atualiza o valor selecionado global
+            peca2SelecionadoGlobal = value;
         }
         if (select.attr('id') === 'peca3') {
-            peca3SelecionadoGlobal = value; // Atualiza o valor selecionado global
+            peca3SelecionadoGlobal = value;
         }
         if (select.attr('id') === 'nivel') {
-            nivelSelecionadoGlobal = value; // Atualiza o valor selecionado global
+            nivelSelecionadoGlobal = value;
         }
         if (select.attr('id') === 'causaDefeito') {
-            causaDefeitoSelecionadoGlobal = value; // Atualiza o valor selecionado global
+            causaDefeitoSelecionadoGlobal = value;
         }
         if (select.attr('id') === 'opc') {
-            opcSelecionadoGlobal = value; // Atualiza o valor selecionado global
+            opcSelecionadoGlobal = value;
         }
-        
+
 
         // Exibe ou oculta elementos com base no valor selecionado
         exibirElementosPorValor(valorSelecionadoGlobal);
@@ -293,13 +283,21 @@ function alterarTopDoSelect(valor) {
 
 // Carregar as opções ao abrir a página
 $(document).ready(() => {
-    carregarOpcoes();
+    const verficaEquipamento = localStorage.getItem('selectedOption');
+    const verficaCheck = localStorage.getItem('check');
 
-    const opcaoSalva = localStorage.getItem('opcaoSelecionada');
-    if (opcaoSalva) {
-        $("#response").val(opcaoSalva); // Define o valor apenas se houver um valor no localStorage
+    if (!verficaEquipamento || !verficaCheck) {
+        window.location.href = "equipamento.html";
+        localStorage.clear();
     } else {
-        $("#response").val(''); // Se não houver, define como vazio
+        carregarOpcoes();
+
+        const opcaoSalva = localStorage.getItem('opcaoSelecionada');
+        if (opcaoSalva) {
+            $("#response").val(opcaoSalva); // Define o valor apenas se houver um valor no localStorage
+        } else {
+            $("#response").val(''); // Se não houver, define como vazio
+        }
     }
 });
 
@@ -321,7 +319,7 @@ function adicionarAoLocalStorage(chave, valor) {
 // Ação para confirmar e salvar a escolha no localStorage
 $(document).on("click", ".Btn", function () {
     const alertBox = document.getElementById("alertBox");
-    
+
 
     if (valorSelecionadoGlobal === 1) {
 
@@ -335,7 +333,7 @@ $(document).on("click", ".Btn", function () {
         // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
         // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
 
-        if ( pecaSelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
+        if (pecaSelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
             location.replace(location.href); // Recarrega a página
         } else {
@@ -359,7 +357,7 @@ $(document).on("click", ".Btn", function () {
         // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
         // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
 
-        if ( nivelSelecionadoGlobal && peca1SelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
+        if (nivelSelecionadoGlobal && peca1SelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
             location.replace(location.href); // Recarrega a página
         } else {
@@ -383,7 +381,7 @@ $(document).on("click", ".Btn", function () {
         // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
         // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
 
-        if ( peca2SelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
+        if (peca2SelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
             location.replace(location.href); // Recarrega a página
         } else {
@@ -407,7 +405,7 @@ $(document).on("click", ".Btn", function () {
         // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
         // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
 
-        if ( causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
+        if (causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
             location.replace(location.href); // Recarrega a página
         } else {
@@ -431,7 +429,7 @@ $(document).on("click", ".Btn", function () {
         // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
         // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
 
-        if ( opcSelecionadoGlobal) {
+        if (opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
             location.replace(location.href); // Recarrega a página
         } else {
@@ -455,7 +453,7 @@ $(document).on("click", ".Btn", function () {
         // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
         // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
 
-        if ( opcSelecionadoGlobal) {
+        if (opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
             location.replace(location.href); // Recarrega a página
         } else {
@@ -479,7 +477,7 @@ $(document).on("click", ".Btn", function () {
         // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
         // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
 
-        if ( opcSelecionadoGlobal) {
+        if (opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
             location.replace(location.href); // Recarrega a página
         } else {
@@ -503,7 +501,7 @@ $(document).on("click", ".Btn", function () {
         // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
         // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
 
-        if ( opcSelecionadoGlobal) {
+        if (opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
             location.replace(location.href); // Recarrega a página
         } else {
@@ -527,7 +525,7 @@ $(document).on("click", ".Btn", function () {
         // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
         // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
 
-        if ( peca3SelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
+        if (peca3SelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
             location.replace(location.href); // Recarrega a página
         } else {

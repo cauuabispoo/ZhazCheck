@@ -27,6 +27,14 @@ select {
   float: left;
 }
 
+.search-input {
+  width: calc(100% - 20px); /* Para ajustar à largura do select */
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 
 
 
@@ -39,7 +47,6 @@ select {
   display: inline-block;
   user-select: none;
   cursor: pointer;
-
 }
 .custom-select-wrapper select {
   display: none;
@@ -53,7 +60,7 @@ select {
 .custom-select-trigger {
   position: relative;
   display: block;
-  min-width: 250px;
+  min-width: 360px;
   padding: 0 104px 0 25px;
   font-weight: 100;
   color: #6e7c83;
@@ -100,6 +107,9 @@ select {
   transform: rotate(-135deg) translateY(-50%);
 }
 .custom-options {
+  text-align: center;
+  max-height: 400px; /* Limite de altura para listas longas */
+  overflow-y: auto; /* Scroll automático para muitas opções */
   position: absolute;
   display: block;
   top: 100%;
@@ -139,11 +149,12 @@ select {
   display: block;
   padding: 0 22px;
   font: 13px/1.5 "Roboto", sans-serif;
-  font-weight: 600;
+  font-weight: 400;
   color: #6e7c83;
   line-height: 47px;
   cursor: pointer;
   transition: all 0.05s ease-in-out;
+  
 }
 .custom-option:first-of-type {
   border-radius: 4px 4px 0 0;
