@@ -230,7 +230,7 @@ async function gerarLaudo() {
         break;
 
       case 6: // Restauração da memória
-        diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
+        diagnostico += `  - SISTEMA OPERACIONAL - ${obs.obsDefeitoSelecionadoGlobal} -> DEFEITO\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RESTAURAÇÃO DA MEMÓRIA FLASH ROM -> (SV0040)\n\n`;
         } else {
