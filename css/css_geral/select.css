@@ -1,6 +1,7 @@
 body {
   background-color: #ecf2f9;
 }
+
 section {
   font: 13px/1.5 "Roboto", sans-serif;
   padding: 50px;
@@ -15,7 +16,8 @@ label {
 }
 
 .search-input {
-  width: calc(100% - 20px); /* Para ajustar à largura do select */
+  width: calc(100% - 20px);
+  /* Para ajustar à largura do select */
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
@@ -26,7 +28,8 @@ label {
 
 
 .custom-select.opened {
-  z-index: 999; /* z-index alto para que o select aberto sobreponha outros */
+  z-index: 999;
+  /* z-index alto para que o select aberto sobreponha outros */
 }
 
 .center {
@@ -112,7 +115,8 @@ label {
 
 .custom-options {
   text-align: center;
-  max-height: 400px; /* Ajustado para evitar barras de rolagem */
+  max-height: 400px;
+  /* Ajustado para evitar barras de rolagem */
   overflow-y: auto;
   position: absolute;
   display: block;
@@ -169,8 +173,9 @@ label {
 
 /* Media Queries para responsividade */
 @media (max-width: 768px) {
-    .custom-select-trigger {
-        min-width: 100%; /* Ajusta a largura para 100% em telas pequenas */
-        max-width: 100%;
-    }
+  .custom-select-trigger {
+    min-width: 100%;
+    /* Ajusta a largura para 100% em telas pequenas */
+    max-width: 100%;
+  }
 }

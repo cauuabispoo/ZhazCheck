@@ -1,12 +1,14 @@
 /* Estilo do contêiner que agrupa a tabela e o botão */
 .container {
   position: relative;
-  width: 100%; /* Para garantir que a tabela e o botão fiquem no mesmo layout */
+  width: 100%;
+  /* Para garantir que a tabela e o botão fiquem no mesmo layout */
 }
 
 /* Estilo para a tabela */
 .table {
-  width: 70%; /* Ajuste conforme necessário */
+  width: 70%;
+  /* Ajuste conforme necessário */
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -14,10 +16,14 @@
 
 /* Estilo do botão */
 .botaoAdd {
-  position: absolute;  /* Posiciona o botão de forma absoluta em relação ao contêiner pai */
-  right: 0px; /* Alinha o botão à direita */
-  top: 7%; /* Centraliza verticalmente */
-  transform: translateY(-50%); /* Ajusta o alinhamento vertical */
+  position: absolute;
+  /* Posiciona o botão de forma absoluta em relação ao contêiner pai */
+  right: 0px;
+  /* Alinha o botão à direita */
+  top: 7%;
+  /* Centraliza verticalmente */
+  transform: translateY(-50%);
+  /* Ajusta o alinhamento vertical */
 }
 
 /* Botão (conforme seu CSS anterior) */

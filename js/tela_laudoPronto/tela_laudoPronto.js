@@ -26,7 +26,7 @@ $(document).ready(() => {
 // Função para ler o arquivo TXT com palavras-chave
 async function carregarPalavrasChave() {
   try {
-    const response = await fetch("../../txt/palavrasChave.txt");
+    const response = await fetch("../txt/palavrasChave.txt");
     if (!response.ok) throw new Error('Erro ao carregar palavras-chave');
     const texto = await response.text();
     return texto.split('\n').map(p => p.trim()).filter(Boolean);

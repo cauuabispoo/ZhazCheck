@@ -1,115 +1,115 @@
 .hidden {
-    display: none;
-    /* Classe para esconder elementos */
+  display: none;
+  /* Classe para esconder elementos */
 }
 
 .alert-box {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-    position: absolute;
-    top: 200px;
-    /* Ajusta a posição da caixa em relação ao select */
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    width: fit-content;
-    border: 1px solid #f5c6cb;
-    display: none;
-    z-index: 1001;
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  position: absolute;
+  top: 200px;
+  /* Ajusta a posição da caixa em relação ao select */
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: fit-content;
+  border: 1px solid #f5c6cb;
+  display: none;
+  z-index: 1001;
 }
 
 
 
 sup {
-    color: red;
+  color: red;
 }
 
 .height {
-    display: flex;
-    justify-content: space-between;
-    /* Espaça os itens da seção */
+  display: flex;
+  justify-content: space-between;
+  /* Espaça os itens da seção */
 
 }
 
 .input {
-    border: 1px solid #c7d1d6;
-    /* Borda leve */
-    border-radius: 5px;
-    /* Bordas arredondadas */
-    padding: 10px;
-    /* Padding interno */
-    font-size: 16px;
-    /* Tamanho da fonte */
-    background-color: #ffffff;
-    /* Cor de fundo */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    /* Sombra leve */
-    transition: background-color 0.3s ease;
-    /* Transição ao focar */
+  border: 1px solid #c7d1d6;
+  /* Borda leve */
+  border-radius: 5px;
+  /* Bordas arredondadas */
+  padding: 10px;
+  /* Padding interno */
+  font-size: 16px;
+  /* Tamanho da fonte */
+  background-color: #ffffff;
+  /* Cor de fundo */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* Sombra leve */
+  transition: background-color 0.3s ease;
+  /* Transição ao focar */
 }
 
 .input:focus {
-    background-color: #f8f8f8;
-    /* Cor ao focar */
-    border-color: #00bf63;
-    /* Cor da borda ao focar */
-    outline: none;
-    /* Remove o outline padrão */
+  background-color: #f8f8f8;
+  /* Cor ao focar */
+  border-color: #00bf63;
+  /* Cor da borda ao focar */
+  outline: none;
+  /* Remove o outline padrão */
 }
 
 .input-group {
-    flex: 1;
-    /* Faz o input ocupar todo o espaço disponível */
-    margin-right: 20px;
-    /* Espaço à direita do input group */
+  flex: 1;
+  /* Faz o input ocupar todo o espaço disponível */
+  margin-right: 20px;
+  /* Espaço à direita do input group */
 }
 
 .height label {
-    font-size: 18px;
-    margin: 0;
-    /* Remove margin para alinhamento preciso */
+  font-size: 18px;
+  margin: 0;
+  /* Remove margin para alinhamento preciso */
 }
 
 .height .input {
-    border: none;
-    outline: none;
-    border-radius: 100px;
-    padding: 1.2em;
-    background-color: #e1e2e3;
-    box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
-    transition: 300ms ease-in-out;
+  border: none;
+  outline: none;
+  border-radius: 100px;
+  padding: 1.2em;
+  background-color: #e1e2e3;
+  box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
+  transition: 300ms ease-in-out;
 }
 
 .height .input:focus {
-    background-color: #ffffff;
-    transform: scale(1.05);
-    box-shadow: 13px 13px 100px #969696, -13px -13px 100px #ffffff;
+  background-color: #ffffff;
+  transform: scale(1.05);
+  box-shadow: 13px 13px 100px #969696, -13px -13px 100px #ffffff;
 }
 
 section {
-    display: flex;
+  display: flex;
 }
 
 
 /* Estilo para os títulos */
 .title {
-    margin-right: 10px;
-    /* Espaço à direita do título */
-    margin-left: 20px;
+  margin-right: 10px;
+  /* Espaço à direita do título */
+  margin-left: 20px;
 }
 
 
 
 .servico {
-    position: relative;
-    padding: 0;
-    margin: 0;
-    bottom: 0;
-    top: 0px;
-    right: 0px;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  bottom: 0;
+  top: 0px;
+  right: 0px;
 }
 
 
@@ -118,62 +118,160 @@ section {
 
 
 
-  
-  /* Estilização do overlay do modal */
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro */
-    z-index: 1000;
-  }
-  
-  /* Centralização do conteúdo do modal */
-  .modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Centraliza o modal */
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    width: 300px;
-  }
-  
-  /* Botões do modal */
-  .modal-buttons {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-  }
-  
-  .confirm {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .cancel {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .confirm:hover {
-    background-color: #218838;
-  }
-  
-  .cancel:hover {
-    background-color: #c82333;
-  }
-  
+
+/* Estilização do overlay do modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Fundo escuro */
+  z-index: 1000;
+}
+
+/* Centralização do conteúdo do modal */
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Centraliza o modal */
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 300px;
+}
+
+/* Botões do modal */
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.confirm {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancel {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.confirm:hover {
+  background-color: #218838;
+}
+
+.cancel:hover {
+  background-color: #c82333;
+}
+
+
+
+.div_voltar {
+  display: flex;
+  /* Usa flexbox para centralizar */
+  justify-content: space-between;
+  /* Espaça os botões */
+  margin: 20px auto;
+  /* Centraliza horizontalmente com margem */
+  max-width: 600px;
+  /* Limita a largura máxima do container dos botões */
+}
+
+.botao_voltar,
+.botao_continuar {
+  margin: 15px;
+  /* Margem para os botões */
+  padding: 15px 25px;
+  /* Espessura dos botões */
+  border: 0;
+  border-radius: 15px;
+  color: #212121;
+  z-index: 1;
+  background: #e8e8e8;
+  position: relative;
+  font-weight: 1000;
+  font-size: 17px;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: all 250ms;
+  overflow: hidden;
+  min-width: 200px;
+  /* Largura mínima dos botões */
+  min-height: 70px;
+  /* Altura mínima dos botões */
+  flex: 1;
+  /* Faz com que os botões se expandam igualmente */
+}
+
+/* Estilização do botão "Voltar" */
+.botao_voltar::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 0;
+  width: 0;
+  border-radius: 15px;
+  background-color: rgba(0, 151, 178, 1);
+  z-index: -1;
+  transition: all 250ms;
+}
+
+.botao_voltar:hover {
+  color: #e8e8e8;
+}
+
+.botao_voltar:hover::before {
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.botao_voltar:active {
+  transform: scale(80%);
+}
+
+/* Estilização do botão "Continuar" */
+.botao_continuar::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 0;
+  width: 0;
+  border-radius: 15px;
+  background-color: #00bf63;
+  z-index: -1;
+  transition: all 250ms;
+}
+
+.botao_continuar:hover {
+  color: #e8e8e8;
+}
+
+.botao_continuar:hover::before {
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.botao_continuar:active {
+  transform: scale(80%);
+}

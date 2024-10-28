@@ -2,17 +2,23 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; /* Inclui padding e bordas no cálculo de largura e altura */
+  box-sizing: border-box;
+  /* Inclui padding e bordas no cálculo de largura e altura */
 }
 
 /* Adiciona um container principal */
 .container {
   display: flex;
-  flex-direction: column; /* Coloca os filhos em coluna */
-  justify-content: center; /* Centraliza verticalmente */
-  align-items: center; /* Centraliza horizontalmente */
-  padding: 20px; /* Adiciona um padding ao redor */
-  overflow: hidden; /* Remove a barra de rolagem */
+  flex-direction: column;
+  /* Coloca os filhos em coluna */
+  justify-content: center;
+  /* Centraliza verticalmente */
+  align-items: center;
+  /* Centraliza horizontalmente */
+  padding: 20px;
+  /* Adiciona um padding ao redor */
+  overflow: hidden;
+  /* Remove a barra de rolagem */
 }
 
 /* Estilos do formulário */
@@ -26,7 +32,8 @@
 }
 
 .hidden1 {
-  display: none; /* Classe para esconder elementos */
+  display: none;
+  /* Classe para esconder elementos */
 }
 
 .alert-box {
@@ -35,8 +42,10 @@
   padding: 10px;
   border-radius: 5px;
   text-align: center;
-  position: relative; /* Alterado para relative para evitar overflow */
-  margin: 20px auto; /* Centraliza horizontalmente */
+  position: relative;
+  /* Alterado para relative para evitar overflow */
+  margin: 20px auto;
+  /* Centraliza horizontalmente */
   width: fit-content;
   border: 1px solid #f5c6cb;
   display: none;
@@ -46,15 +55,19 @@
 /* Container da label e input */
 .height {
   display: flex;
-  align-items: center; /* Alinha os elementos verticalmente no centro */
-  gap: 10px; /* Espaçamento entre label e input */
-  margin: 20px 0; /* Margem vertical para manter espaçamento */
+  align-items: center;
+  /* Alinha os elementos verticalmente no centro */
+  gap: 10px;
+  /* Espaçamento entre label e input */
+  margin: 20px 0;
+  /* Margem vertical para manter espaçamento */
   justify-content: center;
 }
 
 .height label {
   font-size: 18px;
-  margin: 0; /* Remove margin para alinhamento */
+  margin: 0;
+  /* Remove margin para alinhamento */
 }
 
 .height sup {
@@ -70,7 +83,8 @@
   background-color: #e1e2e3;
   box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
   transition: 300ms ease-in-out;
-  margin-top: 0; /* Remove margin para manter alinhamento com label */
+  margin-top: 0;
+  /* Remove margin para manter alinhamento com label */
 }
 
 .height .input:focus {
@@ -108,7 +122,7 @@
   z-index: 2;
 }
 
-.checkBox input[type=checkbox]:checked + div {
+.checkBox input[type=checkbox]:checked+div {
   left: -10px;
   top: -10px;
 }
@@ -129,61 +143,171 @@
 /* Estilos para grandes desktops */
 @media (min-width: 1200px) {
   .height {
-      flex-direction: row; /* Mantém a disposição em linha para telas grandes */
+    flex-direction: row;
+    /* Mantém a disposição em linha para telas grandes */
   }
 
   .alert-box {
-      top: 300px; /* Ajuste se necessário */
+    top: 300px;
+    /* Ajuste se necessário */
   }
 }
 
 /* Estilos para desktops e laptops */
 @media (min-width: 992px) and (max-width: 1199px) {
   .height {
-      flex-direction: row; /* Mantém a disposição em linha */
+    flex-direction: row;
+    /* Mantém a disposição em linha */
   }
 
   .alert-box {
-      top: 300px; /* Ajuste se necessário */
+    top: 300px;
+    /* Ajuste se necessário */
   }
 }
 
 /* Estilos para tablets */
 @media (max-width: 768px) {
   .height {
-      flex-direction: column; /* Empilha os elementos em telas menores */
-      align-items: flex-start; /* Alinha à esquerda */
+    flex-direction: column;
+    /* Empilha os elementos em telas menores */
+    align-items: flex-start;
+    /* Alinha à esquerda */
   }
 
   .selection {
-      padding-left: 0; /* Remove padding em telas menores */
+    padding-left: 0;
+    /* Remove padding em telas menores */
   }
 
   .alert-box {
-      top: 200px; /* Ajuste se necessário */
+    top: 200px;
+    /* Ajuste se necessário */
   }
 
   .title {
-      font-size: 24px; /* Tamanho da fonte menor */
+    font-size: 24px;
+    /* Tamanho da fonte menor */
   }
 }
 
 /* Estilos para smartphones */
 @media (max-width: 480px) {
   .height {
-      margin: 10px; /* Diminui a margem */
+    margin: 10px;
+    /* Diminui a margem */
   }
 
   .title {
-      font-size: 20px; /* Tamanho da fonte menor */
+    font-size: 20px;
+    /* Tamanho da fonte menor */
   }
 
   .alert-box {
-      top: 180px; /* Ajuste se necessário */
+    top: 180px;
+    /* Ajuste se necessário */
   }
 
   .input {
-      width: 100%; /* Input ocupa toda a largura disponível */
-      padding: 0.8em; /* Ajusta o padding */
+    width: 100%;
+    /* Input ocupa toda a largura disponível */
+    padding: 0.8em;
+    /* Ajusta o padding */
   }
+}
+
+
+.div_voltar {
+  display: flex;
+  /* Usa flexbox para centralizar */
+  justify-content: space-between;
+  /* Espaça os botões */
+  margin: 20px auto;
+  /* Centraliza horizontalmente com margem */
+  max-width: 600px;
+  /* Limita a largura máxima do container dos botões */
+}
+
+.botao_voltar,
+.botao_continuar {
+  margin: 15px;
+  /* Margem para os botões */
+  padding: 15px 25px;
+  /* Espessura dos botões */
+  border: 0;
+  border-radius: 15px;
+  color: #212121;
+  z-index: 1;
+  background: #e8e8e8;
+  position: relative;
+  font-weight: 1000;
+  font-size: 17px;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: all 250ms;
+  overflow: hidden;
+  min-width: 200px;
+  /* Largura mínima dos botões */
+  min-height: 70px;
+  /* Altura mínima dos botões */
+  flex: 1;
+  /* Faz com que os botões se expandam igualmente */
+}
+
+/* Estilização do botão "Voltar" */
+.botao_voltar::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 0;
+  width: 0;
+  border-radius: 15px;
+  background-color: rgba(0, 151, 178, 1);
+  z-index: -1;
+  transition: all 250ms;
+}
+
+.botao_voltar:hover {
+  color: #e8e8e8;
+}
+
+.botao_voltar:hover::before {
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.botao_voltar:active {
+  transform: scale(80%);
+}
+
+/* Estilização do botão "Continuar" */
+.botao_continuar::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 0;
+  width: 0;
+  border-radius: 15px;
+  background-color: #00bf63;
+  z-index: -1;
+  transition: all 250ms;
+}
+
+.botao_continuar:hover {
+  color: #e8e8e8;
+}
+
+.botao_continuar:hover::before {
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.botao_continuar:active {
+  transform: scale(80%);
 }
