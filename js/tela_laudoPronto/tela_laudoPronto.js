@@ -46,7 +46,7 @@ async function carregarPecas() {
   // Cria um objeto onde cada ID é uma chave e o nome da peça é o valor
   const mapaPecas = {};
   for (const linha of linhas) {
-    const [id, nome] = linha.split(';').map(campo => campo.trim());
+    const [id, nome] = linha.split(',').map(campo => campo.trim());
     mapaPecas[id.toUpperCase()] = nome; // Armazena no objeto com ID em maiúsculas
   }
 

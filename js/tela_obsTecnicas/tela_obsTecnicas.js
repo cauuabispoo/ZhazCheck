@@ -56,7 +56,7 @@ async function carregarOpcoes() {
         // Converte o CSV em uma lista de objetos
         const linhas = textoCSV.trim().split('\n').slice(1); // Ignora o cabeçalho
         const dados = linhas.map(linha => {
-            const [id, nome] = linha.split(';');
+            const [id, nome] = linha.split(',');
             return { id, nome}; 
         });
         

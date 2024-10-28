@@ -100,7 +100,7 @@ function gerarChecklist() {
             itens = ['Calibrar sensor', 'Testar conectividade', 'Atualizar firmware'];
             break;
         case 'impressora':
-            itens = ['Substituir bateria', 'Verificar painel', 'Testar comunicação de rede'];
+            itens = ['CARCAÇAS', 'MODELO/NÚMERO DE SÉRIE', 'CABEÇA DE IMPRESSÃO', 'PARAFUSOS', 'ROLETE DE BORRACHA', 'CORREIAS/ENGRENAGENS', 'DISPLAY', 'SENSORES DE ETIQUETA', 'SENSOR DO RIBBON', 'ALIMENTADOR E TRACIONADOR', 'BOTÕES', 'GUIA DE ETIQUETA', 'TRAVAS', 'COMUNICAÇÃO', 'WI-FI', 'BATERIA'];
             break;
         case 'celular':
             itens = ['CARCAÇAS', 'TAMPA DA BATERIA', 'MODELO/NÚMERO DE SÉRIE', 'ACESSÓRIOS', 'TOUCH', 'LCD', 'CÂMERA(S) TRASEIRA', 'CÂMERA FRONTAL', 'WIFI/BLUETOOTH', 'ALTO-FALANTE AURICULAR', 'ALTO-FALANTE PRINCIPAL', 'MICROFONE', 'CONECTOR DE ENTRADA P2', 'BATERIA', 'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'BOTÕES LATERAIS', 'CONEXÃO NAS REDES GSM(CARTÃO SIM)', 'COMPARTIMENTO DO CARTÃO SD', 'SENSOR BIOMÉTRICO','SISTEMA OPERACIONAL'];
