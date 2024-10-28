@@ -1,6 +1,22 @@
 id,nome,equipamentos
-MC9090,Motorola MC9090,coletor
-2,Cabeça de Impresão,impressora
-3,Modulo laser,leitor
+MC9090,MOTOROLA MC9090,coletor
+MC9190,MOTOROLA MC9190,coletor
+MC92,MOTOROLA MC92N0,coletor
+MC3090,MOTOROLA MC3090,coletor
+MC3190,MOTOROLA MC3190,coletor
+MC32,MOTOROLA MC32N0,coletor
+MC33,MOTOROLA MC3300,coletor
+TC20,ZEBRA TC200,coletor
+TC21,ZEBRA TC210,coletor
+TC51,ZEBRA TC510K,coletor
+TC52,ZEBRA TC520K,coletor
+JOYA,DATALOGIC JOYA,coletor
+MEMOR X3,DATALOGIC MEOR X3,coletor
+SKORPIO X3,DATALOGIC SKORPIO X3,coletor
+SKORPIO X4,DATALOGIC SKORPIO X4,coletor
+SKORPIO X5,DATALOGIC SKORPIO X5,coletor
+EDA51,HONEYWELL EDA51,coletor
+ZT410,ZEBRA ZT410,impressora
 4,Sensor de mídia,Impressora
+3,Modulo laser,leitor
 5,Gaveta de chip,celular

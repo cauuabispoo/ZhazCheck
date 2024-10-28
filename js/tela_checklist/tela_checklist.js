@@ -70,7 +70,7 @@ function criarChecklistItem(nomeItem) {
                 </label>
             </div>
             <div class="radio-b">
-                <input type="radio" id="${nomeItem}-nao-possui" name="${nomeItem}" class="radio-b__input" value="X" />
+                <input type="radio" id="${nomeItem}-nao-possui" name="${nomeItem}" class="radio-b__input" value="X (NÃO POSSUI)" />
                 <label class="radio-b__label" for="${nomeItem}-nao-possui">
                     <div class="radio-b__custom">
                         <span class="radio-b__custom-fill"></span>

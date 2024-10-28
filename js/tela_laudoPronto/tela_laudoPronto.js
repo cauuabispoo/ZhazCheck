@@ -84,14 +84,14 @@ async function gerarLaudo() {
   const imei = localStorage.getItem("imei");
   const observacoes = JSON.parse(localStorage.getItem("observacoes")) || [];
 
-  
+
   const textarea = document.getElementById('checklistTextArea');
   const checklistSalvo = localStorage.getItem('resultadoChecklist');
   let checklistLaudo = '';
-  
+
   if (checklistSalvo) {
     container1.classList.remove('hidden'); // Remove hidden do contêiner
-      textarea.classList.remove('hidden'); // Remove hidden do textarea
+    textarea.classList.remove('hidden'); // Remove hidden do textarea
     const resultadoArray = JSON.parse(checklistSalvo);
     const textoFormatado = resultadoArray
       .map(item => `${item.item} - ${item.status}`) // Formatação desejada
@@ -135,10 +135,11 @@ async function gerarLaudo() {
 
     // Construção da string com dados formatados
     infoBasica =
-      `OS ANTERIOR: ${osAnterior} - ` +
+      `OS/PV ANTERIOR: ${osAnterior} - ` +
       `DATA DA MANUTENÇÃO: ${formatarData(dataManutencao)} - ` +
       `OBS: ${obsUltimoServico} - ` +
-      `${garantiaStatus} (GARANTIA ATÉ: ${dataFimGarantia})\n\n`;
+      `${garantiaStatus}(90 DIAS) (GARANTIA ATÉ: ${dataFimGarantia})\n` +
+      `\nOS ATUAL:\n`;
   }
 
 
@@ -159,6 +160,8 @@ async function gerarLaudo() {
   let substituicaoOpcional = "";
   let instalacaoNecessaria = "";
   let instalacaoOpcional = "";
+  let acessorioNecessaria = "";
+  let acessorioOpcional = "";
   let recuperacaoNecessaria = "";
   let recuperacaoOpcional = "";
   let sistema = "";
@@ -256,10 +259,22 @@ async function gerarLaudo() {
       case 9: // Acessórios
         const pecaAcessorio = filtrarPalavraChave(pecas[obs.peca3SelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
         peca.push(obs.peca3SelecionadoGlobal);
-        if (obs.opcSelecionadoGlobal === "n") {
-          instalacaoNecessaria += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal}\n`;
+        if (pecaAcessorio === "PELICULA PROTETORA HIDROGEL") {
+          if (obs.opcSelecionadoGlobal === "n") {
+            acessorioNecessaria += `  - PELICULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
+            instalacaoNecessaria += `  - PELICULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
+          } else {
+            acessorioOpcional += `  - PELICULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
+            instalacaoOpcional += `  - PELICULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
+          }
         } else {
-          instalacaoOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal}\n`;
+          if (obs.opcSelecionadoGlobal === "n") {
+            acessorioNecessaria += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal}\n`;
+            instalacaoNecessaria += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal}\n`;
+          } else {
+            acessorioOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal}\n`;
+            instalacaoOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal}\n`;
+          }
         }
         break;
 
@@ -315,9 +330,23 @@ async function gerarLaudo() {
       laudo += `INSTALAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${instalacaoOpcional}\n`;
     }
 
+  } else if (!diagnostico && acessorioNecessaria || acessorioOpcional) {
+    laudo += `  - FORAM REALIZADOS TODOS OS TESTES E O EQUIPAMENTO NÃO APRESENTOU NENHUM DEFEITO\n`;
+
+    if (checklistLaudo) {
+      laudo += `${checklistLaudo}\n`;
+    }
+    laudo += "\nSOLUÇÃO:\n";
+    if (acessorioNecessaria) {
+      laudo += `NECESSÁRIO A INSTALAÇÃO DO(S) SEGUINTE(S) ITEM(S):\n${acessorioNecessaria}\n`;
+    }
+
+    if (acessorioOpcional) {
+      laudo += `INSTALAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${acessorioOpcional}\n`;
+    }
   } else {
     laudo += `  - FORAM REALIZADOS TODOS OS TESTES E O EQUIPAMENTO NÃO APRESENTOU NENHUM DEFEITO\n`;
-    if (checklistLaudo){
+    if (checklistLaudo) {
       laudo += `${checklistLaudo}\n`;
     }
     laudo += "\nSOLUÇÃO:\n\n";
@@ -330,9 +359,9 @@ async function gerarLaudo() {
 
   const container = document.getElementById('pecas-container');
 
-    // Adiciona os checkboxes para cada peça
-    peca.forEach(peca => {
-        const checkboxHtml = `
+  // Adiciona os checkboxes para cada peça
+  peca.forEach(peca => {
+    const checkboxHtml = `
         <label class="container1">
         <span>${peca}</span>
                 <input type="checkbox" onclick="copiarPeca('${peca}')" />
@@ -344,8 +373,8 @@ async function gerarLaudo() {
                 </svg>
             </label>
         `;
-        container.insertAdjacentHTML('beforeend', checkboxHtml);
-    });
+    container.insertAdjacentHTML('beforeend', checkboxHtml);
+  });
 }
 
 // Chama a função ao carregar a página
@@ -387,22 +416,22 @@ configurarCheckbox(checkboxChecklist, textareaChecklist);
 
 function copiarPeca(peca) {
   navigator.clipboard.writeText(peca).catch(err => {
-      console.error('Erro ao copiar: ', err);
+    console.error('Erro ao copiar: ', err);
   });
-  
+
   // Desmarcar o checkbox após 3 segundos
   const checkboxes = document.querySelectorAll('.container1 input');
   checkboxes.forEach(checkbox => {
-      if (checkbox.checked) {
-          setTimeout(() => {
-              checkbox.checked = false; // Desmarca o checkbox
-          }, 1000);
-      }
+    if (checkbox.checked) {
+      setTimeout(() => {
+        checkbox.checked = false; // Desmarca o checkbox
+      }, 1000);
+    }
   });
 }
 
 
 document.getElementById("proceed").addEventListener("click", function () {
-    localStorage.clear()
-    window.location.href = "../index.html";
+  localStorage.clear()
+  window.location.href = "../index.html";
 });
