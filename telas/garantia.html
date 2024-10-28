@@ -22,32 +22,39 @@
     </header>
 
     <main>
-        <h1 class="potencial">Selecione</h1>
-        <section>
-            <h2 class="title">Deseja fazer o checklist?</h2>
-            <div class="selection">
-                <select name="response" id="response" class="custom-select sources" placeholder="Selecione">
-                    <option value="sim">Sim</option>
-                    <option value="nao">Não</option>
-                </select>
+        <div class="container">
+
+
+            <h1 class="potencial">Selecione</h1>
+
+            <section>
+                <h2 class="title">Deseja fazer o checklist?</h2>
+                <div class="selection">
+                    <select name="response" id="response" class="custom-select sources" placeholder="Selecione">
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+            </section>
+
+            <div id="additionalContent" class="hidden1"></div>
+
+            <div id="alertBox" class="alert-box hidden">Por favor, preencha os campos</div>
+
+            <section>
+                <h2 class="title">Possui lacre de garantia Zhaz?</h2>
+                <div class="selection">
+                    <select name="lacre" id="lacre" class="custom-select sources" placeholder="Selecione">
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+            </section>
+
+            <div class="div_voltar">
+                <button class="botao_voltar" id="goBack">Voltar</button>
+                <button id="submitButton" class="botao_continuar">Continuar</button>
             </div>
-        </section>
-        <div id="additionalContent" class="hidden1"></div>
-        <div id="alertBox1" class="alert-box hidden">Por favor, preencha os campos</div>
-        <section>
-            <h2 class="title">Possui lacre de garantia Zhaz?</h2>
-            <div class="selection">
-                <select name="lacre" id="lacre" class="custom-select sources" placeholder="Selecione">
-                    <option value="sim">Sim</option>
-                    <option value="nao">Não</option>
-                </select>
-            </div>
-        </section>
-        <div class="div_voltar">
-            <button class="botao_voltar" id="goBack">Voltar</button>
-        </div>
-        <div class="div_continuar">
-            <button id="submitButton" class="botao_continuar">Continuar</button>
         </div>
     </main>
 

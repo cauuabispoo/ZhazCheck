@@ -500,7 +500,7 @@
                                     placeholder="Selecione"></select>
                             </section>
                         </td>
-                      
+
                     </tr>
                     <tr>
                         <td>
@@ -535,11 +535,90 @@
             </div>
         </div>
 
+        <div class="elemento-controlado elemento-10" style="display: none;">
+            <div class="container">
+                <table>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            <section>
+                                <h1> </h1>
+                            </section>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <section>
+                                <h2 class="title">Peça:<sup>*</sup></h2>
+                                <select name="peca" id="peca4" class="custom-select sources" placeholder="Selecione">
+                                    <option value="" disabled selected></option>
+                                </select>
+                            </section>
+                        </td>
+
+                        <td>
+                            <section>
+                                <h2 class="title">Causa do defeito:<sup>*</sup></h2>
+                                <select name="causaDefeito" id="causaDefeito" class="custom-select sources"
+                                    placeholder="Selecione">
+                                    <option value="" disabled selected></option>
+                                    <option value="mau">Uso indevido</option>
+                                    <option value="dgn">Desgaste de uso</option>
+                                    <option value="df">Defeito</option>
+                                </select>
+                            </section>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <section>
+                                <h2 class="title">Obs. do defeito:</h2>
+                                <div class="height">
+                                    <div class="input-group">
+                                        <input id="obsDefeito9" type="text" autocomplete="off" name="obsDefeito"
+                                            class="input" maxlength="50" />
+                                    </div>
+                                </div>
+                            </section>
+                        </td>
+
+                        <td>
+                            <section>
+                                <h2 class="title">Opcional:<sup>*</sup></h2>
+                                <select name="opc" id="opc" class="custom-select sources" placeholder="Selecione">
+                                    <option value="s">Sim</option>
+                                    <option value="n">Não</option>
+                                </select>
+                            </section>
+                        </td>
+                    </tr>
+                    <div class="botaoAdd">
+                        <button id="add" class="Btn">
+                            <div class="sign">+</div>
+                            <div class="text">Adicionar</div>
+                        </button>
+                    </div>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal de Confirmação -->
+        <div id="confirmModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Deseja finalizar o laudo?</h2>
+                <div class="modal-buttons">
+                    <button id="confirmBtn" class="confirm">Sim</button>
+                    <button id="cancelBtn" class="cancel">Não</button>
+                </div>
+            </div>
+        </div>
+
 
         <div class="div_voltar">
             <button id="goBack" class="botao_voltar">Voltar</button>
-        </div>
-        <div class="div_continuar">
             <button id="submitButton" class="botao_continuar">Finalizar</button>
         </div>
 

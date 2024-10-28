@@ -48,7 +48,7 @@ $(document).ready(function () {
     const verficaCheck = localStorage.getItem('check');
 
     if (!verficaEquipamento || !verficaCheck) {
-        window.location.href = "equipamento.html";
+        window.location.href = "../index.html";
         localStorage.clear();
     } else {
         $("#OSAnterior").keyup(function () {

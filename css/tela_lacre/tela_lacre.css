@@ -1,9 +1,7 @@
-
-
-
 .hidden {
     display: none; /* Classe para esconder elementos */
 }
+
 .alert-box {
     background-color: #f8d7da;
     color: #721c24;
@@ -11,17 +9,14 @@
     border-radius: 5px;
     text-align: center;
     position: absolute;
-    top: 250px;  /* Ajusta a posição da caixa em relação ao select */
-    left: 0;
-    right: 0;
-    margin: 0 auto;
+    top: 20%;  /* Ajusta a posição da caixa em relação ao viewport */
+    left: 50%;
+    transform: translateX(-50%); /* Centraliza horizontalmente */
     width: fit-content;
     border: 1px solid #f5c6cb;
     display: none;
     z-index: 1;
 }
-
-
 
 /* Container da label e input */
 .height {
@@ -29,6 +24,7 @@
     flex-direction: column; /* Empilha os elementos verticalmente */
     gap: 20px; /* Espaçamento entre cada grupo de inputs */
     margin: 20px;
+    align-items: center; /* Centraliza horizontalmente */
 }
 
 .input-group {
@@ -38,7 +34,7 @@
 }
 
 .height label {
-    font-size: 18px;
+    font-size: 1.1rem; /* Tamanho responsivo */
     margin: 0; /* Remove margin para alinhamento preciso */
 }
 
@@ -50,10 +46,11 @@
     border: none;
     outline: none;
     border-radius: 100px;
-    padding: 1.2em;
+    padding: 1em; /* Ajusta o padding */
     background-color: #e1e2e3;
     box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
     transition: 300ms ease-in-out;
+    width: 100%; /* Para que o input ocupe toda a largura do container */
 }
 
 .height .input:focus {
@@ -63,105 +60,59 @@
 }
 
 
-
-
-
-.div_voltar {
-    padding: 10px;
-    position: relative;
-    top: 150px;
-    display: inline-block;
-}
-.botao_voltar {
-    padding: 15px 25px;
-    border: 0;
-    border-radius: 15px;
-    color: #212121;
-    z-index: 1;
-    background: #e8e8e8;
-    position: relative;
-    font-weight: 1000;
-    font-size: 17px;
-    -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-    box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-    transition: all 250ms;
-    overflow: hidden;
-    min-width: 200px;
-    min-height: 70px;
-}
-.botao_voltar::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    height: 0;
-    width: 0;
-    border-radius: 15px;
-    background-color: rgba(0, 151, 178, 1);
-    z-index: -1;
-    -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-    box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-    transition: all 250ms;
-}
-.botao_voltar:hover {
-    color: #e8e8e8;
-}
-.botao_voltar:hover::before {
-    width: 100%;
-    top: 0;
-    left: 0;
-    height: 100%;
-}
-.botao_voltar:active {
-    transform: scale(80%);
+/* Responsividade */
+body {
+    display: flex;
+    flex-direction: column; /* Coloca os elementos em coluna */
+    justify-content: center; /* Centraliza verticalmente */
+    align-items: center; /* Centraliza horizontalmente */
+    height: 100vh; /* Ocupa 100% da altura da viewport */
+    overflow: hidden; /* Remove a barra de rolagem */
+    margin: 0; /* Remove margem padrão do body */
 }
 
-.div_continuar {
-    padding: 10px;
-    position: relative;
-    top: 150px;
-    display: inline-block;
+@media (max-width: 768px) {
+    .height {
+        margin: 10px; /* Menor margem em telas pequenas */
+    }
+
+    .height label {
+        font-size: 1rem; /* Reduz o tamanho da fonte em telas pequenas */
+    }
+
+    .height .input {
+        padding: 0.8em; /* Ajusta o padding para inputs */
+    }
+
+    .div_voltar {
+        flex-direction: column; /* Alinha botões em coluna em telas menores */
+        gap: 10px; /* Espaçamento entre os botões */
+    }
+
+    .botao_voltar,
+    .botao_continuar {
+        font-size: 0.9rem; /* Reduz o tamanho da fonte dos botões */
+    }
 }
-.botao_continuar {
-    padding: 15px 25px;
-    border: 0;
-    border-radius: 15px;
-    color: #212121;
-    z-index: 1;
-    background: #e8e8e8;
-    position: relative;
-    font-weight: 1000;
-    font-size: 17px;
-    -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-    box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-    transition: all 250ms;
-    overflow: hidden;
-    min-width: 200px;
-    min-height: 70px;
-}
-.botao_continuar::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    height: 0;
-    width: 0;
-    border-radius: 15px;
-    background-color: #00bf63;
-    z-index: -1;
-    -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-    box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-    transition: all 250ms;
-}
-.botao_continuar:hover {
-    color: #e8e8e8;
-}
-.botao_continuar:hover::before {
-    width: 100%;
-    top: 0;
-    left: 0;
-    height: 100%;
-}
-.botao_continuar:active {
-    transform: scale(80%);
+
+@media (max-width: 480px) {
+    .height {
+        margin: 5px; /* Menor margem em telas muito pequenas */
+    }
+
+    .height label {
+        font-size: 0.9rem; /* Reduz ainda mais o tamanho da fonte */
+    }
+
+    .height .input {
+        padding: 0.6em; /* Ajuste adicional de padding */
+    }
+
+    .botao_voltar,
+    .botao_continuar {
+        width: 100%; /* Botões ocupam 100% da largura */
+        max-width: 120px; /* Ajusta a largura máxima dos botões para telas menores */
+        padding: 12px; /* Aumenta o padding dos botões para melhor usabilidade */
+        font-size: 1rem; /* Tamanho da fonte ajustado */
+    }
 }

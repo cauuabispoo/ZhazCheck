@@ -1,3 +1,4 @@
+/* Reset básico */
 * {
     margin: 0;
     padding: 0;
@@ -5,19 +6,17 @@
 }
 
 body {
-    font-family: "Arial";
+    font-family: "Arial", sans-serif;
     min-height: 100vh;
-    /* Preenche a tela inteira */
     display: flex;
-    align-items: center;
+    align-items: center; /* Alinhamento flexível */
     justify-content: center;
-    background: rgb(226,225,233);
-    background: linear-gradient(90deg, rgba(226,225,233,1) 0%, rgba(220,226,227,1) 100%); 
+    background: rgb(226, 225, 233);
+    background: linear-gradient(90deg, rgba(226, 225, 233, 1) 0%, rgba(220, 226, 227, 1) 100%);
+    padding-top: 70px; /* Ajuste conforme a altura do header */
 }
 
-
-
-
+/* Header responsivo */
 header {
     background: linear-gradient(90deg, rgba(0, 151, 178, 1) 35%, rgba(126, 217, 87, 1) 100%);
     background-size: 400% 400%;
@@ -28,34 +27,104 @@ header {
     left: 0;
     text-align: center;
     padding: 15px 0;
+    z-index: 10; /* Garante que o header fique sobre outros elementos */
 }
+
+/* Animação do gradiente */
 @keyframes gradient {
     0% {
         background-position: 0% 50%;
     }
-
     50% {
         background-position: 100% 50%;
     }
-
     100% {
         background-position: 0% 50%;
     }
 }
+
 .logo_titulo {
-    font-size: 50;
+    font-size: 3rem; /* Tamanho flexível */
     color: white;
     font-weight: bold;
 }
-main {
-    text-align: center;
+
+/* Responsividade para telas menores */
+@media (max-width: 1200px) {
+    .logo_titulo {
+        font-size: 2.5rem; /* Ajusta o tamanho da fonte */
+    }
 }
-.potencial {
-    font-size: 50px;
-    padding: 120px 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    text-align: center;
+
+@media (max-width: 992px) {
+    .logo_titulo {
+        font-size: 2rem; /* Ajusta o tamanho da fonte */
+    }
+
+    header {
+        padding: 10px 0; /* Reduz o padding */
+    }
+}
+
+@media (max-width: 768px) {
+    .logo_titulo {
+        font-size: 1.75rem; /* Ajusta o tamanho da fonte */
+    }
+
+    header {
+        padding: 8px 0; /* Ajuste adicional */
+    }
+}
+
+@media (max-width: 576px) {
+    .logo_titulo {
+        font-size: 1.5rem; /* Fonte menor em dispositivos pequenos */
+    }
+
+    header {
+        padding: 6px 0; /* Ajuste adicional */
+    }
+}
+
+/* Container principal para os itens */
+main {
     width: 100%;
+    display: flex;
+    flex-direction: column; /* Alinhamento vertical */
+    align-items: center; /* Centraliza os itens no eixo horizontal */
+    padding: 20px; /* Espaçamento interno */
+    text-align: center;
+    margin-top: 20px; /* Espaço acima para não colidir com o header */
+}
+
+.potencial {
+    font-size: 50px; /* Tamanho grande para título */
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px; /* Espaço abaixo do título */
+}
+
+/* Ajustes para responsividade em telas menores */
+@media (max-width: 1200px) {
+    .potencial {
+        font-size: 45px; /* Tamanho menor em telas grandes */
+    }
+}
+
+@media (max-width: 992px) {
+    .potencial {
+        font-size: 40px; /* Tamanho menor em tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .potencial {
+        font-size: 35px; /* Tamanho menor em tablets */
+    }
+}
+
+@media (max-width: 576px) {
+    .potencial {
+        font-size: 30px; /* Tamanho ainda menor em smartphones */
+    }
 }

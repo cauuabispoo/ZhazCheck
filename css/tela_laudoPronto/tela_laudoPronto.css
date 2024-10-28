@@ -1,14 +1,297 @@
-.card {
-    width: 190px;
-    height: 254px;
-    background: white;
-    border-radius: 10px;
-    transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-   }
-   
-   .shadow {
-    box-shadow: inset 0 -3em 3em rgba(0,0,0,0.1),
-                0 0  0 2px rgb(190, 190, 190),
-                0.3em 0.3em 1em rgba(0,0,0,0.3);
-   }
-   
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+textarea {
+  width: 30vw; /* Largura relativa à largura da janela */
+  height: 40vh; /* Altura relativa à altura da janela */
+  max-width: 500px; /* Tamanho máximo padrão */
+  max-height: 400px; /* Tamanho máximo padrão */
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+  font-family: monospace;
+}
+
+.cards {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  flex-wrap: wrap; /* Permite que os cards quebrem para a linha seguinte se necessário */
+}
+
+.cards .red {
+  background-color: #007e9e;
+}
+
+.cards .blue {
+  background-color: #0062ff;
+}
+
+.cards .green {
+  background-color: #18cd5e;
+}
+
+.cards .card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  height: 420px; /* Altura padrão */
+  width: 520px; /* Largura padrão */
+  max-width: 32vw; /* Tamanho máximo proporcional */
+  max-height: 42vh; /* Tamanho máximo proporcional */
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: 400ms;
+}
+
+.cards .card p.tip {
+  font-size: 1.5vw; /* Tamanho de fonte relativo à largura da janela */
+  font-weight: 700;
+}
+
+.cards .card p.second-text {
+  font-size: 1.5vw; /* Tamanho de fonte relativo à largura da janela */
+}
+
+.cards .card:hover {
+  transform: scale(1.2);
+}
+
+.cards:hover > .card:not(:hover) {
+  filter: blur(10px);
+  transform: scale(0.9);
+}
+
+.hidden {
+  display: none; /* Classe para esconder elementos */
+}
+
+/*------ Settings ------*/
+.container {
+  --color: #000000;
+  --size: 1.5vw; /* Tamanho de fonte relativo à largura da janela */
+  top: 5px;
+  left: 220px;
+  position: relative;
+  cursor: pointer;
+  font-size: var(--size);
+  user-select: none;
+  fill: var(--color);
+}
+
+.container .clipboard {
+  position: absolute;
+  animation: keyframes-fill .5s;
+}
+
+.container .clipboard-check {
+  position: absolute;
+  display: none;
+  animation: keyframes-fill .5s;
+}
+
+/* ------ On check event ------ */
+.container input:checked ~ .clipboard {
+  display: none;
+}
+
+.container input:checked ~ .clipboard-check {
+  display: block;
+}
+
+/* ------ Hide the default checkbox ------ */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* ------ Animation ------ */
+@keyframes keyframes-fill {
+  0% {
+      transform: rotate(0deg) scale(0);
+      opacity: 0;
+  }
+
+  50% {
+      transform: rotate(-10deg) scale(1.2);
+  }
+}
+
+/*------ Settings ------*/
+.container1 {
+  --color: #000000;
+  --size: 1vw; /* Tamanho de fonte relativo à largura da janela */
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  font-size: var(--size);
+  user-select: none;
+  fill: var(--color);
+  margin: 10px 0; /* Espaço entre as peças */
+}
+
+.container1 span {
+  margin-right: 20px;
+}
+
+.container1 .clipboard {
+  position: absolute;
+  animation: keyframes-fill .5s;
+}
+
+.container1 .clipboard-check {
+  position: absolute;
+  display: none;
+  animation: keyframes-fill .5s;
+}
+
+/* ------ On check event ------ */
+.container1 input:checked ~ .clipboard {
+  display: none;
+}
+
+.container1 input:checked ~ .clipboard-check {
+  display: block;
+}
+
+/* ------ Hide the default checkbox ------ */
+.container1 input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  margin-left: 10px; /* Espaço entre o texto e o checkbox */
+}
+
+/* ------ Animation ------ */
+@keyframes keyframes-fill {
+  0% {
+      transform: rotate(0deg) scale(0);
+      opacity: 0;
+  }
+
+  50% {
+      transform: rotate(-10deg) scale(1.2);
+  }
+}
+
+/*------ Settings ------*/
+.container2 {
+  --color: #000000;
+  --size: 1.5vw; /* Tamanho de fonte relativo à largura da janela */
+  top: 5px;
+  left: 220px;
+  position: relative;
+  cursor: pointer;
+  font-size: var(--size);
+  user-select: none;
+  fill: var(--color);
+}
+
+.container2 .clipboard {
+  position: absolute;
+  animation: keyframes-fill .5s;
+}
+
+.container2 .clipboard-check {
+  position: absolute;
+  display: none;
+  animation: keyframes-fill .5s;
+}
+
+/* ------ On check event ------ */
+.container2 input:checked ~ .clipboard {
+  display: none;
+}
+
+.container2 input:checked ~ .clipboard-check {
+  display: block;
+}
+
+/* ------ Hide the default checkbox ------ */
+.container2 input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* ------ Animation ------ */
+@keyframes keyframes-fill {
+  0% {
+      transform: rotate(0deg) scale(0);
+      opacity: 0;
+  }
+
+  50% {
+      transform: rotate(-10deg) scale(1.2);
+  }
+}
+
+.botao {
+  padding: 10px;
+  position: fixed;
+  align-items: end;
+  bottom: 50px;
+}
+
+button {
+  padding: 15px 25px;
+  border: 0;
+  border-radius: 15px;
+  color: #212121;
+  z-index: 1;
+  background: #e8e8e8;
+  position: relative;
+  font-weight: 1000;
+  font-size: 1vw; /* Tamanho de fonte relativo à largura da janela */
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: all 250ms;
+  overflow: hidden;
+  min-width: 200px;
+  min-height: 70px;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 0;
+  width: 0;
+  border-radius: 15px;
+  background-color: #00bf63;
+  z-index: -1;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: all 250ms;
+}
+
+button:hover {
+  color: #e8e8e8;
+}
+
+button:hover::before {
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+button:active {
+  transform: scale(80%);
+}

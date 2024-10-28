@@ -1,0 +1,3 @@
+touch
+flex do lcd
+placa principal
