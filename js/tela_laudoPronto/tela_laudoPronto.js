@@ -161,7 +161,6 @@ async function gerarLaudo() {
   let substituicaoOpcional = "";
   let instalacaoNecessaria = "";
   let instalacaoOpcional = "";
-  let acessorioNecessaria = "";
   let acessorioOpcional = "";
   let recuperacaoNecessaria = "";
   let recuperacaoOpcional = "";
@@ -195,7 +194,7 @@ async function gerarLaudo() {
         if (obs.opcSelecionadoGlobal === "n") {
           substituicaoNecessaria += `  - ${peca1}\n`;
         } else {
-          substituicaoOpcional += `  - ${peca1}\n`;
+          substituicaoOpcional += `  - ${peca1} -> (A CRITÉRIO DO CLIENTE)\n`;
         }
         break;
 
@@ -213,7 +212,7 @@ async function gerarLaudo() {
             peca.push('SV0075');
           }
         } else {
-          recuperacaoOpcional += `  - ${peca2} -> ${nivel}\n`;
+          recuperacaoOpcional += `  - ${peca2} -> ${nivel} -> (A CRITÉRIO DO CLIENTE)\n`;
           if(nivel === 'N1 (SV0036)'){
             peca.push('SV0036');
           } else if(nivel === 'N2 (SV0074)'){
@@ -231,7 +230,7 @@ async function gerarLaudo() {
           recuperacaoNecessaria += `  - ${peca3}\n`;
           verificaCarcaca = '1';
         } else {
-          recuperacaoOpcional += `  - ${peca3}\n`;
+          recuperacaoOpcional += `  - ${peca3} -> (A CRITÉRIO DO CLIENTE)\n`;
           verificaCarcaca = '1';
         }
         break;
@@ -242,7 +241,7 @@ async function gerarLaudo() {
           sistema += `NECESSÁRIO A RECUPERAÇÃO DA BATERIA -> (SV0071)\n\n`;
           peca.push('SV0071');
         } else {
-          sistema += `RECUPERAÇÃO OPCIONAL DA BATERIA -> (SV0071)\n\n`;
+          sistema += `RECUPERAÇÃO OPCIONAL DA BATERIA -> (SV0071) -> (A CRITÉRIO DO CLIENTE)\n\n`;
           peca.push('SV0071');
         }
         break;
@@ -253,7 +252,7 @@ async function gerarLaudo() {
           sistema += `NECESSÁRIO A ATUALIZAÇÃO DO SISTEMA ANDROID -> (SV0042)\n\n`;
           peca.push('SV0042');
         } else {
-          sistema += `ATUALIZAÇÃO OPCIONAL DO SISTEMA ANDROID -> (SV0042)\n\n`;
+          sistema += `ATUALIZAÇÃO OPCIONAL DO SISTEMA ANDROID -> (SV0042) -> (A CRITÉRIO DO CLIENTE)\n\n`;
           peca.push('SV0042');
         }
         break;
@@ -264,7 +263,7 @@ async function gerarLaudo() {
           sistema += `NECESSÁRIO A RESTAURAÇÃO DA MEMÓRIA FLASH ROM -> (SV0040)\n\n`;
           peca.push('SV0040');
         } else {
-          sistema += `RESTAURAÇÃO OPCIONAL DA MEMÓRIA FLASH ROM -> (SV0040)\n\n`;
+          sistema += `RESTAURAÇÃO OPCIONAL DA MEMÓRIA FLASH ROM -> (SV0040) -> (A CRITÉRIO DO CLIENTE)\n\n`;
           peca.push('SV0040');
         }
         break;
@@ -275,7 +274,7 @@ async function gerarLaudo() {
           sistema += `NECESSÁRIO O UPGRADE DA FIRMWARE -> (SV0046)\n\n`;
           peca.push('SV0046');
         } else {
-          sistema += `UPGRADE OPCIONAL DA FIRMWARE -> (SV0046)\n\n`;
+          sistema += `UPGRADE OPCIONAL DA FIRMWARE -> (SV0046) -> (A CRITÉRIO DO CLIENTE)\n\n`;
           peca.push('SV0046');
         }
         break;
@@ -286,7 +285,7 @@ async function gerarLaudo() {
           sistema += `NECESSÁRIO O DOWNGRADE DA FIRMWARE -> (SV0047)\n\n`;
           peca.push('SV0047');
         } else {
-          sistema += `DOWNGRADE OPCIONAL DA FIRMWARE -> (SV0047)\n\n`;
+          sistema += `DOWNGRADE OPCIONAL DA FIRMWARE -> (SV0047) -> (A CRITÉRIO DO CLIENTE)\n\n`;
           peca.push('SV0047');
         }
         break;
@@ -295,21 +294,11 @@ async function gerarLaudo() {
         const pecaAcessorio = filtrarPalavraChave(pecas[obs.peca3SelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
         peca.push(obs.peca3SelecionadoGlobal);
         if (pecaAcessorio === "PELICULA PROTETORA HIDROGEL") {
-          if (obs.opcSelecionadoGlobal === "n") {
-            acessorioNecessaria += `  - PELÍCULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
-            instalacaoNecessaria += `  - PELÍCULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
-          } else {
-            acessorioOpcional += `  - PELÍCULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
-            instalacaoOpcional += `  - PELÍCULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
-          }
+            acessorioOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE);\n`;
+            instalacaoOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE);\n`;
         } else {
-          if (obs.opcSelecionadoGlobal === "n") {
-            acessorioNecessaria += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal}\n`;
-            instalacaoNecessaria += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal}\n`;
-          } else {
-            acessorioOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal}\n`;
-            instalacaoOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal}\n`;
-          }
+            acessorioOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal} -> (A CRITÉRIO DO CLIENTE)\n`;
+            instalacaoOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal} -> (A CRITÉRIO DO CLIENTE)\n`;
         }
         break;
 
@@ -320,7 +309,7 @@ async function gerarLaudo() {
         if (obs.opcSelecionadoGlobal === "n") {
           instalacaoNecessaria += `  - ${peca4}\n`;
         } else {
-          instalacaoOpcional += `  - ${peca4}\n`;
+          instalacaoOpcional += `  - ${peca4} -> (A CRITÉRIO DO CLIENTE)\n`;
         }
         break;
 
@@ -371,17 +360,13 @@ async function gerarLaudo() {
       laudo += `INSTALAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${instalacaoOpcional}\n`;
     }
 
-  } else if (!diagnostico && acessorioNecessaria || acessorioOpcional) {
+  } else if (!diagnostico && acessorioOpcional) {
     laudo += `  - FORAM REALIZADOS TODOS OS TESTES E O EQUIPAMENTO NÃO APRESENTOU NENHUM DEFEITO\n`;
 
     if (checklistLaudo) {
       laudo += `${checklistLaudo}\n`;
     }
     laudo += "\nSOLUÇÃO:\n";
-    if (acessorioNecessaria) {
-      laudo += `NECESSÁRIO A INSTALAÇÃO DO(S) SEGUINTE(S) ITEM(S):\n${acessorioNecessaria}\n`;
-    }
-
     if (acessorioOpcional) {
       laudo += `INSTALAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${acessorioOpcional}\n`;
     }

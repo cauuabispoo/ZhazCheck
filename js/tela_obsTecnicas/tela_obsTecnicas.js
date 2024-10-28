@@ -466,7 +466,7 @@ $(document).on("click", ".Btn", function () {
     } else if (valorSelecionadoGlobal === 9) {
         obsDefeitoSelecionadoGlobal = document.getElementById("obsDefeito8").value.trim().toUpperCase();
         const chave = 'observacoes'; // A chave para o localStorage
-        const novoItem = { valorSelecionadoGlobal, peca3SelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
+        const novoItem = { valorSelecionadoGlobal, peca3SelecionadoGlobal, obsDefeitoSelecionadoGlobal};
 
         // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
         // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
@@ -474,7 +474,7 @@ $(document).on("click", ".Btn", function () {
         // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
         // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
 
-        if (peca3SelecionadoGlobal && opcSelecionadoGlobal) {
+        if (peca3SelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
             location.replace(location.href); // Recarrega a página
         } else {
