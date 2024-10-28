@@ -94,7 +94,7 @@ function gerarChecklist() {
     // Definindo os itens do checklist para cada tipo de equipamento
     switch (tipoEquipamento) {
         case 'coletor':
-            itens = ['CARCAÇAS', 'LENTE', 'PARAFUSOS', 'MODELO/NÚMERO DE SÉRIE', 'ACESSÓRIOS', 'TOUCH', 'LCD', 'WIFI', 'MÓDULO LASER', 'ALTO-FALANTE', 'CÂMERA', 'TECLADO', 'GATILHO/BOTÕES LAT.', 'BATERIA', 'TRAVAS DA BATERIA/TAMPA', 'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'SISTEMA OPERACIONAL'];
+            itens = ['CARCAÇAS', 'LENTE', 'PARAFUSOS', 'MODELO/NÚMERO DE SÉRIE', 'ACESSÓRIOS', 'TOUCH', 'LCD', 'WIFI', 'MÓDULO LASER', 'ALTO-FALANTE', 'CÂMERA', 'TECLADO', 'GATILHO/BOTÕES LAT.', 'BATERIA', 'TRAVAS DA BATERIA/TAMPA', 'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'SISTEMA OPERACIONAL', 'CONFIGURAÇÕES DO CLIENTE'];
             break;
         case 'leitor':
             itens = ['Calibrar sensor', 'Testar conectividade', 'Atualizar firmware'];
