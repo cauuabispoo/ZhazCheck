@@ -75,6 +75,7 @@ async function gerarLaudo() {
   const container1 = document.querySelector(".container2"); // Seleciona o contêiner
 
   // Dados do localStorage
+  const tipoEquipamento = localStorage.getItem("selectedOption");
   const lacre = localStorage.getItem("lacre");
   const osAnterior = localStorage.getItem("osAnterior");
   const dataManutencao = localStorage.getItem("dataManutencao");
@@ -167,6 +168,16 @@ async function gerarLaudo() {
   let sistema = "";
   let peca = [];
 
+  if(tipoEquipamento === 'coletor'){
+    peca.push('SV0001');
+  }else if(tipoEquipamento === 'leitor'){
+    peca.push('SV0025');
+  }else if(tipoEquipamento === 'impressora'){
+
+  }else if (tipoEquipamento === 'celular'){
+    peca.push('SV0078');
+  }
+
   // Processa as observações e distribui conforme o tipo
   for (const obs of observacoes) {
     const causa = {
@@ -175,7 +186,7 @@ async function gerarLaudo() {
       df: "DEFEITO"
     }[obs.causaDefeitoSelecionadoGlobal] || "CAUSA DESCONHECIDA";
 
-
+    var verificaCarcaca;
     switch (obs.valorSelecionadoGlobal) {
       case 1: // Substituição de componente
         const peca1 = filtrarPalavraChave(pecas[obs.pecaSelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
@@ -190,24 +201,38 @@ async function gerarLaudo() {
 
       case 2: // Recuperação de placa
         const peca2 = filtrarPalavraChave(pecas[obs.peca1SelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
-        peca.push(obs.peca1SelecionadoGlobal);
-        const nivel = obs.nivelSelecionadoGlobal === "n1" ? "N1" : obs.nivelSelecionadoGlobal === "n2" ? "N2" : "N3";
+        const nivel = obs.nivelSelecionadoGlobal === "n1" ? "N1 (SV0036)" : obs.nivelSelecionadoGlobal === "n2" ? "N2 (SV0074)" : "N3 (SV0075)";
         diagnostico += `  - ${peca2} ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           recuperacaoNecessaria += `  - ${peca2} -> ${nivel}\n`;
+          if(nivel === 'N1 (SV0036)'){
+            peca.push('SV0036');
+          } else if(nivel === 'N2 (SV0074)'){
+            peca.push('SV0074');
+          } else if(nivel === 'N3 (SV0075)'){
+            peca.push('SV0075');
+          }
         } else {
           recuperacaoOpcional += `  - ${peca2} -> ${nivel}\n`;
+          if(nivel === 'N1 (SV0036)'){
+            peca.push('SV0036');
+          } else if(nivel === 'N2 (SV0074)'){
+            peca.push('SV0074');
+          } else if(nivel === 'N3 (SV0075)'){
+            peca.push('SV0075');
+          }
         }
         break;
 
       case 3: // Recuperação de carcaça
         const peca3 = filtrarPalavraChave(pecas[obs.peca2SelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
-        peca.push(obs.peca2SelecionadoGlobal);
         diagnostico += `  - ${peca3} ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           recuperacaoNecessaria += `  - ${peca3}\n`;
+          verificaCarcaca = '1';
         } else {
           recuperacaoOpcional += `  - ${peca3}\n`;
+          verificaCarcaca = '1';
         }
         break;
 
@@ -215,8 +240,10 @@ async function gerarLaudo() {
         diagnostico += `  - CARCAÇA DA BATERIA ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RECUPERAÇÃO DA BATERIA -> (SV0071)\n\n`;
+          peca.push('SV0071');
         } else {
           sistema += `RECUPERAÇÃO OPCIONAL DA BATERIA -> (SV0071)\n\n`;
+          peca.push('SV0071');
         }
         break;
 
@@ -224,8 +251,10 @@ async function gerarLaudo() {
         diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A ATUALIZAÇÃO DO SISTEMA ANDROID -> (SV0042)\n\n`;
+          peca.push('SV0042');
         } else {
           sistema += `ATUALIZAÇÃO OPCIONAL DO SISTEMA ANDROID -> (SV0042)\n\n`;
+          peca.push('SV0042');
         }
         break;
 
@@ -233,8 +262,10 @@ async function gerarLaudo() {
         diagnostico += `  - SISTEMA OPERACIONAL - ${obs.obsDefeitoSelecionadoGlobal} -> DEFEITO\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RESTAURAÇÃO DA MEMÓRIA FLASH ROM -> (SV0040)\n\n`;
+          peca.push('SV0040');
         } else {
           sistema += `RESTAURAÇÃO OPCIONAL DA MEMÓRIA FLASH ROM -> (SV0040)\n\n`;
+          peca.push('SV0040');
         }
         break;
 
@@ -242,8 +273,10 @@ async function gerarLaudo() {
         diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO O UPGRADE DA FIRMWARE -> (SV0046)\n\n`;
+          peca.push('SV0046');
         } else {
           sistema += `UPGRADE OPCIONAL DA FIRMWARE -> (SV0046)\n\n`;
+          peca.push('SV0046');
         }
         break;
 
@@ -251,8 +284,10 @@ async function gerarLaudo() {
         diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO O DOWNGRADE DA FIRMWARE -> (SV0047)\n\n`;
+          peca.push('SV0047');
         } else {
           sistema += `DOWNGRADE OPCIONAL DA FIRMWARE -> (SV0047)\n\n`;
+          peca.push('SV0047');
         }
         break;
 
@@ -316,10 +351,16 @@ async function gerarLaudo() {
 
     if (recuperacaoNecessaria) {
       laudo += `NECESSÁRIO A RECUPERAÇÃO DO(S) SEGUINTE(S) ITEM(S):\n${recuperacaoNecessaria}\n`;
+      if(verificaCarcaca){
+        peca.push('SV0038');
+      }
     }
 
     if (recuperacaoOpcional) {
       laudo += `RECUPERAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${recuperacaoOpcional}\n`;
+      if(verificaCarcaca){
+        peca.push('SV0038');
+      }
     }
 
     if (instalacaoNecessaria) {
