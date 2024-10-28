@@ -296,11 +296,11 @@ async function gerarLaudo() {
         peca.push(obs.peca3SelecionadoGlobal);
         if (pecaAcessorio === "PELICULA PROTETORA HIDROGEL") {
           if (obs.opcSelecionadoGlobal === "n") {
-            acessorioNecessaria += `  - PELICULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
-            instalacaoNecessaria += `  - PELICULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
+            acessorioNecessaria += `  - PELÍCULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
+            instalacaoNecessaria += `  - PELÍCULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
           } else {
-            acessorioOpcional += `  - PELICULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
-            instalacaoOpcional += `  - PELICULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
+            acessorioOpcional += `  - PELÍCULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
+            instalacaoOpcional += `  - PELÍCULA DE HIDROGEL -> PARA AUMENTAR A VIDA ÚTIL DO TOUCH\n`;
           }
         } else {
           if (obs.opcSelecionadoGlobal === "n") {
