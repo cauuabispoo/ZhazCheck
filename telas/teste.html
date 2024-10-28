@@ -182,72 +182,37 @@
   </style>
 </head>
 
-<body>
+<h2>Sizes:</h2>
 
-  <section>
-    <label for="potencial">Selecione uma opção:</label>
-    <select name="potencial" id="potencial" class="custom-select" placeholder="Selecione">
-      <option value="" disabled selected>Selecione</option>
-      <option value="Coletor de dados">Coletor de dados</option>
-      <option value="Leitor de dados">Leitor de dados</option>
-      <option value="Impressora Térmica">Impressora Térmica</option>
-      <option value="Celular/Tablet">Celular/Tablet</option>
-    </select>
-  </section>
+<p id="screen"></p>
+<p id="window"></p>
+<p id="page"></p>
 
-  <script>
-    $(".custom-select").each(function () {
-      var classes = $(this).attr("class"),
-        id = $(this).attr("id"),
-        name = $(this).attr("name");
+<script>
 
-      var template = '<div class="' + classes + '">';
-      template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + "</span>";
-      template += '<div class="custom-options">';
+// Get the size of the device screen
+var screenWidth = screen.width;
+var screenHeight = screen.height;
 
-      // Adicionando campo de busca
-      template += '<input type="text" class="search-input" placeholder="Buscar..." />';
+// Get the browser window size
+var windowWidth = window.innerWidth;
+var windowHeight = window.innerHeight;
 
-      $(this).find("option").each(function () {
-        template += '<span class="custom-option" data-value="' + $(this).attr("value") + '">' + $(this).html() + "</span>";
-      });
+// Get the size of the entire webpage
+const pageWidth  = document.documentElement.scrollWidth;
+const pageHeight = document.documentElement.scrollHeight;
 
-      template += "</div></div>";
+// Showing the sizes on the webpage
+var x = document.getElementById("screen");
+x.innerHTML = "Device Screen: width: " + screenWidth + ", height: " + screenHeight + ".";
 
-      $(this).wrap('<div class="custom-select-wrapper"></div>');
-      $(this).hide();
-      $(this).after(template);
-    });
+var y = document.getElementById("window");
+y.innerHTML = "Browser Window: width: " + windowWidth + ", height: " + windowHeight + ".";
 
-    $(".custom-select-trigger").on("click", function (event) {
-      $("html").one("click", function () {
-        $(".custom-select").removeClass("opened");
-      });
-      $(this).parents(".custom-select").toggleClass("opened");
-      event.stopPropagation();
-    });
+var z = document.getElementById("page");
+z.innerHTML = "Webpage: width:" + pageWidth + ", height: " + pageHeight + ".";
 
-    $(".custom-option").on("click", function () {
-      $(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
-      $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
-      $(this).addClass("selection");
-      $(this).parents(".custom-select").removeClass("opened");
-      $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
-    });
-
-    // Lógica para filtrar opções baseado na busca
-    $(".search-input").on("keyup", function () {
-      var value = $(this).val().toLowerCase();
-      $(this).siblings(".custom-option").filter(function () {
-        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-      });
-    });
-
-    // Impedir o fechamento do select ao clicar no campo de busca
-    $(".search-input").on("click", function (event) {
-      event.stopPropagation(); // Impede o clique de fechar o select
-    });
-  </script>
+</script>
 
 </body>
 

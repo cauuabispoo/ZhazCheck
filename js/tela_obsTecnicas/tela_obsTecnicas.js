@@ -119,16 +119,37 @@ function inicializarSelectCustomizado() {
         select.wrap('<div class="custom-select-wrapper"></div>').hide().after(template);
     });
 
-    // Eventos para abrir e fechar o select customizado
     $(".custom-select-trigger").on("click", function (event) {
         const select = $(this).parents(".custom-select");
-
-        // Fecha todos os selects abertos, exceto o que foi clicado
+        const customOptions = select.find(".custom-options");
         $(".custom-select").not(select).removeClass("opened");
         select.toggleClass("opened");
-        $("html").one("click", () => select.removeClass("opened"));
+      
+        // Calcule o espaço disponível abaixo do select
+        const rect = select[0].getBoundingClientRect();
+        const optionsHeight = customOptions.outerHeight();
+        const spaceBelow = window.innerHeight - rect.bottom;
+      
+        if (spaceBelow < optionsHeight) {
+          // Se não houver espaço suficiente, abre para cima
+          customOptions.css({
+            top: 'auto',
+            bottom: '70%'
+          });
+        } else {
+          // Caso contrário, abre para baixo
+          customOptions.css({
+            top: '100%',
+            bottom: 'auto'
+          });
+        }
+      
+        $("html").one("click", function () {
+          select.removeClass("opened");
+        });
+      
         event.stopPropagation();
-    });
+      });
 
     // Evento para selecionar uma opção
     $(".custom-option").on("click", function () {

@@ -186,7 +186,7 @@ section {
   /* Usa flexbox para centralizar */
   justify-content: space-between;
   /* Espaça os botões */
-  margin: 20px auto;
+
   /* Centraliza horizontalmente com margem */
   max-width: 600px;
   /* Limita a largura máxima do container dos botões */

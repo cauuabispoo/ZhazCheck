@@ -28,7 +28,7 @@
     /* Empilha os elementos verticalmente */
     gap: 20px;
     /* Espaçamento entre cada grupo de inputs */
-    margin: 20px;
+
     align-items: center;
     /* Centraliza horizontalmente */
 }
@@ -76,7 +76,7 @@
     /* Usa flexbox para centralizar */
     justify-content: space-between;
     /* Espaça os botões */
-    margin: 20px auto;
+
     /* Centraliza horizontalmente com margem */
     max-width: 600px;
     /* Limita a largura máxima do container dos botões */

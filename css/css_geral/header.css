@@ -1,3 +1,7 @@
+html {
+    overflow: hidden;
+}
+
 /* Reset básico */
 * {
     margin: 0;
@@ -14,8 +18,9 @@ body {
     justify-content: center;
     background: rgb(226, 225, 233);
     background: linear-gradient(90deg, rgba(226, 225, 233, 1) 0%, rgba(220, 226, 227, 1) 100%);
-    padding-top: 70px;
+
     /* Ajuste conforme a altura do header */
+    overflow: hidden;
 }
 
 /* Header responsivo */
@@ -31,6 +36,11 @@ header {
     padding: 15px 0;
     z-index: 10;
     /* Garante que o header fique sobre outros elementos */
+}
+
+.title {
+    margin-bottom: 10px;
+    font-size: 20px;
 }
 
 /* Animação do gradiente */
@@ -55,50 +65,6 @@ header {
     font-weight: bold;
 }
 
-/* Responsividade para telas menores */
-@media (max-width: 1200px) {
-    .logo_titulo {
-        font-size: 2.5rem;
-        /* Ajusta o tamanho da fonte */
-    }
-}
-
-@media (max-width: 992px) {
-    .logo_titulo {
-        font-size: 2rem;
-        /* Ajusta o tamanho da fonte */
-    }
-
-    header {
-        padding: 10px 0;
-        /* Reduz o padding */
-    }
-}
-
-@media (max-width: 768px) {
-    .logo_titulo {
-        font-size: 1.75rem;
-        /* Ajusta o tamanho da fonte */
-    }
-
-    header {
-        padding: 8px 0;
-        /* Ajuste adicional */
-    }
-}
-
-@media (max-width: 576px) {
-    .logo_titulo {
-        font-size: 1.5rem;
-        /* Fonte menor em dispositivos pequenos */
-    }
-
-    header {
-        padding: 6px 0;
-        /* Ajuste adicional */
-    }
-}
-
 /* Container principal para os itens */
 main {
     width: 100%;
@@ -119,35 +85,250 @@ main {
     /* Tamanho grande para título */
     position: relative;
     text-align: center;
-    margin-bottom: 20px;
+
     /* Espaço abaixo do título */
 }
 
-/* Ajustes para responsividade em telas menores */
-@media (max-width: 1200px) {
+
+/* Responsividade para telas menores */
+@media (max-width: 1536px) {
+    .logo_titulo {
+        font-size: 2.5rem;
+        /* Ajusta o tamanho da fonte */
+    }
+
     .potencial {
         font-size: 45px;
         /* Tamanho menor em telas grandes */
     }
+
+    .title {
+        margin-bottom: 10px;
+        font-size: 20px;
+    }
+
+    .botao_voltar,
+    .botao_continuar {
+        min-width: 200px;
+        min-height: 70px;
+        /* Mantém a largura mínima */
+        font-size: 17px;
+        /* Tamanho padrão da fonte */
+    }
+
+    section {
+        padding: 50px;
+    }
+
+    .alert-box {
+        justify-content: center;
+        position: absolute;
+        z-index: 10050;
+    }
+
+    .height .input {
+        max-width: 200px;
+        max-height: 50px;
+    }
+
+    .checklist-item {
+        padding: 5px;
+    }
+
+    .radio-b__text,
+    .radio-a__text {
+        font-size: 14px;
+    }
+
+    .cards .card {
+        height: 420px;
+        /* Altura padrão */
+        width: 520px;
+        /* Largura padrão */
+        max-width: 32vw;
+        /* Tamanho máximo proporcional */
+        max-height: 42vh;
+    }
+
+
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1300px) {
+    .logo_titulo {
+        font-size: 2rem;
+        /* Ajusta o tamanho da fonte */
+    }
+
+    header {
+        padding: 10px 0;
+        /* Reduz o padding */
+    }
+
     .potencial {
         font-size: 40px;
         /* Tamanho menor em tablets */
     }
+
+    .title {
+        margin-bottom: 8px;
+        font-size: 18px;
+    }
+
+    .botao_voltar,
+    .botao_continuar {
+        min-width: 180px;
+        min-height: 60px;
+        /* Mantém a largura mínima */
+        font-size: 16px;
+        /* Tamanho levemente reduzido */
+    }
+
+    section {
+        padding: 40px;
+    }
+
+    .height .input {
+        max-width: 180px;
+        max-height: 40px;
+    }
+
+    .checklist-item {
+        padding: 4px;
+    }
+
+    .radio-b__text,
+    .radio-a__text {
+        font-size: 13px;
+    }
+
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
+    .logo_titulo {
+        font-size: 1.75rem;
+        /* Ajusta o tamanho da fonte */
+    }
+
+    header {
+        padding: 8px 0;
+        /* Ajuste adicional */
+    }
+
     .potencial {
         font-size: 35px;
         /* Tamanho menor em tablets */
     }
+
+    .title {
+        margin-bottom: 5px;
+        font-size: 15px;
+    }
+
+    .botao_voltar,
+    .botao_continuar {
+        min-width: 150px;
+        min-height: 50px;
+        /* Ajusta a largura mínima */
+        font-size: 15px;
+        /* Ajusta o tamanho da fonte */
+    }
+
+    section {
+        padding: 30px;
+    }
+
+    .height .input {
+        max-width: 150px;
+        max-height: 35px;
+    }
+
+    .checklist-item {
+        padding: 3px;
+    }
+
+    .radio-b__text,
+    .radio-a__text {
+        font-size: 12px;
+    }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 900px) {
+    .logo_titulo {
+        font-size: 1.5rem;
+        /* Fonte menor em dispositivos pequenos */
+    }
+
+    header {
+        padding: 6px 0;
+        /* Ajuste adicional */
+    }
+
     .potencial {
         font-size: 30px;
         /* Tamanho ainda menor em smartphones */
+    }
+
+    .title {
+        margin-bottom: 4px;
+        font-size: 13px;
+    }
+
+    .botao_voltar,
+    .botao_continuar {
+        min-width: 150px;
+        /* Diminui o mínimo em telas menores */
+        font-size: 14px;
+        /* Ajusta o tamanho da fonte */
+    }
+
+    section {
+        padding: 20px;
+    }
+
+    .height .input {
+        max-width: 140px;
+        max-height: 30px;
+    }
+
+    .checklist-item {
+        padding: 2px;
+    }
+
+    .radio-b__text,
+    .radio-a__text {
+        font-size: 11px;
+    }
+}
+
+/* Para smartphones em orientação retrato */
+@media (max-width: 768px) {
+
+    .botao_voltar,
+    .botao_continuar {
+        min-width: 100px;
+        /* Diminui ainda mais em telas muito pequenas */
+        font-size: 12px;
+        /* Reduz o tamanho da fonte */
+    }
+
+    .checklist-item {
+        padding: 0px;
+    }
+
+    .radio-b__text,
+    .radio-a__text {
+        font-size: 10px;
+    }
+}
+
+/* Para smartphones em orientação paisagem */
+@media (max-width: 600px) {
+
+    .botao_voltar,
+    .botao_continuar {
+        min-width: 120px;
+        /* Ajusta a largura mínima */
+        font-size: 13px;
+        /* Ajusta o tamanho da fonte */
     }
 }

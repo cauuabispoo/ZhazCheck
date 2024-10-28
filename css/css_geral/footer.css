@@ -33,82 +33,49 @@ footer {
 .assinatura {
     display: inline;
     font-family: 'Nunito';
+    font-size: 32px;
     /* Fonte da assinatura */
     color: #d0a933;
     /* Cor da assinatura */
 }
 
 
-/* Responsividade para os botões */
+/* Responsividade para telas menores */
+@media (max-width: 1536px) {
 
-/* Para grandes desktops e laptops */
-@media (min-width: 1200px) {
-
-    .botao_voltar,
-    .botao_continuar {
-        min-width: 200px;
-        /* Mantém a largura mínima */
-        font-size: 17px;
-        /* Tamanho padrão da fonte */
+    .idea{
+        font-size: 24px;
+    }
+    .assinatura{
+        font-size: 32px;
     }
 }
 
-/* Para desktops e laptops padrão */
-@media (min-width: 992px) {
+@media (max-width: 1300px) {
 
-    .botao_voltar,
-    .botao_continuar {
-        min-width: 200px;
-        /* Mantém a largura mínima */
+    .idea{
+        font-size: 20px;
+    }
+    .assinatura{
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .idea{
+        font-size: 18px;
+    }
+    .assinatura{
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 900px) {
+
+    .idea{
         font-size: 16px;
-        /* Tamanho levemente reduzido */
     }
-}
-
-/* Para tablets em orientação paisagem */
-@media (min-width: 768px) {
-
-    .botao_voltar,
-    .botao_continuar {
-        min-width: 180px;
-        /* Ajusta a largura mínima */
-        font-size: 15px;
-        /* Ajusta o tamanho da fonte */
-    }
-}
-
-/* Para tablets em orientação retrato */
-@media (max-width: 768px) {
-
-    .botao_voltar,
-    .botao_continuar {
-        min-width: 150px;
-        /* Diminui o mínimo em telas menores */
-        font-size: 14px;
-        /* Ajusta o tamanho da fonte */
-    }
-}
-
-/* Para smartphones em orientação retrato */
-@media (max-width: 480px) {
-
-    .botao_voltar,
-    .botao_continuar {
-        min-width: 100px;
-        /* Diminui ainda mais em telas muito pequenas */
-        font-size: 12px;
-        /* Reduz o tamanho da fonte */
-    }
-}
-
-/* Para smartphones em orientação paisagem */
-@media (max-width: 600px) {
-
-    .botao_voltar,
-    .botao_continuar {
-        min-width: 120px;
-        /* Ajusta a largura mínima */
-        font-size: 13px;
-        /* Ajusta o tamanho da fonte */
+    .assinatura{
+        font-size: 22px;
     }
 }

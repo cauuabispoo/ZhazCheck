@@ -172,10 +172,30 @@ label {
 }
 
 /* Media Queries para responsividade */
-@media (max-width: 768px) {
+@media (max-width: 1536px) {
   .custom-select-trigger {
-    min-width: 100%;
-    /* Ajusta a largura para 100% em telas pequenas */
-    max-width: 100%;
+    min-width: 360px;
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 1300px) {
+  .custom-select-trigger {
+    min-width: 300px;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .custom-select-trigger {
+    min-width: 260px;
+    max-width: 260px;
+  }
+}
+
+@media (max-width: 900px) {
+  .custom-select-trigger {
+    min-width: 200px;
+    max-width: 200px;
   }
 }

@@ -118,16 +118,35 @@ $(document).ready(function () {
     $(this).after(template);
   });
 
-  // Controla a abertura e fechamento dos selects
   $(".custom-select-trigger").on("click", function (event) {
     const select = $(this).parents(".custom-select");
+    const customOptions = select.find(".custom-options");
     $(".custom-select").not(select).removeClass("opened");
     select.toggleClass("opened");
-
+  
+    // Calcule o espaço disponível abaixo do select
+    const rect = select[0].getBoundingClientRect();
+    const optionsHeight = customOptions.outerHeight();
+    const spaceBelow = window.innerHeight - rect.bottom;
+  
+    if (spaceBelow < optionsHeight) {
+      // Se não houver espaço suficiente, abre para cima
+      customOptions.css({
+        top: 'auto',
+        bottom: '70%'
+      });
+    } else {
+      // Caso contrário, abre para baixo
+      customOptions.css({
+        top: '100%',
+        bottom: 'auto'
+      });
+    }
+  
     $("html").one("click", function () {
       select.removeClass("opened");
     });
-
+  
     event.stopPropagation();
   });
 
@@ -214,3 +233,25 @@ window.onload = function () {
   monitorarInteracao();
   iniciarTimeout(); // Começa o timeout logo no início
 };
+
+const customSelect = document.querySelector('.custom-select');
+const customOptions = document.querySelector('.custom-options');
+
+customSelect.addEventListener('click', function () {
+  this.classList.toggle('opened');
+
+  // Calcule o espaço disponível abaixo do select
+  const rect = this.getBoundingClientRect();
+  const optionsHeight = customOptions.offsetHeight;
+  const spaceBelow = window.innerHeight - rect.bottom;
+
+  if (spaceBelow < optionsHeight) {
+    // Se não houver espaço suficiente, abre para cima
+    customOptions.style.top = 'auto';
+    customOptions.style.bottom = '100%';
+  } else {
+    // Caso contrário, abre para baixo
+    customOptions.style.top = '100%';
+    customOptions.style.bottom = 'auto';
+  }
+});

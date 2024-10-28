@@ -59,8 +59,6 @@
   /* Alinha os elementos verticalmente no centro */
   gap: 10px;
   /* Espaçamento entre label e input */
-  margin: 20px 0;
-  /* Margem vertical para manter espaçamento */
   justify-content: center;
 }
 
@@ -84,6 +82,7 @@
   box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
   transition: 300ms ease-in-out;
   margin-top: 0;
+  max-width: 200px;
   /* Remove margin para manter alinhamento com label */
 }
 
@@ -147,10 +146,7 @@
     /* Mantém a disposição em linha para telas grandes */
   }
 
-  .alert-box {
-    top: 200px;
-    /* Ajuste se necessário */
-  }
+
 }
 
 /* Estilos para desktops e laptops */
@@ -160,10 +156,6 @@
     /* Mantém a disposição em linha */
   }
 
-  .alert-box {
-    top: 200px;
-    /* Ajuste se necessário */
-  }
 }
 
 /* Estilos para tablets */
@@ -222,7 +214,6 @@
   /* Usa flexbox para centralizar */
   justify-content: space-between;
   /* Espaça os botões */
-  margin: 20px auto;
   /* Centraliza horizontalmente com margem */
   max-width: 600px;
   /* Limita a largura máxima do container dos botões */
