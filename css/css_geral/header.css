@@ -81,12 +81,13 @@ main {
 }
 
 .potencial {
+    top: 100px;
     font-size: 50px;
     /* Tamanho grande para título */
-    position: relative;
+    position: absolute;
     text-align: center;
-
-    /* Espaço abaixo do título */
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -100,6 +101,7 @@ main {
     .potencial {
         font-size: 45px;
         /* Tamanho menor em telas grandes */
+        top: 100px;
     }
 
     .title {
@@ -130,6 +132,9 @@ main {
         max-width: 200px;
         max-height: 50px;
     }
+    .input {
+        font-size: 16px;
+    }
 
     .checklist-item {
         padding: 5px;
@@ -149,11 +154,13 @@ main {
         /* Tamanho máximo proporcional */
         max-height: 42vh;
     }
-
-
+    .radio-b__custom {
+        width: 26px;
+        height: 26px;
+    }
 }
 
-@media (max-width: 1300px) {
+@media (max-width:  1360px) {
     .logo_titulo {
         font-size: 2rem;
         /* Ajusta o tamanho da fonte */
@@ -165,8 +172,9 @@ main {
     }
 
     .potencial {
-        font-size: 40px;
+        font-size: 35px;
         /* Tamanho menor em tablets */
+        top: 65px;
     }
 
     .title {
@@ -191,6 +199,9 @@ main {
         max-width: 180px;
         max-height: 40px;
     }
+    .input {
+        font-size: 14px;
+    }
 
     .checklist-item {
         padding: 4px;
@@ -198,9 +209,19 @@ main {
 
     .radio-b__text,
     .radio-a__text {
-        font-size: 13px;
+        font-size: 12px;
     }
-
+    .radio-b__custom {
+        width: 20px;
+        height: 20px;
+    }
+    .radio-b__custom-fill {
+        border-radius: 7px;
+    }
+    .radio-b__input:checked+.radio-b__label .radio-b__custom-fill {
+        width: 20px;
+        height: 20px;
+    }
 }
 
 @media (max-width: 1000px) {
@@ -241,6 +262,9 @@ main {
         max-width: 150px;
         max-height: 35px;
     }
+    .input {
+        font-size: 12px;
+    }
 
     .checklist-item {
         padding: 3px;
@@ -249,6 +273,17 @@ main {
     .radio-b__text,
     .radio-a__text {
         font-size: 12px;
+    }
+    .radio-b__custom {
+        width: 18px;
+        height: 18px;
+    }
+    .radio-b__custom-fill {
+        border-radius: 6px;
+    }
+    .radio-b__input:checked+.radio-b__label .radio-b__custom-fill {
+        width: 18px;
+        height: 18px;
     }
 }
 
@@ -289,6 +324,9 @@ main {
         max-width: 140px;
         max-height: 30px;
     }
+    .input {
+        font-size: 10px;
+    }
 
     .checklist-item {
         padding: 2px;
@@ -297,6 +335,17 @@ main {
     .radio-b__text,
     .radio-a__text {
         font-size: 11px;
+    }
+    .radio-b__custom {
+        width: 17px;
+        height: 17px;
+    }
+    .radio-b__custom-fill {
+        border-radius: 5px;
+    }
+    .radio-b__input:checked+.radio-b__label .radio-b__custom-fill {
+        width: 17px;
+        height: 17px;
     }
 }
 
@@ -318,6 +367,17 @@ main {
     .radio-b__text,
     .radio-a__text {
         font-size: 10px;
+    }
+    .radio-b__custom {
+        width: 16px;
+        height: 16px;
+    }
+    .radio-b__custom-fill {
+        border-radius: 5px;
+    }
+    .radio-b__input:checked+.radio-b__label .radio-b__custom-fill {
+        width: 16px;
+        height: 16px;
     }
 }
 

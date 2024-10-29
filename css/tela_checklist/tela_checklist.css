@@ -356,3 +356,15 @@ body {
 .botao_continuar:active {
   transform: scale(80%);
 }
+
+
+@keyframes blink {
+  0% { background-color: rgba(255, 0, 0, 0.2); }
+  50% { background-color: transparent; }
+  100% { background-color: rgba(255, 0, 0, 0.2); }
+}
+
+.blink {
+  animation: blink 0.5s ease-in-out infinite;
+  border-radius: 10px;
+}

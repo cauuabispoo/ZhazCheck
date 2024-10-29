@@ -97,7 +97,7 @@ function gerarChecklist() {
             itens = ['CARCAÇAS', 'LENTE', 'PARAFUSOS', 'MODELO/NÚMERO DE SÉRIE', 'ACESSÓRIOS', 'TOUCH', 'LCD', 'WIFI', 'MÓDULO LASER', 'ALTO-FALANTE', 'CÂMERA', 'TECLADO', 'GATILHO/BOTÕES LAT.', 'BATERIA', 'TRAVAS DA BATERIA/TAMPA', 'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'SISTEMA OPERACIONAL', 'CONFIGURAÇÕES DO CLIENTE'];
             break;
         case 'leitor':
-            itens = ['Calibrar sensor', 'Testar conectividade', 'Atualizar firmware'];
+            itens = ['CARCAÇA', 'LENTE', 'GATILHO', 'MODELO/NÚMERO DE SÉRIE', 'ALTO-FALANTE', 'MÓDULO LASER', 'CABO DE COMUNICAÇÃO', 'FONTE DE ALIMENTAÇÃO', 'CONFIGURAÇÃO', 'BATERIA', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'DISPLAY', 'WI-FI'];
             break;
         case 'impressora':
             itens = ['CARCAÇAS', 'MODELO/NÚMERO DE SÉRIE', 'PARAFUSOS', 'ROLETE DE BORRACHA', 'CABEÇA DE IMPRESSÃO', 'CORREIAS/ENGRENAGENS', 'DISPLAY', 'SENSORES DE ETIQUETA', 'SENSOR DO RIBBON', 'ALIMENTADOR', 'TRACIONADOR','BOTÕES', 'GUIA DE ETIQUETA', 'TRAVAS', 'SERIAL', 'PARALELA', 'ETHERNET', 'USB', 'BLUETOOTH', 'WI-FI', 'BATERIA'];
@@ -133,8 +133,8 @@ function salvarChecklist() {
     const resultadoChecklist = [];
     let todosPreenchidos = true; // Flag para verificar preenchimento
 
-    const serialValue = document.getElementById("serialInput").value.trim().toUpperCase(); // Armazenar em maiúsculas
-    const isChecked = document.getElementById("ch1").checked;
+    const serialValue = document.getElementById("serialInput") ? document.getElementById("serialInput").value.trim().toUpperCase() : ""; // Verifica se existe
+    const isChecked = document.getElementById("ch1") ? document.getElementById("ch1").checked : false; // Verifica se existe
 
     checklistItems.forEach(item => {
         const nome = item.getAttribute('data-nome');
@@ -142,7 +142,14 @@ function salvarChecklist() {
 
         if (!radioSelecionado) {
             todosPreenchidos = false; // Se um item não estiver preenchido, marca como falso
+            item.classList.add('blink'); // Adiciona classe para piscar
+
+            // Remove a classe 'blink' após 3 segundos
+            setTimeout(() => {
+                item.classList.remove('blink');
+            }, 3000);
         } else {
+            item.classList.remove('blink'); // Remove a classe se preenchido
             const status = radioSelecionado.value;
             resultadoChecklist.push({ item: nome, status });
         }

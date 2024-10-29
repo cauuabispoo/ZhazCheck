@@ -234,10 +234,12 @@ function exibirElementosPorValor(valorSelecionado) {
 
 // Função para alterar dinamicamente o 'top' do select
 function alterarTopDoSelect(valor) {
-    const topValue = valor ? '102px' : '0px'; // Se tiver valor, '30px', caso contrário '0px'
+    const topValue = valor ? '102px' : '0px';
     $(".servico").css('top', topValue);
-    const rightValue = valor ? '300px' : '0px'; // Se tiver valor, '30px', caso contrário '0px'
+    const rightValue = valor ? '300px' : '0px';
     $(".servico").css('right', rightValue);
+    const bottomValue = valor ? '30px' : '0px';
+    $(".servico").css('margin-bottom', bottomValue);
 }
 
 

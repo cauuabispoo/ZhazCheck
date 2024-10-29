@@ -54,6 +54,23 @@ async function carregarPecas() {
 }
 
 
+// Função para ler o CSV e armazenar as peças em um mapa
+async function carregarEquipamentos() {
+  const response = await fetch("../csv/equipamentos.csv");
+  const csv = await response.text();
+  const linhas = csv.trim().split('\n').slice(1); // Ignora o cabeçalho
+
+  // Cria um objeto onde cada ID é uma chave e o nome da peça é o valor
+  const mapaPecas = {};
+  for (const linha of linhas) {
+    const [id, modelo, equipamento, servico] = linha.split(',').map(campo => campo.trim());
+    mapaPecas[id] = servico; // Armazena no objeto com ID em maiúsculas
+  }
+
+  return mapaPecas;
+}
+
+
 // Função para encontrar a palavra-chave dentro de uma peça
 function filtrarPalavraChave(nomePeca, palavrasChave) {
   for (const palavra of palavrasChave) {
@@ -70,12 +87,14 @@ function filtrarPalavraChave(nomePeca, palavrasChave) {
 // Função para gerar o laudo completo
 async function gerarLaudo() {
   const pecas = await carregarPecas();
+  const equipamentos = await carregarEquipamentos();
   const laudoTextarea = document.getElementById("laudo");
   const palavrasChave = await carregarPalavrasChave(); // Carregar palavras-chave do arquivo TXT
   const container1 = document.querySelector(".container2"); // Seleciona o contêiner
 
   // Dados do localStorage
   const tipoEquipamento = localStorage.getItem("selectedOption");
+  const modeloEquipamento = localStorage.getItem('modeloEquipamento');
   const lacre = localStorage.getItem("lacre");
   const osAnterior = localStorage.getItem("osAnterior");
   const dataManutencao = localStorage.getItem("dataManutencao");
@@ -167,16 +186,8 @@ async function gerarLaudo() {
   let sistema = "";
   let peca = [];
 
-  if(tipoEquipamento === 'coletor'){
-    peca.push('SV0001');
-  }else if(tipoEquipamento === 'leitor'){
-    peca.push('SV0025');
-  }else if(tipoEquipamento === 'impressora'){
-
-  }else if (tipoEquipamento === 'celular'){
-    peca.push('SV0078');
-  }
-
+  const servico = equipamentos[modeloEquipamento.toUpperCase()] || "PEÇA DESCONHECIDA";
+  peca.push(servico);
   // Processa as observações e distribui conforme o tipo
   for (const obs of observacoes) {
     const causa = {

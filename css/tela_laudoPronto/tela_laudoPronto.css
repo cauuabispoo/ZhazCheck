@@ -5,13 +5,9 @@ body {
 
 textarea {
   width: 30vw;
-  /* Largura relativa à largura da janela */
   height: 40vh;
-  /* Altura relativa à altura da janela */
   max-width: 500px;
-  /* Tamanho máximo padrão */
   max-height: 400px;
-  /* Tamanho máximo padrão */
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -19,12 +15,14 @@ textarea {
   font-family: monospace;
 }
 
+textarea::-webkit-scrollbar {
+  display: none;
+}
 .cards {
   display: flex;
   flex-direction: row;
   gap: 50px;
   flex-wrap: wrap;
-  /* Permite que os cards quebrem para a linha seguinte se necessário */
 }
 
 .cards .red {
@@ -46,28 +44,23 @@ textarea {
   flex-direction: column;
   text-align: center;
   height: 420px;
-  /* Altura padrão */
   width: 520px;
-  /* Largura padrão */
   max-width: 32vw;
-  /* Tamanho máximo proporcional */
   max-height: 42vh;
-  /* Tamanho máximo proporcional */
   border-radius: 10px;
   color: white;
   cursor: pointer;
-  transition: 400ms;
+  transition: all 400ms;
+  overflow: hidden; /* Certifique-se de que o conteúdo extra seja cortado */
 }
 
 .cards .card p.tip {
   font-size: 1.5vw;
-  /* Tamanho de fonte relativo à largura da janela */
   font-weight: 700;
 }
 
 .cards .card p.second-text {
   font-size: 1.5vw;
-  /* Tamanho de fonte relativo à largura da janela */
 }
 
 .cards .card:hover {
@@ -81,23 +74,24 @@ textarea {
 
 .hidden {
   display: none;
-  /* Classe para esconder elementos */
 }
 
-/*------ Settings ------*/
+.container, .container2 {
+  position: absolute; /* Mantenha como absoluto */
+  top: 10px; /* Ajuste a distância do topo */
+  right: 10px; /* Ajuste a distância da direita */
+}
 .container {
   --color: #000000;
   --size: 1.5vw;
-  /* Tamanho de fonte relativo à largura da janela */
   top: 5px;
-  left: 220px;
+  left: 170px;
   position: relative;
   cursor: pointer;
   font-size: var(--size);
   user-select: none;
   fill: var(--color);
 }
-
 .container .clipboard {
   position: absolute;
   animation: keyframes-fill .5s;
@@ -109,7 +103,6 @@ textarea {
   animation: keyframes-fill .5s;
 }
 
-/* ------ On check event ------ */
 .container input:checked~.clipboard {
   display: none;
 }
@@ -118,7 +111,6 @@ textarea {
   display: block;
 }
 
-/* ------ Hide the default checkbox ------ */
 .container input {
   position: absolute;
   opacity: 0;
@@ -127,23 +119,19 @@ textarea {
   width: 0;
 }
 
-/* ------ Animation ------ */
 @keyframes keyframes-fill {
   0% {
     transform: rotate(0deg) scale(0);
     opacity: 0;
   }
-
   50% {
     transform: rotate(-10deg) scale(1.2);
   }
 }
 
-/*------ Settings ------*/
 .container1 {
   --color: #000000;
   --size: 1vw;
-  /* Tamanho de fonte relativo à largura da janela */
   display: flex;
   justify-content: right;
   align-items: center;
@@ -153,7 +141,6 @@ textarea {
   user-select: none;
   fill: var(--color);
   margin: 10px 0;
-  /* Espaço entre as peças */
 }
 
 .container1 span {
@@ -171,7 +158,6 @@ textarea {
   animation: keyframes-fill .5s;
 }
 
-/* ------ On check event ------ */
 .container1 input:checked~.clipboard {
   display: none;
 }
@@ -180,7 +166,6 @@ textarea {
   display: block;
 }
 
-/* ------ Hide the default checkbox ------ */
 .container1 input {
   position: absolute;
   opacity: 0;
@@ -188,28 +173,13 @@ textarea {
   height: 0;
   width: 0;
   margin-left: 10px;
-  /* Espaço entre o texto e o checkbox */
 }
 
-/* ------ Animation ------ */
-@keyframes keyframes-fill {
-  0% {
-    transform: rotate(0deg) scale(0);
-    opacity: 0;
-  }
-
-  50% {
-    transform: rotate(-10deg) scale(1.2);
-  }
-}
-
-/*------ Settings ------*/
 .container2 {
   --color: #000000;
   --size: 1.5vw;
-  /* Tamanho de fonte relativo à largura da janela */
   top: 5px;
-  left: 220px;
+  left: 150px;
   position: relative;
   cursor: pointer;
   font-size: var(--size);
@@ -228,7 +198,6 @@ textarea {
   animation: keyframes-fill .5s;
 }
 
-/* ------ On check event ------ */
 .container2 input:checked~.clipboard {
   display: none;
 }
@@ -237,25 +206,12 @@ textarea {
   display: block;
 }
 
-/* ------ Hide the default checkbox ------ */
 .container2 input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
   height: 0;
   width: 0;
-}
-
-/* ------ Animation ------ */
-@keyframes keyframes-fill {
-  0% {
-    transform: rotate(0deg) scale(0);
-    opacity: 0;
-  }
-
-  50% {
-    transform: rotate(-10deg) scale(1.2);
-  }
 }
 
 .botao {
@@ -275,8 +231,6 @@ button {
   position: relative;
   font-weight: 1000;
   font-size: 1vw;
-  /* Tamanho de fonte relativo à largura da janela */
-  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
   box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
   transition: all 250ms;
   overflow: hidden;
@@ -294,7 +248,6 @@ button::before {
   border-radius: 15px;
   background-color: #00bf63;
   z-index: -1;
-  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
   box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
   transition: all 250ms;
 }
@@ -312,4 +265,65 @@ button:hover::before {
 
 button:active {
   transform: scale(80%);
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 1536px) {
+  .cards .card {
+      height: 420px;
+      width: 520px;
+      max-width: 32vw;
+      max-height: 52vh;
+  }
+  textarea {
+      width: 30vw;
+      height: 50vh;
+      max-width: 500px;
+      max-height: 400px;
+  }
+}
+
+@media (max-width:  1360px) {
+  .cards .card {
+      height: 420px;
+      width: 520px;
+      max-width: 29vw;
+      max-height: 49vh;
+  }
+  textarea {
+      width: 28vw;
+      height: 47vh;
+      max-width: 500px;
+      max-height: 400px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .cards .card {
+      height: 420px;
+      width: 520px;
+      max-width: 28vw;
+      max-height: 38vh;
+  }
+  textarea {
+      width: 28vw;
+      height: 38vh;
+      max-width: 500px;
+      max-height: 400px;
+  }
+}
+
+@media (max-width: 900px) {
+  .cards .card {
+      height: 420px;
+      width: 520px;
+      max-width: 28vw;
+      max-height: 38vh;
+  }
+  textarea {
+      width: 28vw;
+      height: 38vh;
+      max-width: 500px;
+      max-height: 400px;
+  }
 }
