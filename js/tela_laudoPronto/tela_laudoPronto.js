@@ -126,6 +126,8 @@ async function gerarLaudo() {
   }
 
   const dataGarantia = tipoLacre === "manutencao" ? 90 : tipoLacre === "venda" ? 180 : 0; // Agora é número
+  const textomanu = tipoLacre === "manutencao" ? "MANUTENÇÃO" : tipoLacre === "venda" ? "REVISÃO" : "";
+  const textoOS = tipoLacre === "manutencao" ? "OS" : tipoLacre === "venda" ? "PV" : "";
   
   // Função para verificar se está em garantia
   function estaEmGarantia(dataManutencao) {
@@ -190,10 +192,10 @@ function formatarData(data) {
 
     // Construção da string com dados formatados
     infoBasica =
-      `OS/PV ANTERIOR: ${osAnterior} - ` +
-      `DATA DA MANUTENÇÃO: ${formatarData(dataManutencao)} - ` +
+      `${textoOS} ANTERIOR: ${osAnterior} - ` +
+      `DATA DA ${textomanu}: ${formatarData(dataManutencao)} - ` +
       `OBS: ${obsUltimoServico} - ` +
-      `${garantiaStatus} (${dataGarantia} DIAS) (GARANTIA ATÉ: ${dataFimGarantia})\n` +
+      `${garantiaStatus} (GARANTIA ATÉ: ${dataFimGarantia} - ${dataGarantia} DIAS)\n` +
       `\nOS ATUAL:\n`;
   }
 
