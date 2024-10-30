@@ -126,29 +126,61 @@ async function gerarLaudo() {
   }
 
   const dataGarantia = tipoLacre === "manutencao" ? 90 : tipoLacre === "venda" ? 180 : 0; // Agora é número
-
+  
   // Função para verificar se está em garantia
   function estaEmGarantia(dataManutencao) {
-    const dataManut = new Date(dataManutencao); // Converter para objeto Date
-    if (isNaN(dataManut)) throw new Error("Data de manutenção inválida!"); // Valida a data
-
+    const partes = dataManutencao.split('-'); // Divide a string
+    const ano = parseInt(partes[0], 10); // Ano
+    const mes = parseInt(partes[1], 10) - 1; // Mês (0-11)
+    const dia = parseInt(partes[2], 10); // Dia
+    
+    const dataManut = new Date(ano, mes, dia); // Criar o objeto Date
+    
+    // Verifica se a data é válida
+    if (isNaN(dataManut.getTime())) throw new Error("Data de manutenção inválida!");
+  
     const hoje = new Date(); // Data atual
     const diferencaDias = Math.floor((hoje - dataManut) / (1000 * 60 * 60 * 24)); // Diferença em dias
-
+  
     return diferencaDias <= dataGarantia; // Verifica se está em garantia
   }
+  
 
   // Função para calcular a data de término da garantia
-  function calcularDataFimGarantia(dataManutencao) {
-    const dataManut = new Date(dataManutencao);
-    dataManut.setDate(dataManut.getDate() + dataGarantia); // Adiciona os dias de garantia corretamente
-    return formatarData(dataManut); // Retorna a data formatada
-  }
+  // Função para calcular a data de término da garantia
+function calcularDataFimGarantia(dataManutencao) {
+  const partes = dataManutencao.split('-'); // Divide a string
+  const ano = parseInt(partes[0], 10); // Ano
+  const mes = parseInt(partes[1], 10) - 1; // Mês (0-11)
+  const dia = parseInt(partes[2], 10); // Dia
+  
+  const dataManut = new Date(ano, mes, dia); // Criar o objeto Date
 
-  // Função para formatar a data no padrão brasileiro (dd/mm/aaaa)
-  function formatarData(data) {
-    return new Intl.DateTimeFormat('pt-BR').format(new Date(data));
-  }
+  dataManut.setDate(dataManut.getDate() + dataGarantia); // Adiciona os dias de garantia corretamente
+
+  // Formatar a data no padrão brasileiro (dd/mm/aaaa)
+  const diaFormatado = String(dataManut.getDate()).padStart(2, '0'); // Dia
+  const mesFormatado = String(dataManut.getMonth() + 1).padStart(2, '0'); // Mês
+  const anoFormatado = dataManut.getFullYear(); // Ano
+
+  return `${diaFormatado}/${mesFormatado}/${anoFormatado}`; // Retorna a data formatada
+}
+
+
+ // Função para formatar a data no padrão brasileiro (dd/mm/aaaa)
+function formatarData(data) {
+  const partes = data.split('-'); // Divide a string
+  const ano = parseInt(partes[0], 10); // Ano
+  const mes = parseInt(partes[1], 10); // Mês (1-12)
+  const dia = parseInt(partes[2], 10); // Dia
+
+  // Formata dia e mês para ter sempre dois dígitos
+  const diaFormatado = String(dia).padStart(2, '0');
+  const mesFormatado = String(mes).padStart(2, '0');
+
+  return `${diaFormatado}/${mesFormatado}/${ano}`; // Retorna a data formatada
+}
+
 
   // Informações básicas
   let infoBasica = "";
