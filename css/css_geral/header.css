@@ -90,6 +90,34 @@ main {
     align-items: center;
 }
 
+.hidden {
+    display: none;
+    /* Classe para esconder elementos */
+}
+
+.hidden1 {
+    display: none;
+}
+
+.alert-box {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    position: fixed; /* Fixa a posição na tela */
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); /* Centraliza no meio da tela */
+    width: 300px;
+    max-width: 100%; /* Responsivo para telas menores */
+    border: 1px solid #f5c6cb;
+    display: none; /* Começa invisível */
+    z-index: 9999; /* Sempre acima de tudo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
 
 /* Responsividade para telas menores */
 @media (max-width: 1536px) {
@@ -102,6 +130,11 @@ main {
         font-size: 45px;
         /* Tamanho menor em telas grandes */
         top: 100px;
+    }
+
+    .potencial1 {
+        font-size: 45px;
+        /* Tamanho menor em telas grandes */
     }
 
     .title {
@@ -132,6 +165,7 @@ main {
         max-width: 200px;
         max-height: 50px;
     }
+
     .input {
         font-size: 16px;
     }
@@ -154,13 +188,14 @@ main {
         /* Tamanho máximo proporcional */
         max-height: 42vh;
     }
+
     .radio-b__custom {
         width: 26px;
         height: 26px;
     }
 }
 
-@media (max-width:  1360px) {
+@media (max-width: 1360px) {
     .logo_titulo {
         font-size: 2rem;
         /* Ajusta o tamanho da fonte */
@@ -175,6 +210,11 @@ main {
         font-size: 35px;
         /* Tamanho menor em tablets */
         top: 65px;
+    }
+
+    .potencial1 {
+        font-size: 35px;
+        /* Tamanho menor em tablets */
     }
 
     .title {
@@ -199,6 +239,7 @@ main {
         max-width: 180px;
         max-height: 40px;
     }
+
     .input {
         font-size: 14px;
     }
@@ -211,13 +252,16 @@ main {
     .radio-a__text {
         font-size: 12px;
     }
+
     .radio-b__custom {
         width: 20px;
         height: 20px;
     }
+
     .radio-b__custom-fill {
         border-radius: 7px;
     }
+
     .radio-b__input:checked+.radio-b__label .radio-b__custom-fill {
         width: 20px;
         height: 20px;
@@ -236,6 +280,11 @@ main {
     }
 
     .potencial {
+        font-size: 35px;
+        /* Tamanho menor em tablets */
+    }
+
+    .potencial1 {
         font-size: 35px;
         /* Tamanho menor em tablets */
     }
@@ -262,6 +311,7 @@ main {
         max-width: 150px;
         max-height: 35px;
     }
+
     .input {
         font-size: 12px;
     }
@@ -274,13 +324,16 @@ main {
     .radio-a__text {
         font-size: 12px;
     }
+
     .radio-b__custom {
         width: 18px;
         height: 18px;
     }
+
     .radio-b__custom-fill {
         border-radius: 6px;
     }
+
     .radio-b__input:checked+.radio-b__label .radio-b__custom-fill {
         width: 18px;
         height: 18px;
@@ -299,6 +352,11 @@ main {
     }
 
     .potencial {
+        font-size: 30px;
+        /* Tamanho ainda menor em smartphones */
+    }
+
+    .potencial1 {
         font-size: 30px;
         /* Tamanho ainda menor em smartphones */
     }
@@ -324,6 +382,7 @@ main {
         max-width: 140px;
         max-height: 30px;
     }
+
     .input {
         font-size: 10px;
     }
@@ -336,13 +395,16 @@ main {
     .radio-a__text {
         font-size: 11px;
     }
+
     .radio-b__custom {
         width: 17px;
         height: 17px;
     }
+
     .radio-b__custom-fill {
         border-radius: 5px;
     }
+
     .radio-b__input:checked+.radio-b__label .radio-b__custom-fill {
         width: 17px;
         height: 17px;
@@ -368,13 +430,16 @@ main {
     .radio-a__text {
         font-size: 10px;
     }
+
     .radio-b__custom {
         width: 16px;
         height: 16px;
     }
+
     .radio-b__custom-fill {
         border-radius: 5px;
     }
+
     .radio-b__input:checked+.radio-b__label .radio-b__custom-fill {
         width: 16px;
         height: 16px;

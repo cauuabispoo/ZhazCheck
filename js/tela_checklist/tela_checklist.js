@@ -1,8 +1,8 @@
 $(document).ready(() => {
     const verficaEquipamento = localStorage.getItem('selectedOption');
-    const verficaCheck = localStorage.getItem('check');
+    const verficaLacre = localStorage.getItem('lacre');
 
-    if (!verficaEquipamento || !verficaCheck) {
+    if (!verficaEquipamento || !verficaLacre) {
         window.location.href = "../index.html";
         localStorage.clear();
     } else {
@@ -28,8 +28,8 @@ document.getElementById("goBack").addEventListener("click", function () {
         localStorage.removeItem("mac");
         localStorage.removeItem("serial");
         localStorage.removeItem("imei");
-        localStorage.removeItem('check');
         localStorage.removeItem('lacre');
+        localStorage.removeItem('tipoLacre');
         window.location.href = "garantia.html";
     }
 });

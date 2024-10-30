@@ -1,8 +1,9 @@
 $(document).ready(() => {
   const verficaEquipamento = localStorage.getItem('selectedOption');
-  const verficaCheck = localStorage.getItem('check');
+  const verficaLacre = localStorage.getItem('lacre');
+  const verificaCheck = localStorage.getItem("resultadoChecklist");
 
-  if (!verficaEquipamento || !verficaCheck) {
+  if (!verficaEquipamento || !verficaLacre || !verificaCheck) {
     window.location.href = "../index.html";
     localStorage.clear();
   }
@@ -93,9 +94,9 @@ async function gerarLaudo() {
   const container1 = document.querySelector(".container2"); // Seleciona o contêiner
 
   // Dados do localStorage
-  const tipoEquipamento = localStorage.getItem("selectedOption");
   const modeloEquipamento = localStorage.getItem('modeloEquipamento');
   const lacre = localStorage.getItem("lacre");
+  const tipoLacre = localStorage.getItem("tipoLacre");
   const osAnterior = localStorage.getItem("osAnterior");
   const dataManutencao = localStorage.getItem("dataManutencao");
   const obsUltimoServico = localStorage.getItem("obsUltimoServico");
@@ -108,6 +109,7 @@ async function gerarLaudo() {
   const textarea = document.getElementById('checklistTextArea');
   const checklistSalvo = localStorage.getItem('resultadoChecklist');
   let checklistLaudo = '';
+
 
   if (checklistSalvo) {
     container1.classList.remove('hidden'); // Remove hidden do contêiner
@@ -123,8 +125,9 @@ async function gerarLaudo() {
     textarea.value = '';
   }
 
+  const dataGarantia = tipoLacre === "manutencao" ? 90 : tipoLacre === "venda" ? 180 : 0; // Agora é número
 
-  // Função para verificar se está em garantia (3 meses = 90 dias)
+  // Função para verificar se está em garantia
   function estaEmGarantia(dataManutencao) {
     const dataManut = new Date(dataManutencao); // Converter para objeto Date
     if (isNaN(dataManut)) throw new Error("Data de manutenção inválida!"); // Valida a data
@@ -132,13 +135,13 @@ async function gerarLaudo() {
     const hoje = new Date(); // Data atual
     const diferencaDias = Math.floor((hoje - dataManut) / (1000 * 60 * 60 * 24)); // Diferença em dias
 
-    return diferencaDias <= 90; // Verifica se está em garantia
+    return diferencaDias <= dataGarantia; // Verifica se está em garantia
   }
 
   // Função para calcular a data de término da garantia
   function calcularDataFimGarantia(dataManutencao) {
     const dataManut = new Date(dataManutencao);
-    dataManut.setDate(dataManut.getDate() + 90); // Adiciona 90 dias
+    dataManut.setDate(dataManut.getDate() + dataGarantia); // Adiciona os dias de garantia corretamente
     return formatarData(dataManut); // Retorna a data formatada
   }
 
@@ -158,9 +161,10 @@ async function gerarLaudo() {
       `OS/PV ANTERIOR: ${osAnterior} - ` +
       `DATA DA MANUTENÇÃO: ${formatarData(dataManutencao)} - ` +
       `OBS: ${obsUltimoServico} - ` +
-      `${garantiaStatus}(90 DIAS) (GARANTIA ATÉ: ${dataFimGarantia})\n` +
+      `${garantiaStatus} (${dataGarantia} DIAS) (GARANTIA ATÉ: ${dataFimGarantia})\n` +
       `\nOS ATUAL:\n`;
   }
+
 
 
   // Informações do MAC, Serial e IMEI (sem hifens desnecessários)
@@ -186,7 +190,7 @@ async function gerarLaudo() {
   let sistema = "";
   let peca = [];
 
-  const servico = equipamentos[modeloEquipamento.toUpperCase()] || "PEÇA DESCONHECIDA";
+  const servico = equipamentos[modeloEquipamento.toUpperCase()];
   peca.push(servico);
   // Processa as observações e distribui conforme o tipo
   for (const obs of observacoes) {
@@ -197,6 +201,8 @@ async function gerarLaudo() {
     }[obs.causaDefeitoSelecionadoGlobal] || "CAUSA DESCONHECIDA";
 
     var verificaCarcaca;
+    var verificaPlaca;
+    var nivel;
     switch (obs.valorSelecionadoGlobal) {
       case 1: // Substituição de componente
         const peca1 = filtrarPalavraChave(pecas[obs.pecaSelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
@@ -211,26 +217,14 @@ async function gerarLaudo() {
 
       case 2: // Recuperação de placa
         const peca2 = filtrarPalavraChave(pecas[obs.peca1SelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
-        const nivel = obs.nivelSelecionadoGlobal === "n1" ? "N1 (SV0036)" : obs.nivelSelecionadoGlobal === "n2" ? "N2 (SV0074)" : "N3 (SV0075)";
+        nivel = obs.nivelSelecionadoGlobal === "n1" ? "N1 (SV0036)" : obs.nivelSelecionadoGlobal === "n2" ? "N2 (SV0074)" : "N3 (SV0075)";
         diagnostico += `  - ${peca2} ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           recuperacaoNecessaria += `  - ${peca2} -> ${nivel}\n`;
-          if(nivel === 'N1 (SV0036)'){
-            peca.push('SV0036');
-          } else if(nivel === 'N2 (SV0074)'){
-            peca.push('SV0074');
-          } else if(nivel === 'N3 (SV0075)'){
-            peca.push('SV0075');
-          }
+          verificaPlaca = '1';
         } else {
           recuperacaoOpcional += `  - ${peca2} -> ${nivel} -> (A CRITÉRIO DO CLIENTE)\n`;
-          if(nivel === 'N1 (SV0036)'){
-            peca.push('SV0036');
-          } else if(nivel === 'N2 (SV0074)'){
-            peca.push('SV0074');
-          } else if(nivel === 'N3 (SV0075)'){
-            peca.push('SV0075');
-          }
+          verificaPlaca = '1';
         }
         break;
 
@@ -305,11 +299,11 @@ async function gerarLaudo() {
         const pecaAcessorio = filtrarPalavraChave(pecas[obs.peca3SelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
         peca.push(obs.peca3SelecionadoGlobal);
         if (pecaAcessorio === "PELICULA PROTETORA HIDROGEL") {
-            acessorioOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE);\n`;
-            instalacaoOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE);\n`;
+          acessorioOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE);\n`;
+          instalacaoOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE);\n`;
         } else {
-            acessorioOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal} -> (A CRITÉRIO DO CLIENTE)\n`;
-            instalacaoOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal} -> (A CRITÉRIO DO CLIENTE)\n`;
+          acessorioOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal} -> (A CRITÉRIO DO CLIENTE)\n`;
+          instalacaoOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal} -> (A CRITÉRIO DO CLIENTE)\n`;
         }
         break;
 
@@ -351,15 +345,33 @@ async function gerarLaudo() {
 
     if (recuperacaoNecessaria) {
       laudo += `NECESSÁRIO A RECUPERAÇÃO DO(S) SEGUINTE(S) ITEM(S):\n${recuperacaoNecessaria}\n`;
-      if(verificaCarcaca){
+      if (verificaCarcaca) {
         peca.push('SV0038');
+      }
+      if (verificaPlaca){
+        if (nivel === 'N1 (SV0036)') {
+          peca.push('SV0036');
+        } else if (nivel === 'N2 (SV0074)') {
+          peca.push('SV0074');
+        } else if (nivel === 'N3 (SV0075)') {
+          peca.push('SV0075');
+        }
       }
     }
 
     if (recuperacaoOpcional) {
       laudo += `RECUPERAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${recuperacaoOpcional}\n`;
-      if(verificaCarcaca){
+      if (verificaCarcaca) {
         peca.push('SV0038');
+      }
+      if (verificaPlaca){
+        if (nivel === 'N1 (SV0036)') {
+          peca.push('SV0036');
+        } else if (nivel === 'N2 (SV0074)') {
+          peca.push('SV0074');
+        } else if (nivel === 'N3 (SV0075)') {
+          peca.push('SV0075');
+        }
       }
     }
 

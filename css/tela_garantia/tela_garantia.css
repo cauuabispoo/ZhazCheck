@@ -31,26 +31,6 @@
   padding-left: 20px;
 }
 
-.hidden1 {
-  display: none;
-  /* Classe para esconder elementos */
-}
-
-.alert-box {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-  position: relative;
-  /* Alterado para relative para evitar overflow */
-  margin: 20px auto;
-  /* Centraliza horizontalmente */
-  width: fit-content;
-  border: 1px solid #f5c6cb;
-  display: none;
-  z-index: 1;
-}
 
 /* Container da label e input */
 .height {

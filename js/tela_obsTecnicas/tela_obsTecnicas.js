@@ -51,16 +51,16 @@ async function carregarOpcoes() {
         const resposta = await fetch('../csv/CadastroItens(CadastroItens).csv'); // Carrega o CSV
         // const resposta = await fetch('../csv/CadastroItens(CadastroItens).csv');
         const textoCSV = await resposta.text();
-        
+
 
         // Converte o CSV em uma lista de objetos
         const linhas = textoCSV.trim().split('\n').slice(1); // Ignora o cabeçalho
         const dados = linhas.map(linha => {
             const [id, nome] = linha.split(',');
-            return { id, nome}; 
+            return { id, nome };
         });
-        
-        
+
+
 
         // Filtra e adiciona as opções ao select
         dados.forEach(item => {
@@ -78,7 +78,7 @@ async function carregarOpcoes() {
     }
 
     inicializarSelectCustomizado(); // Atualiza o select customizado
-    
+
 }
 
 
@@ -124,32 +124,32 @@ function inicializarSelectCustomizado() {
         const customOptions = select.find(".custom-options");
         $(".custom-select").not(select).removeClass("opened");
         select.toggleClass("opened");
-      
+
         // Calcule o espaço disponível abaixo do select
         const rect = select[0].getBoundingClientRect();
         const optionsHeight = customOptions.outerHeight();
         const spaceBelow = window.innerHeight - rect.bottom;
-      
+
         if (spaceBelow < optionsHeight) {
-          // Se não houver espaço suficiente, abre para cima
-          customOptions.css({
-            top: 'auto',
-            bottom: '70%'
-          });
+            // Se não houver espaço suficiente, abre para cima
+            customOptions.css({
+                top: 'auto',
+                bottom: '70%'
+            });
         } else {
-          // Caso contrário, abre para baixo
-          customOptions.css({
-            top: '100%',
-            bottom: 'auto'
-          });
+            // Caso contrário, abre para baixo
+            customOptions.css({
+                top: '100%',
+                bottom: 'auto'
+            });
         }
-      
+
         $("html").one("click", function () {
-          select.removeClass("opened");
+            select.removeClass("opened");
         });
-      
+
         event.stopPropagation();
-      });
+    });
 
     // Evento para selecionar uma opção
     $(".custom-option").on("click", function () {
@@ -184,7 +184,7 @@ function inicializarSelectCustomizado() {
 
     $(".search-input").on("click", function (event) {
         event.stopPropagation(); // Impede o clique de fechar o select
-      });
+    });
 }
 
 // Função para atualizar variáveis globais com base no select selecionado
@@ -257,9 +257,10 @@ function alterarTopDoSelect(valor) {
 // Carregar as opções ao abrir a página
 $(document).ready(() => {
     const verficaEquipamento = localStorage.getItem('selectedOption');
-    const verficaCheck = localStorage.getItem('check');
+    const verficaLacre = localStorage.getItem('lacre');
+    const verificaCheck = localStorage.getItem("resultadoChecklist");
 
-    if (!verficaEquipamento || !verficaCheck) {
+    if (!verficaEquipamento || !verficaLacre || !verificaCheck) {
         window.location.href = "../index.html";
         localStorage.clear();
     } else {
@@ -299,12 +300,6 @@ $(document).on("click", ".Btn", function () {
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, pecaSelecionadoGlobal, causaDefeitoSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
 
-        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
-        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
-        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
-        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
-        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
-
         if (pecaSelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
             location.replace(location.href); // Recarrega a página
@@ -322,12 +317,6 @@ $(document).on("click", ".Btn", function () {
         obsDefeitoSelecionadoGlobal = document.getElementById("obsDefeito1").value.trim().toUpperCase();
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, nivelSelecionadoGlobal, peca1SelecionadoGlobal, causaDefeitoSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
-
-        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
-        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
-        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
-        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
-        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
 
         if (nivelSelecionadoGlobal && peca1SelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
@@ -347,12 +336,6 @@ $(document).on("click", ".Btn", function () {
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, peca2SelecionadoGlobal, causaDefeitoSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
 
-        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
-        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
-        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
-        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
-        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
-
         if (peca2SelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
             location.replace(location.href); // Recarrega a página
@@ -370,12 +353,6 @@ $(document).on("click", ".Btn", function () {
         obsDefeitoSelecionadoGlobal = document.getElementById("obsDefeito3").value.trim().toUpperCase();
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, causaDefeitoSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
-
-        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
-        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
-        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
-        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
-        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
 
         if (causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
@@ -395,12 +372,6 @@ $(document).on("click", ".Btn", function () {
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
 
-        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
-        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
-        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
-        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
-        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
-
         if (opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
             location.replace(location.href); // Recarrega a página
@@ -418,12 +389,6 @@ $(document).on("click", ".Btn", function () {
         obsDefeitoSelecionadoGlobal = document.getElementById("obsDefeito5").value.trim().toUpperCase();
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
-
-        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
-        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
-        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
-        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
-        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
 
         if (opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
@@ -443,12 +408,6 @@ $(document).on("click", ".Btn", function () {
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
 
-        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
-        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
-        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
-        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
-        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
-
         if (opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
             location.replace(location.href); // Recarrega a página
@@ -467,12 +426,6 @@ $(document).on("click", ".Btn", function () {
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
 
-        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
-        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
-        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
-        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
-        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
-
         if (opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
             location.replace(location.href); // Recarrega a página
@@ -489,13 +442,7 @@ $(document).on("click", ".Btn", function () {
     } else if (valorSelecionadoGlobal === 9) {
         obsDefeitoSelecionadoGlobal = document.getElementById("obsDefeito8").value.trim().toUpperCase();
         const chave = 'observacoes'; // A chave para o localStorage
-        const novoItem = { valorSelecionadoGlobal, peca3SelecionadoGlobal, obsDefeitoSelecionadoGlobal};
-
-        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
-        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
-        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
-        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
-        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
+        const novoItem = { valorSelecionadoGlobal, peca3SelecionadoGlobal, obsDefeitoSelecionadoGlobal };
 
         if (peca3SelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
@@ -513,12 +460,6 @@ $(document).on("click", ".Btn", function () {
         obsDefeitoSelecionadoGlobal = document.getElementById("obsDefeito9").value.trim().toUpperCase();
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal, peca4SelecionadoGlobal, causaDefeitoSelecionadoGlobal, obsDefeitoSelecionadoGlobal, opcSelecionadoGlobal };
-
-        // console.log("Serviço Selecionado:", valorSelecionadoGlobal);
-        // console.log("Peça Selecionada:", pecaSelecionadoGlobal);
-        // console.log("Causa Selecionada:", causaDefeitoSelecionadoGlobal);
-        // console.log("Observação Selecionado:", obsDefeitoSelecionadoGlobal);
-        // console.log("Opcional Selecionado:", opcSelecionadoGlobal);
 
         if (peca4SelecionadoGlobal && causaDefeitoSelecionadoGlobal && opcSelecionadoGlobal) {
             adicionarAoLocalStorage(chave, novoItem);
@@ -541,25 +482,12 @@ $(document).on("click", ".Btn", function () {
 
 
 document.getElementById("goBack").addEventListener("click", function () {
-    const checkValue = localStorage.getItem('check');
-    const lacreValue = localStorage.getItem('lacre');
     localStorage.removeItem("observacoes");
-    if (checkValue === 'nao' && lacreValue === 'nao') {
-        localStorage.removeItem("lacre");
-        localStorage.removeItem("check");
-        window.location.href = "garantia.html";
-    } else if (checkValue === 'sim') {
-        localStorage.removeItem("mac");
-        localStorage.removeItem("serial");
-        localStorage.removeItem("imei");
-        localStorage.removeItem("resultadoChecklist");
-        window.location.href = "checklist.html";
-    } else if (checkValue === 'nao' && lacreValue === 'sim') {
-        localStorage.removeItem("osAnterior");
-        localStorage.removeItem("dataManutencao");
-        localStorage.removeItem("obsUltimoServico");
-        window.location.href = "lacre.html";
-    }
+    localStorage.removeItem("mac");
+    localStorage.removeItem("serial");
+    localStorage.removeItem("imei");
+    localStorage.removeItem("resultadoChecklist");
+    window.location.href = "checklist.html";
 });
 
 
@@ -579,9 +507,9 @@ document.getElementById("submitButton").addEventListener("click", function () {
 confirmBtn.addEventListener('click', () => {
     window.location.href = "laudoPronto.html"
     modal.classList.add('hidden'); // Fecha o modal
-  });
-  
-  // Ação de cancelamento
-  cancelBtn.addEventListener('click', () => {
+});
+
+// Ação de cancelamento
+cancelBtn.addEventListener('click', () => {
     modal.classList.add('hidden'); // Fecha o modal
-  });
+});

@@ -268,7 +268,7 @@ button:active {
 }
 
 /* Responsividade para telas menores */
-@media (max-width: 1536px) {
+@media (min-width: 1536px) {
   .cards .card {
       height: 420px;
       width: 520px;
@@ -280,6 +280,9 @@ button:active {
       height: 50vh;
       max-width: 500px;
       max-height: 400px;
+  }
+  .container, .container2 {
+    left: 220px;
   }
 }
 
@@ -296,6 +299,9 @@ button:active {
       max-width: 500px;
       max-height: 400px;
   }
+  .container, .container2 {
+    left: 170px;
+  }
 }
 
 @media (max-width: 1000px) {
@@ -311,6 +317,9 @@ button:active {
       max-width: 500px;
       max-height: 400px;
   }
+  .container, .container2 {
+    left: 150px;
+  }
 }
 
 @media (max-width: 900px) {
@@ -325,5 +334,8 @@ button:active {
       height: 38vh;
       max-width: 500px;
       max-height: 400px;
+  }
+  .container, .container2 {
+    left: 130px;
   }
 }

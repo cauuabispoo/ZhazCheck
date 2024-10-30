@@ -1,27 +1,3 @@
-.hidden {
-  display: none;
-  /* Classe para esconder elementos */
-}
-
-.alert-box {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-  position: absolute;
-  top: 200px;
-  /* Ajusta a posição da caixa em relação ao select */
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  width: fit-content;
-  border: 1px solid #f5c6cb;
-  display: none;
-  z-index: 1001;
-}
-
-
 
 sup {
   color: red;

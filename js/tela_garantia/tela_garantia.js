@@ -10,18 +10,22 @@ $(document).ready(() => {
 
 
 
-// Inicialização da custom select
-$(".custom-select").each(function () {
+let lacreGlobal = "";
+let tipoLacreGlobal = "";
+
+$(document).ready(function () {
+  // Inicializa os selects customizados
+  $(".custom-select").each(function () {
     var classes = $(this).attr("class"),
-        id = $(this).attr("id"),
-        name = $(this).attr("name");
+      id = $(this).attr("id"),
+      name = $(this).attr("name");
 
     var template = '<div class="' + classes + '">';
     template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + "</span>";
     template += '<div class="custom-options">';
 
     $(this).find("option").each(function () {
-        template += '<span class="custom-option" data-value="' + $(this).attr("value") + '">' + $(this).html() + "</span>";
+      template += '<span class="custom-option" data-value="' + $(this).attr("value") + '">' + $(this).html() + "</span>";
     });
 
     template += "</div></div>";
@@ -29,169 +33,75 @@ $(".custom-select").each(function () {
     $(this).wrap('<div class="custom-select-wrapper"></div>');
     $(this).hide();
     $(this).after(template);
-});
+  });
 
-// Função para manipular a abertura e fechamento do select customizado
-$(".custom-select-trigger").on("click", function (event) {
+  $(".custom-select-trigger").on("click", function (event) {
     const select = $(this).parents(".custom-select");
-
-    // Fecha todos os selects abertos, exceto o que foi clicado
+    const customOptions = select.find(".custom-options");
     $(".custom-select").not(select).removeClass("opened");
-
-    // Alterna a classe 'opened' no select atual
     select.toggleClass("opened");
-
+  
+    // Calcule o espaço disponível abaixo do select
+    const rect = select[0].getBoundingClientRect();
+    const optionsHeight = customOptions.outerHeight();
+    const spaceBelow = window.innerHeight - rect.bottom;
+  
+    if (spaceBelow < optionsHeight) {
+      // Se não houver espaço suficiente, abre para cima
+      customOptions.css({
+        top: 'auto',
+        bottom: '70%'
+      });
+    } else {
+      // Caso contrário, abre para baixo
+      customOptions.css({
+        top: '100%',
+        bottom: 'auto'
+      });
+    }
+  
     $("html").one("click", function () {
-        select.removeClass("opened");
+      select.removeClass("opened");
     });
-
+  
     event.stopPropagation();
-});
+  });
 
-// Função para manipular a seleção de uma opção
-$(".custom-option").on("click", function () {
-    var selectedValue = $(this).data("value");
-    var $selectWrapper = $(this).parents(".custom-select-wrapper");
-    var $select = $selectWrapper.find("select");
+  // Evento de clique nas opções do primeiro select
+  $(".custom-option").on("click", function () {
+    const value = $(this).data("value");
+    const select = $(this).parents(".custom-select-wrapper").find("select");
 
-    // Atualiza o valor do select escondido
-    $select.val(selectedValue);
-    $selectWrapper.find(".custom-option").removeClass("selection");
+    select.val(value);
+    // Define o valor no select oculto
+    $(this).parents(".custom-select-wrapper").find("select").val(value);
+    $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
     $(this).addClass("selection");
     $(this).parents(".custom-select").removeClass("opened");
     $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
+    atualizarVariavelGlobal(select.attr('id'), value);
+  });
 
-    // Lógica separada para cada select
-    if ($select.attr('id') === 'response') {
-        handleResponse(selectedValue);
-    } else if ($select.attr('id') === 'lacre') {
-        handleLacre(selectedValue);
-    }
+  // Esconde o segundo select inicialmente
+  $("#tipoLacre").parents("section").hide();
+
 });
 
-// Função para manipular a lógica do select "response"
-function handleResponse(selectedValue) {
-    if (selectedValue === "nao") {
-        $("#additionalContent").removeClass("hidden1"); // Mostra o conteúdo adicional
-        // Chame aqui a função para mostrar o conteúdo específico baseado no que foi selecionado
-        localStorage.setItem("mac", "/");
-        localStorage.setItem("serial", "/");
-        localStorage.setItem("imei", "/");
-        localStorage.setItem("check", "nao");
-        showAdditionalContent();
-    } else {
-        $("#additionalContent").addClass("hidden1");
-        localStorage.setItem("check", "sim");
-    }
-}
-
-
-// Função para manipular a lógica do select "lacre"
-function handleLacre(selectedValue) {
-
-    localStorage.setItem("lacre", selectedValue);
-}
-
-// Função para mostrar o conteúdo adicional baseado na seleção do select "response"
-function showAdditionalContent() {
-    var selectedOption = localStorage.getItem("selectedOption");
-    var resultDiv = document.getElementById("additionalContent");
-
-    // Seu código existente que manipula o conteúdo com base na seleção do equipamento
-    if (selectedOption) {
-        // Exibe conteúdo baseado na seleção
-        if (selectedOption === "coletor") {
-            resultDiv.innerHTML = 
-            `<div id='additionalContent' class='hidden'></div>
-            <div class='height'>
-                <label for='Height'>MAC:<sup>*</sup></label>
-                <input id='Height' type='text' autocomplete='off' name='mac' class='input' maxlength='17' />
-                <label for='SerialNumber'>S/N:<sup>*</sup></label>
-                <input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' />
-                <div class='content'>
-                    <label class='checkBox'>
-                        <input type='checkbox' id='ch1'>
-                        <div class='transition'>
-                        </div>
-                    </label>
-                </div>
-                <label for='ch1'>Não possui</label>
-            </div>`;
-
-        } else if (selectedOption === "leitor") {
-            resultDiv.innerHTML = 
-            `<div id='additionalContent' class='hidden'></div>
-            <div class='height'>
-                <label for='SerialNumber'>S/N:<sup>*</sup></label>
-                <input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' />
-                <div class='content'><label class='checkBox'>
-                        <input type='checkbox' id='ch1'>
-                        <div class='transition'></div>
-                    </label>
-                </div>
-                <label for='ch1'>Não possui</label>
-            </div>`;
-
-        } else if (selectedOption === "impressora") {
-            resultDiv.innerHTML = 
-            `<div id='additionalContent' class='hidden'></div>
-            <div class='height'>
-                <label for='Height'>MAC:</label>
-                <input id='Height' type='text' autocomplete='off' name='mac' class='input' maxlength='17' />
-                <label for='SerialNumber'>S/N:<sup>*</sup></label>
-                <input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' />
-                <div class='content'>
-                    <label class='checkBox'>
-                        <input type='checkbox' id='ch1'>
-                        <div class='transition'></div>
-                    </label>
-                </div>
-                <label for='ch1'>Não possui</label>
-            </div>`;
-
-        } else if (selectedOption === "celular") {
-            resultDiv.innerHTML = 
-            `<div id='additionalContent' class='hidden'></div>
-            <div class='height'>
-                <label for='Height'>MAC:<sup>*</sup></label>
-                <input id='Height' type='text' autocomplete='off' name='mac' class='input' maxlength='17' />
-                <label for='SerialNumber'>S/N:<sup>*</sup></label>
-                <input id='SerialNumber' type='text' autocomplete='off' name='serial' class='input' />
-                <label for='Imei'>IMEI:<sup>*</sup></label>
-                <input id='Imei' type='text' autocomplete='off' name='serial' class='input' maxlength='15' />
-                <div class='content'>
-                    <label class='checkBox'>
-                        <input type='checkbox' id='ch1'>
-                        <div class='transition'>
-                        </div>
-                    </label>
-                </div>
-                <label for='ch1'>Não possui</label>
-            </div>`;
-
-        }
-        // Adiciona os eventos aos inputs após inserir o conteúdo
-        const inputs = resultDiv.querySelectorAll('input[type="text"]');
-        const checkbox = resultDiv.querySelector('#ch1');
-
-        // Adiciona evento para desmarcar o checkbox ao digitar
-        inputs.forEach(input => {
-            input.addEventListener('input', () => {
-                if (checkbox.checked) {
-                    checkbox.checked = false;
-                }
-            });
-        });
-
-        // Adiciona evento para limpar os inputs ao selecionar o checkbox
-        checkbox.addEventListener('change', () => {
-            if (checkbox.checked) {
-                inputs.forEach(input => input.value = '');
+function atualizarVariavelGlobal(selectId, value) {
+    switch (selectId) {
+        case 'lacre':
+            lacreGlobal = value;
+            if (value === 'sim') {
+                $("#tipoLacre").parents("section").show();
+            } else{
+                $("#tipoLacre").parents("section").hide();
             }
-        });
+            break;
+        case 'tipoLacre':
+            tipoLacreGlobal = value;
+            break;
     }
 }
-
 
 
 document.getElementById("goBack").addEventListener("click", function () {
@@ -211,169 +121,15 @@ function exibirAlerta() {
 }
 
 document.getElementById("submitButton").addEventListener("click", function () {
-    let ver_lacre = localStorage.getItem('lacre');
-    let ver_serial = localStorage.getItem('serial');
-    let ver_check = localStorage.getItem('check');
-
-    var selectedOption = localStorage.getItem("selectedOption");
-
-
-    if (ver_check === 'nao') {
-
-        // Exibe conteúdo baseado na seleção
-        if (selectedOption === "coletor") {
-            // Obter valores dos inputs
-            const macValue = document.getElementById("Height").value.trim().toUpperCase(); // Armazenar em maiúsculas
-            const serialValue = document.getElementById("SerialNumber").value.trim().toUpperCase(); // Armazenar em maiúsculas
-            const isChecked = document.getElementById("ch1").checked;
-            const alertBox = document.getElementById("alertBox");
-
-            // Verificar se o checkbox está selecionado
-            if (isChecked) {
-
-                if (ver_lacre === 'sim') {
-                    window.location.href = "lacre.html";
-                } else if (ver_lacre === 'nao') {
-                    window.location.href = "obsTecnicas.html";
-                } else if (!ver_lacre) {
-                    exibirAlerta();
-                }
-            } else {
-                // Verificar se os campos estão preenchidos
-                if (!macValue || !serialValue) {
-                    exibirAlerta();
-                } else {
-                    // Salvar os valores no localStorage
-                    localStorage.setItem("mac", macValue); // Salva em maiúsculas
-                    localStorage.setItem("serial", serialValue); // Salva em maiúsculas
-                    localStorage.setItem("imei", "/");
-                    if (ver_lacre === 'sim') {
-                        window.location.href = "lacre.html";
-                    } else if (ver_lacre === 'nao') {
-                        window.location.href = "obsTecnicas.html";
-                    } else if (!ver_lacre) {
-                        exibirAlerta();
-                    }
-                }
-            }
-        } else if (selectedOption === "leitor") {
-            // Obter valores dos inputs
-            const serialValue = document.getElementById("SerialNumber").value.trim().toUpperCase(); // Armazenar em maiúsculas
-            const isChecked = document.getElementById("ch1").checked;
-            const alertBox = document.getElementById("alertBox");
-
-            // Verificar se o checkbox está selecionado
-            if (isChecked) {
-
-                if (ver_lacre === 'sim') {
-                    window.location.href = "lacre.html";
-                } else if (ver_lacre === 'nao') {
-                    window.location.href = "obsTecnicas.html";
-                } else if (!ver_lacre) {
-                    exibirAlerta();
-                }
-            } else {
-                // Verificar se os campos estão preenchidos
-                if (!serialValue) {
-                    exibirAlerta();
-                } else {
-                    // Salvar os valores no localStorage
-                    localStorage.setItem("mac", "/"); // Salva em maiúsculas
-                    localStorage.setItem("serial", serialValue); // Salva em maiúsculas
-                    localStorage.setItem("imei", "/");
-                    if (ver_lacre === 'sim') {
-                        window.location.href = "lacre.html";
-                    } else if (ver_lacre === 'nao') {
-                        window.location.href = "obsTecnicas.html";
-                    } else if (!ver_lacre) {
-                        exibirAlerta();
-                    }
-                }
-            }
-        } else if (selectedOption === "impressora") {
-            // Obter valores dos inputs
-            const macValue = document.getElementById("Height").value.trim().toUpperCase();
-            const serialValue = document.getElementById("SerialNumber").value.trim().toUpperCase(); // Armazenar em maiúsculas
-            const isChecked = document.getElementById("ch1").checked;
-            const alertBox = document.getElementById("alertBox");
-
-            // Verificar se o checkbox está selecionado
-            if (isChecked) {
-
-                if (ver_lacre === 'sim') {
-                    window.location.href = "lacre.html";
-                } else if (ver_lacre === 'nao') {
-                    window.location.href = "obsTecnicas.html";
-                } else if (!ver_lacre) {
-                    exibirAlerta();
-                }
-            } else {
-                // Verificar se os campos estão preenchidos
-                if (!serialValue) {
-                    exibirAlerta();
-                } else {
-                    if (macValue) {
-                        localStorage.setItem("mac", macValue);
-                    } else {
-                        localStorage.setItem("mac", "/");
-                    }
-                    localStorage.setItem("serial", serialValue); // Salva em maiúsculas
-                    localStorage.setItem("imei", "/");
-                    if (ver_lacre === 'sim') {
-                        window.location.href = "lacre.html";
-                    } else if (ver_lacre === 'nao') {
-                        window.location.href = "obsTecnicas.html";
-                    } else if (!ver_lacre) {
-                        exibirAlerta();
-                    }
-                }
-            }
-        } else if (selectedOption === "celular") {
-            // Obter valores dos inputs
-            const macValue = document.getElementById("Height").value.trim().toUpperCase(); // Armazenar em maiúsculas
-            const serialValue = document.getElementById("SerialNumber").value.trim().toUpperCase(); // Armazenar em maiúsculas
-            const imeiValue = document.getElementById("Imei").value.trim().toUpperCase(); // Armazenar em maiúsculas
-            const isChecked = document.getElementById("ch1").checked;
-            const alertBox = document.getElementById("alertBox");
-
-            // Verificar se o checkbox está selecionado
-            if (isChecked) {
-
-                if (ver_lacre === 'sim') {
-                    window.location.href = "lacre.html";
-                } else if (ver_lacre === 'nao') {
-                    window.location.href = "obsTecnicas.html";
-                } else if (!ver_lacre) {
-                    exibirAlerta();
-                }
-            } else {
-                // Verificar se os campos estão preenchidos
-                if (!macValue || !serialValue || !imeiValue) {
-                    exibirAlerta();
-                } else {
-                    // Salvar os valores no localStorage
-                    localStorage.setItem("mac", macValue); // Salva em maiúsculas
-                    localStorage.setItem("serial", serialValue); // Salva em maiúsculas
-                    localStorage.setItem("imei", imeiValue);
-                    if (ver_lacre === 'sim') {
-                        window.location.href = "lacre.html";
-                    } else if (ver_lacre === 'nao') {
-                        window.location.href = "obsTecnicas.html";
-                    } else if (!ver_lacre) {
-                        exibirAlerta();
-                    }
-                }
-            }
-
-        }
-
-
-    } else if (ver_check === 'sim') {
-        if (ver_lacre === 'sim') {
+    if (lacreGlobal === 'nao') {
+        localStorage.setItem('lacre', lacreGlobal);
+        window.location.href = "checklist.html";
+    } else if (lacreGlobal === 'sim') {
+        if(tipoLacreGlobal){
+            localStorage.setItem('lacre', lacreGlobal);
+            localStorage.setItem('tipoLacre', tipoLacreGlobal);
             window.location.href = "lacre.html";
-        } else if (ver_lacre === 'nao') {
-            window.location.href = "checklist.html";
-        } else if (!ver_lacre) {
+        }else{
             exibirAlerta();
         }
     } else {
