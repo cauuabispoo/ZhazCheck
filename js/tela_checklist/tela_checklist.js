@@ -100,10 +100,10 @@ function gerarChecklist() {
             itens = ['CARCAÇA', 'LENTE', 'GATILHO', 'MODELO/NÚMERO DE SÉRIE', 'ALTO-FALANTE', 'MÓDULO LASER', 'CABO DE COMUNICAÇÃO', 'FONTE DE ALIMENTAÇÃO', 'CONFIGURAÇÃO', 'BATERIA', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'DISPLAY', 'WI-FI'];
             break;
         case 'impressora':
-            itens = ['CARCAÇAS', 'MODELO/NÚMERO DE SÉRIE', 'PARAFUSOS', 'ROLETE DE BORRACHA', 'CABEÇA DE IMPRESSÃO', 'CORREIAS/ENGRENAGENS', 'DISPLAY', 'SENSORES DE ETIQUETA', 'SENSOR DO RIBBON', 'ALIMENTADOR', 'TRACIONADOR','BOTÕES', 'GUIA DE ETIQUETA', 'TRAVAS', 'SERIAL', 'PARALELA', 'ETHERNET', 'USB', 'BLUETOOTH', 'WI-FI', 'BATERIA'];
+            itens = ['CARCAÇAS', 'MODELO/NÚMERO DE SÉRIE', 'PARAFUSOS', 'ROLETE DE BORRACHA', 'CABEÇA DE IMPRESSÃO', 'CORREIAS/ENGRENAGENS', 'DISPLAY', 'SENSORES DE ETIQUETA', 'SENSOR DO RIBBON', 'ALIMENTADOR', 'TRACIONADOR', 'BOTÕES', 'GUIA DE ETIQUETA', 'TRAVAS', 'SERIAL', 'PARALELA', 'ETHERNET', 'USB', 'BLUETOOTH', 'WI-FI', 'BATERIA'];
             break;
         case 'celular':
-            itens = ['CARCAÇAS', 'TAMPA DA BATERIA', 'MODELO/NÚMERO DE SÉRIE', 'ACESSÓRIOS', 'TOUCH', 'LCD', 'CÂMERA(S) TRASEIRA', 'CÂMERA FRONTAL', 'WIFI/BLUETOOTH', 'ALTO-FALANTE AURICULAR', 'ALTO-FALANTE PRINCIPAL', 'MICROFONE', 'CONECTOR DE ENTRADA P2', 'BATERIA', 'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'BOTÕES LATERAIS', 'CONEXÃO NAS REDES GSM(CARTÃO SIM)', 'COMPARTIMENTO DO CARTÃO SD', 'SENSOR BIOMÉTRICO','SISTEMA OPERACIONAL'];
+            itens = ['CARCAÇAS', 'TAMPA DA BATERIA', 'MODELO/NÚMERO DE SÉRIE', 'ACESSÓRIOS', 'TOUCH', 'LCD', 'CÂMERA(S) TRASEIRA', 'CÂMERA FRONTAL', 'WIFI/BLUETOOTH', 'ALTO-FALANTE AURICULAR', 'ALTO-FALANTE PRINCIPAL', 'MICROFONE', 'CONECTOR DE ENTRADA P2', 'BATERIA', 'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'BOTÕES LATERAIS', 'CONEXÃO NAS REDES GSM(CARTÃO SIM)', 'COMPARTIMENTO DO CARTÃO SD', 'SENSOR BIOMÉTRICO', 'SISTEMA OPERACIONAL'];
             break;
         default:
             checklistContainer.innerHTML = `<p>Nenhum checklist disponível para este tipo de equipamento.</p>`;
@@ -113,6 +113,18 @@ function gerarChecklist() {
     // Gerar e adicionar os itens do checklist
     const checklistHTML = itens.map(item => criarChecklistItem(item)).join('');
     checklistContainer.innerHTML = checklistHTML;
+
+    // Preencher os radio buttons com os resultados salvos
+    const resultadoChecklist = JSON.parse(localStorage.getItem('resultadoChecklist')) || [];
+    resultadoChecklist.forEach(resultado => {
+        const itemDiv = checklistContainer.querySelector(`[data-nome="${resultado.item}"]`);
+        if (itemDiv) {
+            const radioSelecionado = itemDiv.querySelector(`input[value="${resultado.status}"]`);
+            if (radioSelecionado) {
+                radioSelecionado.checked = true; // Marca o radio button correspondente
+            }
+        }
+    });
 }
 
 // Função para mostrar ou esconder o alertBox
@@ -253,6 +265,10 @@ function showAdditionalContent() {
     var selectedOption = localStorage.getItem("selectedOption");
     var resultDiv = document.getElementById("additionalContent");
 
+    const macTemp = localStorage.getItem("macTemp");
+    const serialTemp = localStorage.getItem("serialTemp");
+    const imeiTemp = localStorage.getItem("imeiTemp");
+
     if (selectedOption) {
         // Insere o conteúdo dinamicamente baseado na seleção
         if (selectedOption === "coletor") {
@@ -270,6 +286,13 @@ function showAdditionalContent() {
                     </div>
                     <label for='ch1'>Não possui</label>
                 </div>`;
+            document.getElementById("macInput").value = macTemp === "/" ? "" : macTemp; // Preenche se existir
+            document.getElementById("serialInput").value = serialTemp === "/" ? "" : serialTemp; // Preenche se existir
+            const checkbox = resultDiv.querySelector('#ch1');
+        if (macTemp === "/" || serialTemp === "/") {
+            checkbox.checked = true; // Marca o checkbox
+        }
+            
         } else if (selectedOption === "leitor") {
             resultDiv.innerHTML = `
                 <div class='height'>
@@ -283,6 +306,12 @@ function showAdditionalContent() {
                     </div>
                     <label for='ch1'>Não possui</label>
                 </div>`;
+            document.getElementById("serialInput").value = serialTemp || ""; // Preenche se existir
+            const checkbox = resultDiv.querySelector('#ch1');
+        if (serialTemp === "/") {
+            checkbox.checked = true; // Marca o checkbox
+        }
+
         } else if (selectedOption === "impressora") {
             resultDiv.innerHTML = `
                 <div class='height'>
@@ -298,6 +327,12 @@ function showAdditionalContent() {
                     </div>
                     <label for='ch1'>Não possui</label>
                 </div>`;
+            document.getElementById("macInput").value = macTemp || ""; // Preenche se existir
+            document.getElementById("serialInput").value = serialTemp || ""; // Preenche se existir
+            const checkbox = resultDiv.querySelector('#ch1');
+        if (macTemp === "/" || serialTemp === "/") {
+            checkbox.checked = true; // Marca o checkbox
+        }
         } else if (selectedOption === "celular") {
             resultDiv.innerHTML = `
                 <div class='height'>
@@ -315,11 +350,23 @@ function showAdditionalContent() {
                     </div>
                     <label for='ch1'>Não possui</label>
                 </div>`;
+            document.getElementById("macInput").value = macTemp || ""; // Preenche se existir
+            document.getElementById("serialInput").value = serialTemp || ""; // Preenche se existir
+            document.getElementById("imeiInput").value = imeiTemp || ""; // Preenche se existir
+            const checkbox = resultDiv.querySelector('#ch1');
+        if (macTemp === "/" || serialTemp === "/" || imeiTemp === "/") {
+            checkbox.checked = true; // Marca o checkbox
         }
+        }
+
+        localStorage.removeItem("macTemp");
+        localStorage.removeItem("serialTemp");
+        localStorage.removeItem("imeiTemp");
 
         // Adiciona os eventos aos inputs após inserir o conteúdo
         const inputs = resultDiv.querySelectorAll('input[type="text"]');
         const checkbox = resultDiv.querySelector('#ch1');
+        
 
         // Adiciona evento para desmarcar o checkbox ao digitar
         inputs.forEach(input => {

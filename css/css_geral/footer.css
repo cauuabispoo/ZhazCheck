@@ -14,7 +14,7 @@ footer {
     /* Alinha os itens ao final */
     align-items: center;
     /* Alinha verticalmente ao centro */
-    z-index: 10;
+    z-index: 10000;
     /* Garante que o footer fique acima do conteúdo */
 }
 
