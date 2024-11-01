@@ -125,7 +125,7 @@ async function gerarLaudo() {
     textarea.value = '';
   }
 
-  const dataGarantia = tipoLacre === "manutencao" ? 90 : tipoLacre === "venda" ? 180 : 0; // Agora é número
+  const dataGarantia = tipoLacre === "manutencao" ? 90 : tipoLacre === "venda" ? 365 : 0; // Agora é número
   const textomanu = tipoLacre === "manutencao" ? "MANUTENÇÃO" : tipoLacre === "venda" ? "REVISÃO" : "";
   const textoOS = tipoLacre === "manutencao" ? "OS" : tipoLacre === "venda" ? "PV" : "";
   
