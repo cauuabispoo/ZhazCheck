@@ -1,3 +1,4 @@
+placa principal
 ANTENA
 LCD COM TOUCH E ARO CENTRAL
 LCD COM TOUCH E CARCACA FRONTAL
@@ -32,7 +33,6 @@ BATERIA
 flex do lcd
 LCD
 FONTE
-placa principal
 SUB-placa
 SUB placa
 PLACA SUB
