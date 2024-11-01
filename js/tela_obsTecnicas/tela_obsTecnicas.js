@@ -9,7 +9,9 @@ const dados = [
     { id: 6, nome: 'Restauração da mémoria', equipamentos: ['coletor', 'celular'], valor: '6' },
     { id: 7, nome: 'Upgrade de Firmware', equipamentos: ['coletor', 'impressora', 'celular'], valor: '7' },
     { id: 8, nome: 'Downgrade de Firmware', equipamentos: ['coletor', 'impressora', 'celular'], valor: '8' },
-    { id: 9, nome: 'Acessórios', equipamentos: ['coletor', 'impressora', 'celular'], valor: '9' },
+    { id: 9, nome: 'Acessórios', equipamentos: ['coletor', 'leitor', 'impressora', 'celular'], valor: '9' },
+    { id: 11, nome: 'Regulagem do módulo laser', equipamentos: ['leitor'], valor: '11' },
+
 ];
 
 
@@ -473,6 +475,14 @@ $(document).on("click", ".Btn", function () {
                 alertBox.style.display = "none";
             }, 3000);
         }
+    } else if (valorSelecionadoGlobal === 11) {
+        const chave = 'observacoes'; // A chave para o localStorage
+        const novoItem = { valorSelecionadoGlobal };
+
+
+        adicionarAoLocalStorage(chave, novoItem);
+        location.replace(location.href); // Recarrega a página
+
     }
 
 
@@ -481,8 +491,8 @@ $(document).on("click", ".Btn", function () {
 
 
 
-document.getElementById("goBack").addEventListener("click", function () {    
-    
+document.getElementById("goBack").addEventListener("click", function () {
+
     // Redirecionar
     window.location.href = "checklist.html";
 });
