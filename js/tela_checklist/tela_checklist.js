@@ -307,7 +307,7 @@ function showAdditionalContent() {
                     </div>
                     <label for='ch1'>Não possui</label>
                 </div>`;
-            document.getElementById("serialInput").value = serialTemp || ""; // Preenche se existir
+            document.getElementById("serialInput").value = serialTemp=== "/" ? "" : serialTemp; // Preenche se existir
             const checkbox = resultDiv.querySelector('#ch1');
         if (serialTemp === "/") {
             checkbox.checked = true; // Marca o checkbox
@@ -328,8 +328,8 @@ function showAdditionalContent() {
                     </div>
                     <label for='ch1'>Não possui</label>
                 </div>`;
-            document.getElementById("macInput").value = macTemp || ""; // Preenche se existir
-            document.getElementById("serialInput").value = serialTemp || ""; // Preenche se existir
+            document.getElementById("macInput").value = macTemp === "/" ? "" : macTemp; // Preenche se existir
+            document.getElementById("serialInput").value = serialTemp === "/" ? "" : serialTemp; // Preenche se existir
             const checkbox = resultDiv.querySelector('#ch1');
         if (macTemp === "/" || serialTemp === "/") {
             checkbox.checked = true; // Marca o checkbox
@@ -351,9 +351,9 @@ function showAdditionalContent() {
                     </div>
                     <label for='ch1'>Não possui</label>
                 </div>`;
-            document.getElementById("macInput").value = macTemp || ""; // Preenche se existir
-            document.getElementById("serialInput").value = serialTemp || ""; // Preenche se existir
-            document.getElementById("imeiInput").value = imeiTemp || ""; // Preenche se existir
+            document.getElementById("macInput").value = macTemp === "/" ? "" : macTemp; // Preenche se existir
+            document.getElementById("serialInput").value = serialTemp === "/" ? "" : serialTemp; // Preenche se existir
+            document.getElementById("imeiInput").value = imeiTemp === "/" ? "" : imeiTemp; // Preenche se existir
             const checkbox = resultDiv.querySelector('#ch1');
         if (macTemp === "/" || serialTemp === "/" || imeiTemp === "/") {
             checkbox.checked = true; // Marca o checkbox
