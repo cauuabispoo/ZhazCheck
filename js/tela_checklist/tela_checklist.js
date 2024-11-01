@@ -15,6 +15,7 @@ $(document).ready(() => {
 document.getElementById("goBack").addEventListener("click", function () {
     const lacreValue = localStorage.getItem('lacre');
     localStorage.removeItem("resultadoChecklist");
+    localStorage.removeItem("observacoes");
 
     if (lacreValue === 'sim') {
         localStorage.removeItem("mac");
@@ -265,9 +266,9 @@ function showAdditionalContent() {
     var selectedOption = localStorage.getItem("selectedOption");
     var resultDiv = document.getElementById("additionalContent");
 
-    const macTemp = localStorage.getItem("macTemp");
-    const serialTemp = localStorage.getItem("serialTemp");
-    const imeiTemp = localStorage.getItem("imeiTemp");
+    const macTemp = localStorage.getItem("mac");
+    const serialTemp = localStorage.getItem("serial");
+    const imeiTemp = localStorage.getItem("imei");
 
     if (selectedOption) {
         // Insere o conteúdo dinamicamente baseado na seleção
@@ -358,10 +359,6 @@ function showAdditionalContent() {
             checkbox.checked = true; // Marca o checkbox
         }
         }
-
-        localStorage.removeItem("macTemp");
-        localStorage.removeItem("serialTemp");
-        localStorage.removeItem("imeiTemp");
 
         // Adiciona os eventos aos inputs após inserir o conteúdo
         const inputs = resultDiv.querySelectorAll('input[type="text"]');

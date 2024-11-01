@@ -481,22 +481,7 @@ $(document).on("click", ".Btn", function () {
 
 
 
-document.getElementById("goBack").addEventListener("click", function () {
-    // Salvar as informações antes de limpar
-    const macValue = localStorage.getItem("mac");
-    const serialValue = localStorage.getItem("serial");
-    const imeiValue = localStorage.getItem("imei");
-    
-    // Remover os itens do localStorage
-    localStorage.removeItem("observacoes");
-    localStorage.removeItem("mac");
-    localStorage.removeItem("serial");
-    localStorage.removeItem("imei");
-    
-    // Armazenar os valores que você deseja preservar
-    localStorage.setItem("macTemp", macValue);
-    localStorage.setItem("serialTemp", serialValue);
-    localStorage.setItem("imeiTemp", imeiValue);
+document.getElementById("goBack").addEventListener("click", function () {    
     
     // Redirecionar
     window.location.href = "checklist.html";
