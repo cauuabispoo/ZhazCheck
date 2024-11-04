@@ -333,8 +333,8 @@ async function gerarLaudo() {
         const pecaAcessorio = filtrarPalavraChave(pecas[obs.peca3SelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
         peca.push(obs.peca3SelecionadoGlobal);
         if (pecaAcessorio === "PELICULA PROTETORA HIDROGEL") {
-          acessorioOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE);\n`;
-          instalacaoOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE);\n`;
+          acessorioOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE)\n`;
+          instalacaoOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE)\n`;
         } else {
           acessorioOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal} -> (A CRITÉRIO DO CLIENTE)\n`;
           instalacaoOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal} -> (A CRITÉRIO DO CLIENTE)\n`;
