@@ -358,6 +358,12 @@ async function gerarLaudo() {
           peca.push('SV0053');
         break;
 
+        case 12: // Configuração do leitor
+        diagnostico += `  - LEITOR DESCONFIGURADO\n`;
+          sistema += `  - NECESSÁRIO A CONFIGURAÇÃO DO LEITOR -> (SV0052)\n\n`;
+          peca.push('SV0052');
+        break;
+
       default:
         break;
     }
