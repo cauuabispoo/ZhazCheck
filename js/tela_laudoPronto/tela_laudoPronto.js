@@ -116,7 +116,7 @@ async function gerarLaudo() {
     textarea.classList.remove('hidden'); // Remove hidden do textarea
     const resultadoArray = JSON.parse(checklistSalvo);
     const textoFormatado = resultadoArray
-      .map(item => `${item.item} - ${item.status}`) // Formatação desejada
+      .map(item => `  - ${item.item} -> ${item.status}`) // Formatação desejada
       .join('\n'); // Quebra de linha entre itens
 
     textarea.value = textoFormatado.toUpperCase();
