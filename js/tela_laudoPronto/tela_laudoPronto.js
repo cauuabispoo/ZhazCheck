@@ -244,10 +244,20 @@ async function gerarLaudo() {
       case 1: // Substituição de componente
         peca0.push(obs.pecaSelecionadoGlobal);
         diagnostico += `  - ${peca} (OBS:${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
-        if (obs.opcSelecionadoGlobal === "n") {
-          substituicaoNecessaria += `  - ${peca}\n`;
+        if (peca === "DIODO LASER") {
+          if (obs.opcSelecionadoGlobal === "n") {
+            recuperacaoNecessaria += `  - ${peca} -> (SV0064) -> (PARA SUBSTITUIR É NECESSÁRIO A RECUPERAÇÃO)\n`;
+            peca0.push('SV0064');
+          } else {
+            recuperacaoOpcional += `  - ${peca} -> (SV0064) -> (PARA SUBSTITUIR É NECESSÁRIO A RECUPERAÇÃO)\n`;
+            peca0.push('SV0064');
+          }
         } else {
-          substituicaoOpcional += `  - ${peca} -> (A CRITÉRIO DO CLIENTE)\n`;
+          if (obs.opcSelecionadoGlobal === "n") {
+            substituicaoNecessaria += `  - ${peca}\n`;
+          } else {
+            substituicaoOpcional += `  - ${peca} -> (A CRITÉRIO DO CLIENTE)\n`;
+          }
         }
         break;
 
@@ -479,15 +489,12 @@ async function gerarLaudo() {
       laudo += `INSTALAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${instalacaoOpcional}\n`;
     }
 
-  } else if (!diagnostico && acessorioOpcional || observacao) {
+  } else if (!diagnostico && acessorioOpcional) {
     laudo += `  - FORAM REALIZADOS TODOS OS TESTES E O EQUIPAMENTO NÃO APRESENTOU NENHUM DEFEITO\n`;
 
-    if (observacao) {
-      laudo += `${checklistLaudo}\n\n  OBSERVAÇÕES:\n${observacao}\n`;
-    } else {
+    if (checklistLaudo) {
       laudo += `${checklistLaudo}\n`;
     }
-    
     laudo += "\nSOLUÇÃO:\n";
     if (acessorioOpcional) {
       laudo += `INSTALAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${acessorioOpcional}\n`;

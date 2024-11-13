@@ -116,14 +116,14 @@ function gerarChecklist() {
             break;
         case 'leitor':
             itens = ['CARCAÇAS', 'LENTE', 'GATILHO', 'PLACA PRINCIPAL', 'MODELO/NÚMERO DE SÉRIE', 'ALTO-FALANTE',
-                'MÓDULO LASER', 'ACESSÓRIOS', 'CABO DE COMUNICAÇÃO', 'FONTE DE ALIMENTAÇÃO', 'CONFIGURAÇÃO', 'BATERIA', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'CARREGAMENTO/COMUNICAÇÃO'];
+                'MÓDULO LASER', 'CABO DE COMUNICAÇÃO', 'FONTE DE ALIMENTAÇÃO', 'CONFIGURAÇÃO', 'BATERIA', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'CARREGAMENTO/COMUNICAÇÃO'];
             break;
         case 'busca':
             itens = ['CARCAÇAS', 'LENTE', 'PLACA PRINCIPAL', 'MODELO/NÚMERO DE SÉRIE', 'ALTO-FALANTE',
-                'MÓDULO LASER', 'FONTE DE ALIMENTAÇÃO', 'LCD', 'TOUCH', 'WI-FI', 'SISTEMA OPERACIONAL', 'CONFIGURAÇÕES DO CLIENTE'];
+                'MÓDULO LASER', 'FONTE DE ALIMENTAÇÃO', 'CONFIGURAÇÃO', 'LCD', 'TOUCH', 'WI-FI', 'SISTEMA OPERACIONAL', 'CONFIGURAÇÕES DO CLIENTE'];
             break;
         case 'impressora':
-            itens = ['CARCAÇAS', 'PLACA PRINCIPAL', 'MODELO/NÚMERO DE SÉRIE', 'PARAFUSOS', 'ACESSÓRIOS', 'CABO DE COMUNICAÇÃO', 'FONTE DE ALIMENTAÇÃO', 
+            itens = ['CARCAÇAS', 'PLACA PRINCIPAL', 'MODELO/NÚMERO DE SÉRIE', 'PARAFUSOS', 'CABO DE COMUNICAÇÃO', 'FONTE DE ALIMENTAÇÃO', 
                 'ROLETE DE BORRACHA', 'CABEÇA DE IMPRESSÃO', 'CORREIAS/ENGRENAGENS', 'LCD', 'TOUCH', 'SENSORES DE ETIQUETA', 'SENSOR DO RIBBON', 
                 'ALIMENTADOR', 'TRACIONADOR', 'BOTÕES', 'GUIA DE ETIQUETA', 'TRAVAS', 'SERIAL', 'PARALELA', 'ETHERNET', 'USB', 'BLUETOOTH', 'WI-FI', 'BATERIA', 'CONFIGURAÇÃO'];
             break;
@@ -707,11 +707,11 @@ const dados = [
 
 const filtro = {
     'TOUCH': ['touch'],
-    'ACESSÓRIOS': ['capa ', 'hidrogel', 'pelicula ', 'capinha', 'manopla', 'gatilho', 'pistola', 'SUPORTE', 'ADAPTADOR', 'ALCA'],
+    'ACESSÓRIOS': ['capa ', 'hidrogel', 'pelicula ', 'capinha', 'manopla', 'gatilho', 'pistola'],
     'CABO DE COMUNICAÇÃO': ['cabo'],
     'FONTE DE ALIMENTAÇÃO': ['FONTE'],
-    'PLACA PRINCIPAL': ['PLACA PRINCIPAL', 'PLACA'],
-    'CARCAÇAS': ['CARCACA', 'CARCACAS'],
+    'PLACA PRINCIPAL': ['PLACA PRINCIPAL'],
+    'CARCAÇAS': ['CARCACA'],
     'LENTE': ['LENTE'],
     'PARAFUSOS': ['PARAFUSO'],
     'LCD': ['LCD'],
