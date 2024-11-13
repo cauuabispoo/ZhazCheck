@@ -8,6 +8,11 @@ section {
   text-align: center;
 }
 
+section1 {
+  font: 13px/1.5 "Roboto", sans-serif;
+  text-align: center;
+}
+
 label {
   width: 100%;
   float: left;
@@ -93,7 +98,6 @@ label {
 .custom-select-trigger:before {
   width: 1px;
   height: 50px;
-  top: 3px;
   right: 50px;
   border-right: 1px solid #c7d1d6;
 }
@@ -101,8 +105,8 @@ label {
 .custom-select-trigger:after {
   width: 10px;
   height: 10px;
-  top: 50%;
-  right: 20px;
+  top: 40%;
+  right: 22px;
   border-bottom: 1px solid #c7d1d6;
   border-right: 1px solid #c7d1d6;
   transform: rotate(45deg) translateY(-50%);
@@ -177,6 +181,7 @@ label {
     min-width: 360px;
     max-width: 360px;
   }
+
 }
 
 @media (max-width: 1300px) {
@@ -184,6 +189,7 @@ label {
     min-width: 300px;
     max-width: 300px;
   }
+
 }
 
 @media (max-width: 1000px) {

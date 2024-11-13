@@ -214,6 +214,7 @@ async function gerarLaudo() {
 
   // Variáveis para armazenar diagnósticos e tipos de substituição
   let diagnostico = "";
+  let observacao = "";
   let substituicaoNecessaria = "";
   let substituicaoOpcional = "";
   let instalacaoNecessaria = "";
@@ -222,10 +223,11 @@ async function gerarLaudo() {
   let recuperacaoNecessaria = "";
   let recuperacaoOpcional = "";
   let sistema = "";
-  let peca = [];
+  let peca0 = [];
+  let niveisRecuperacao = [];
 
   const servico = equipamentos[modeloEquipamento.toUpperCase()];
-  peca.push(servico);
+  peca0.push(servico);
   // Processa as observações e distribui conforme o tipo
   for (const obs of observacoes) {
     const causa = {
@@ -234,54 +236,65 @@ async function gerarLaudo() {
       df: "DEFEITO"
     }[obs.causaDefeitoSelecionadoGlobal] || "CAUSA DESCONHECIDA";
 
+    const peca = filtrarPalavraChave(pecas[obs.pecaSelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
+
     var verificaCarcaca;
-    var verificaPlaca;
     var nivel;
     switch (obs.valorSelecionadoGlobal) {
       case 1: // Substituição de componente
-        const peca1 = filtrarPalavraChave(pecas[obs.pecaSelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
-        peca.push(obs.pecaSelecionadoGlobal);
-        diagnostico += `  - ${peca1} ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
+        peca0.push(obs.pecaSelecionadoGlobal);
+        diagnostico += `  - ${peca} (OBS:${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          substituicaoNecessaria += `  - ${peca1}\n`;
+          substituicaoNecessaria += `  - ${peca}\n`;
         } else {
-          substituicaoOpcional += `  - ${peca1} -> (A CRITÉRIO DO CLIENTE)\n`;
+          substituicaoOpcional += `  - ${peca} -> (A CRITÉRIO DO CLIENTE)\n`;
         }
         break;
 
       case 2: // Recuperação de placa
-        const peca2 = filtrarPalavraChave(pecas[obs.peca1SelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
         nivel = obs.nivelSelecionadoGlobal === "n1" ? "N1 (SV0036)" : obs.nivelSelecionadoGlobal === "n2" ? "N2 (SV0074)" : "N3 (SV0075)";
-        diagnostico += `  - ${peca2} ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
+        diagnostico += `  - ${peca} (OBS:${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          recuperacaoNecessaria += `  - ${peca2} -> ${nivel}\n`;
-          verificaPlaca = '1';
+          recuperacaoNecessaria += `  - ${peca} -> ${nivel}\n`;
+          if (nivel === 'N1 (SV0036)') {
+            niveisRecuperacao.push(1); // N1 é representado pelo valor 1
+          } else if (nivel === 'N2 (SV0074)') {
+            niveisRecuperacao.push(2); // N2 é representado pelo valor 2
+          } else if (nivel === 'N3 (SV0075)') {
+            niveisRecuperacao.push(3); // N3 é representado pelo valor 3
+          };
         } else {
-          recuperacaoOpcional += `  - ${peca2} -> ${nivel} -> (A CRITÉRIO DO CLIENTE)\n`;
-          verificaPlaca = '1';
+          recuperacaoOpcional += `  - ${peca} -> ${nivel} -> (A CRITÉRIO DO CLIENTE)\n`;
+          if (nivel === 'N1 (SV0036)') {
+            niveisRecuperacao.push(1); // N1 é representado pelo valor 1
+          } else if (nivel === 'N2 (SV0074)') {
+            niveisRecuperacao.push(2); // N2 é representado pelo valor 2
+          } else if (nivel === 'N3 (SV0075)') {
+            niveisRecuperacao.push(3); // N3 é representado pelo valor 3
+          }
         }
         break;
 
       case 3: // Recuperação de carcaça
-        const peca3 = filtrarPalavraChave(pecas[obs.peca2SelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
-        diagnostico += `  - ${peca3} ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
+        const peca1 = obs.obsCarcacaDefeitoSelecionadoGlobal;
+        diagnostico += `  - ${peca1} (OBS:${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          recuperacaoNecessaria += `  - ${peca3}\n`;
+          recuperacaoNecessaria += `  - ${peca1}\n`;
           verificaCarcaca = '1';
         } else {
-          recuperacaoOpcional += `  - ${peca3} -> (A CRITÉRIO DO CLIENTE)\n`;
+          recuperacaoOpcional += `  - ${peca1} -> (A CRITÉRIO DO CLIENTE)\n`;
           verificaCarcaca = '1';
         }
         break;
 
       case 4: // Recuperação de bateria
-        diagnostico += `  - CARCAÇA DA BATERIA ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
+        diagnostico += `  - CARCAÇA DA BATERIA DANIFICADA (OBS:${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RECUPERAÇÃO DA BATERIA -> (SV0071)\n\n`;
-          peca.push('SV0071');
+          peca0.push('SV0071');
         } else {
           sistema += `RECUPERAÇÃO OPCIONAL DA BATERIA -> (SV0071) -> (A CRITÉRIO DO CLIENTE)\n\n`;
-          peca.push('SV0071');
+          peca0.push('SV0071');
         }
         break;
 
@@ -289,21 +302,21 @@ async function gerarLaudo() {
         diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A ATUALIZAÇÃO DO SISTEMA ANDROID -> (SV0042)\n\n`;
-          peca.push('SV0042');
+          peca0.push('SV0042');
         } else {
           sistema += `ATUALIZAÇÃO OPCIONAL DO SISTEMA ANDROID -> (SV0042) -> (A CRITÉRIO DO CLIENTE)\n\n`;
-          peca.push('SV0042');
+          peca0.push('SV0042');
         }
         break;
 
       case 6: // Restauração da memória
-        diagnostico += `  - SISTEMA OPERACIONAL - ${obs.obsDefeitoSelecionadoGlobal} -> DEFEITO\n`;
+        diagnostico += `  - SISTEMA OPERACIONAL (OBS:${obs.obsDefeitoSelecionadoGlobal}) -> DEFEITO\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RESTAURAÇÃO DA MEMÓRIA FLASH ROM -> (SV0040)\n\n`;
-          peca.push('SV0040');
+          peca0.push('SV0040');
         } else {
           sistema += `RESTAURAÇÃO OPCIONAL DA MEMÓRIA FLASH ROM -> (SV0040) -> (A CRITÉRIO DO CLIENTE)\n\n`;
-          peca.push('SV0040');
+          peca0.push('SV0040');
         }
         break;
 
@@ -311,10 +324,10 @@ async function gerarLaudo() {
         diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO O UPGRADE DA FIRMWARE -> (SV0046)\n\n`;
-          peca.push('SV0046');
+          peca0.push('SV0046');
         } else {
           sistema += `UPGRADE OPCIONAL DA FIRMWARE -> (SV0046) -> (A CRITÉRIO DO CLIENTE)\n\n`;
-          peca.push('SV0046');
+          peca0.push('SV0046');
         }
         break;
 
@@ -322,46 +335,75 @@ async function gerarLaudo() {
         diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO O DOWNGRADE DA FIRMWARE -> (SV0047)\n\n`;
-          peca.push('SV0047');
+          peca0.push('SV0047');
         } else {
           sistema += `DOWNGRADE OPCIONAL DA FIRMWARE -> (SV0047) -> (A CRITÉRIO DO CLIENTE)\n\n`;
-          peca.push('SV0047');
+          peca0.push('SV0047');
         }
         break;
 
       case 9: // Acessórios
-        const pecaAcessorio = filtrarPalavraChave(pecas[obs.peca3SelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
-        peca.push(obs.peca3SelecionadoGlobal);
-        if (pecaAcessorio === "PELICULA PROTETORA HIDROGEL") {
+        peca0.push(obs.pecaSelecionadoGlobal);
+        if (peca === "PELICULA PROTETORA HIDROGEL") {
           acessorioOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE)\n`;
           instalacaoOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE)\n`;
         } else {
-          acessorioOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal} -> (A CRITÉRIO DO CLIENTE)\n`;
-          instalacaoOpcional += `  - ${pecaAcessorio} - ${obs.obsDefeitoSelecionadoGlobal} -> (A CRITÉRIO DO CLIENTE)\n`;
+          acessorioOpcional += `  - ${peca} - ${obs.obsDefeitoSelecionadoGlobal} -> (A CRITÉRIO DO CLIENTE)\n`;
+          instalacaoOpcional += `  - ${peca} - ${obs.obsDefeitoSelecionadoGlobal} -> (A CRITÉRIO DO CLIENTE)\n`;
         }
         break;
 
       case 10: // Instalação de componente
-        const peca4 = filtrarPalavraChave(pecas[obs.peca4SelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
-        peca.push(obs.peca4SelecionadoGlobal);
-        diagnostico += `  - ${peca4} ${obs.obsDefeitoSelecionadoGlobal} -> ${causa}\n`;
+        peca0.push(obs.pecaSelecionadoGlobal);
+        diagnostico += `  - ${peca} (OBS:${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          instalacaoNecessaria += `  - ${peca4}\n`;
+          instalacaoNecessaria += `  - ${peca}\n`;
         } else {
-          instalacaoOpcional += `  - ${peca4} -> (A CRITÉRIO DO CLIENTE)\n`;
+          instalacaoOpcional += `  - ${peca} -> (A CRITÉRIO DO CLIENTE)\n`;
         }
         break;
 
-      case 11: // Instalação de componente
+      case 11: // Regulagem do módulo laser
         diagnostico += `  - MÓDULO LASER DESREGULADO\n`;
-          sistema += `  - NECESSÁRIO A REGULAGEM DO MÓDULO LASER -> (SV0053)\n\n`;
-          peca.push('SV0053');
+        sistema += `NECESSÁRIO A REGULAGEM DO MÓDULO LASER -> (SV0053)\n\n`;
+        peca0.push('SV0053');
         break;
 
-        case 12: // Configuração do leitor
-        diagnostico += `  - LEITOR DESCONFIGURADO\n`;
-          sistema += `  - NECESSÁRIO A CONFIGURAÇÃO DO LEITOR -> (SV0052)\n\n`;
-          peca.push('SV0052');
+      case 12: // Configuração do leitor
+        diagnostico += `  - LEITOR DESCONFIGURADO (OBS:${obs.obsDefeitoSelecionadoGlobal})\n`;
+        if (obs.opcSelecionadoGlobal === "n") {
+          sistema += `NECESSÁRIO A CONFIGURAÇÃO DO LEITOR -> (SV0052)\n\n`;
+          peca0.push('SV0052');
+        } else {
+          sistema += `CONFIGURAÇÃO OPCIONAL DO LEITOR -> (SV0052) -> (A CRITÉRIO DO CLIENTE)\n\n`;
+          peca0.push('SV0052');
+        }
+        break;
+
+      case 13: // Recuperação do cabo de comunicação
+        diagnostico += `  - CABO DE COMUNICAÇÃO DANIFICADO (OBS:${obs.obsDefeitoSelecionadoGlobal})\n`;
+        if (obs.opcSelecionadoGlobal === "n") {
+          sistema += `NECESSÁRIO A RECUPERAÇÃO DO CABO -> (SV0037)\n\n`;
+          peca0.push('SV0037');
+        } else {
+          sistema += `RECUPERAÇÃO OPCIONAL DO CABO -> (SV0037) -> (A CRITÉRIO DO CLIENTE)\n\n`;
+          peca0.push('SV0037');
+        }
+        break;
+
+      case 14: // Intalação da configuração do cliente
+        diagnostico += `  - INSTALAÇÃO DA CONFIGURAÇÃO DO CLIENTE (OBS:${obs.obsDefeitoSelecionadoGlobal})\n`;
+        if (obs.opcSelecionadoGlobal === "n") {
+          sistema += `NECESSÁRIO A INSTALAÇÃO DA CONFIGURAÇÃO DO CLIENTE -> (SV0044)\n\n`;
+          peca0.push('SV0044');
+        } else {
+          sistema += `INSTALAÇÃO OPCIONAL DA CONFIGURAÇÃO DO CLIENTE -> (SV0044)\n\n`;
+          peca0.push('SV0044');
+        }
+        break;
+
+      case 15: // Observação
+        observacao += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
         break;
 
       default:
@@ -373,12 +415,16 @@ async function gerarLaudo() {
   let laudo = `${infoBasica}${identificadores}CONFORME O DIAGNÓSTICO TÉCNICO, FOI OBSERVADO:\n`;
 
   if (diagnostico) {
-    laudo += `${diagnostico}\n`;
+    if (observacao) {
+      laudo += `${diagnostico}\n\n  OBSERVAÇÕES:\n${observacao}\n`;
+    } else {
+      laudo += `${diagnostico}\n`;
+    }
 
 
     laudo += "SOLUÇÃO:\n";
     if (sistema) {
-      laudo += `${sistema}\n`;
+      laudo += `${sistema}`;
     }
 
     if (substituicaoNecessaria) {
@@ -392,32 +438,36 @@ async function gerarLaudo() {
     if (recuperacaoNecessaria) {
       laudo += `NECESSÁRIO A RECUPERAÇÃO DO(S) SEGUINTE(S) ITEM(S):\n${recuperacaoNecessaria}\n`;
       if (verificaCarcaca) {
-        peca.push('SV0038');
+        peca0.push('SV0038');
       }
-      if (verificaPlaca) {
-        if (nivel === 'N1 (SV0036)') {
-          peca.push('SV0036');
-        } else if (nivel === 'N2 (SV0074)') {
-          peca.push('SV0074');
-        } else if (nivel === 'N3 (SV0075)') {
-          peca.push('SV0075');
-        }
+      // Encontra o maior nível no array
+      const maiorNivel = Math.max(...niveisRecuperacao);
+
+      // Adiciona a peça correspondente ao maior nível
+      if (maiorNivel === 1) {
+        peca0.push('SV0036');
+      } else if (maiorNivel === 2) {
+        peca0.push('SV0074');
+      } else if (maiorNivel === 3) {
+        peca0.push('SV0075');
       }
     }
 
     if (recuperacaoOpcional) {
       laudo += `RECUPERAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${recuperacaoOpcional}\n`;
       if (verificaCarcaca) {
-        peca.push('SV0038');
+        peca0.push('SV0038');
       }
-      if (verificaPlaca) {
-        if (nivel === 'N1 (SV0036)') {
-          peca.push('SV0036');
-        } else if (nivel === 'N2 (SV0074)') {
-          peca.push('SV0074');
-        } else if (nivel === 'N3 (SV0075)') {
-          peca.push('SV0075');
-        }
+      // Encontra o maior nível no array
+      const maiorNivel = Math.max(...niveisRecuperacao);
+
+      // Adiciona a peça correspondente ao maior nível
+      if (maiorNivel === 1) {
+        peca0.push('SV0036');
+      } else if (maiorNivel === 2) {
+        peca0.push('SV0074');
+      } else if (maiorNivel === 3) {
+        peca0.push('SV0075');
       }
     }
 
@@ -455,7 +505,7 @@ async function gerarLaudo() {
   const container = document.getElementById('pecas-container');
 
   // Adiciona os checkboxes para cada peça
-  peca.forEach(peca => {
+  peca0.forEach(peca => {
     const checkboxHtml = `
         <label class="container1">
         <span>${peca}</span>

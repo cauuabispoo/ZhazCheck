@@ -11,8 +11,6 @@ const dados = [
     { id: 8, nome: 'Downgrade de Firmware', equipamentos: ['coletor', 'impressora', 'celular'], valor: '8' },
     { id: 9, nome: 'Acessórios', equipamentos: ['coletor', 'leitor', 'impressora', 'celular'], valor: '9' },
     { id: 11, nome: 'Regulagem do módulo laser', equipamentos: ['leitor'], valor: '11' },
-    { id: 12, nome: 'Configuração do leitor', equipamentos: ['leitor'], valor: '12' },
-    
 
 ];
 
@@ -478,14 +476,6 @@ $(document).on("click", ".Btn", function () {
             }, 3000);
         }
     } else if (valorSelecionadoGlobal === 11) {
-        const chave = 'observacoes'; // A chave para o localStorage
-        const novoItem = { valorSelecionadoGlobal };
-
-
-        adicionarAoLocalStorage(chave, novoItem);
-        location.replace(location.href); // Recarrega a página
-
-    } else if (valorSelecionadoGlobal === 12) {
         const chave = 'observacoes'; // A chave para o localStorage
         const novoItem = { valorSelecionadoGlobal };
 

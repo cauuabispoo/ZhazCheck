@@ -9,8 +9,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/tela_checklist/tela_checklist.css">
+    <link rel="stylesheet" href="../css/css_geral/select.css">
     <link rel="stylesheet" href="../css/css_geral/header.css">
     <link rel="stylesheet" href="../css/css_geral/footer.css">
+    <link rel="stylesheet" href="../css/css_geral/botaoAdd.css">
+    <link rel="stylesheet" href="../css/css_geral/menu.css">
 </head>
 
 <body>
@@ -18,15 +21,75 @@
         <div class="logo_caixa">
             <h1 class="logo_titulo">ZhazCheck</h1>
         </div>
+        <!-- <div class="menu">
+            <label class="hamburger">
+                <input type="checkbox" id="menu-toggle">
+                <svg viewBox="0 0 32 32">
+                    <path class="line line-top-bottom"
+                        d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22">
+                    </path>
+                    <path class="line" d="M7 16 27 16"></path>
+                </svg>
+            </label>
+            <div class="side-menu" id="sideMenu">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Serviços</a></li>
+                    <li><a href="#">Sobre</a></li>
+                    <li><a href="#">Contato</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="overlay" id="menuOverlay"></div> -->
     </header>
 
+
+
     <main>
-        <h1 class="potencial">Checklist</h1>
         <div id="alertBox" class="alert-box hidden">Por favor, preencha todos os campos</div>
 
-        <div id="checklist-container"></div>
+        <div style="position: relative; margin-top: 3%;">
+            <h1 class="potencial1">Checklist</h1>
+            <div id="checklist-container"></div>
 
+            <div class="teste">
+                <button id="add" class="Btn">
+                    <div class="sign">+</div>
+                    <div class="text">Adicionar</div>
+                </button>
+            </div>
+        </div>
         <div id="additionalContent"></div>
+
+        <!-- Modal HTML -->
+        <div id="confirmModal" class="modalConfirmacao hidden">
+            <div class="modal-content-confirmacao">
+                <h2 id="modalText">Deseja finalizar o laudo?</h2>
+                <div class="modal-buttons">
+                    <button id="confirmBtn" class="confirm">Sim</button>
+                    <button id="cancelBtn" class="cancel">Não</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <div class="flex">
+                    <br>
+                    <h2 style="flex-grow: 2;">Detalhes do Item Reprovado</h2>
+                    <button class="button" id="closeModal">
+                        <span class="X"></span>
+                        <span class="Y"></span>
+                    </button>
+                </div>
+
+                <!-- Seções Dinâmicas -->
+                <div id="dynamicSections" class="flex"></div>
+                <button id="adicionar" class="botao_continuar">Adicionar</button>
+
+            </div>
+        </div>
 
         <div class="div_voltar">
             <button id="goBack" class="botao_voltar">Voltar</button>
@@ -41,6 +104,33 @@
             <h1 class="assinatura">CB</h1>
         </div>
     </footer>
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const sideMenu = document.getElementById("sideMenu");
+        const menuOverlay = document.getElementById("menuOverlay");
+
+        menuToggle.addEventListener("change", () => {
+            if (menuToggle.checked) {
+                sideMenu.style.right = "0";  // Exibe o menu
+                menuOverlay.style.opacity = "1"; // Exibe o overlay
+                menuOverlay.style.visibility = "visible";
+            } else {
+                sideMenu.style.right = "-250px";  // Esconde o menu
+                menuOverlay.style.opacity = "0"; // Esconde o overlay
+                menuOverlay.style.visibility = "hidden";
+            }
+        });
+
+        // Fecha o menu ao clicar no overlay
+        menuOverlay.addEventListener("click", () => {
+            menuToggle.checked = false; // Desmarca o checkbox
+            sideMenu.style.right = "-250px";  // Esconde o menu
+            menuOverlay.style.opacity = "0";  // Esconde o overlay
+            menuOverlay.style.visibility = "hidden";
+        });
+    </script>
+
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>

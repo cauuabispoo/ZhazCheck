@@ -193,6 +193,9 @@ main {
         width: 26px;
         height: 26px;
     }
+    body, html{
+        overflow: auto;
+    }
 }
 
 @media (max-width: 1360px) {
@@ -266,6 +269,9 @@ main {
         width: 20px;
         height: 20px;
     }
+    body, html{
+        overflow: auto;
+    }
 }
 
 @media (max-width: 1000px) {
@@ -338,6 +344,9 @@ main {
         width: 18px;
         height: 18px;
     }
+    body, html{
+        overflow: auto;
+    }
 }
 
 @media (max-width: 900px) {
@@ -409,6 +418,9 @@ main {
         width: 17px;
         height: 17px;
     }
+    body, html{
+        overflow: auto;
+    }
 }
 
 /* Para smartphones em orientação retrato */
@@ -443,6 +455,9 @@ main {
     .radio-b__input:checked+.radio-b__label .radio-b__custom-fill {
         width: 16px;
         height: 16px;
+    }
+    body, html{
+        overflow: auto;
     }
 }
 

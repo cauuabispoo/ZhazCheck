@@ -1,0 +1,88 @@
+/* Overlay para escurecer o fundo */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    z-index: 1; /* Abaixo do botão do menu, mas acima do conteúdo */
+}
+
+/* Botão do menu */
+.menu {
+    position: absolute;
+    right: 2%;
+    top: 15%;
+    z-index: 2; /* Para garantir que fique acima do overlay e do menu */
+}
+
+.hamburger {
+    cursor: pointer;
+    position: relative;
+    z-index: 4; /* Certifique-se de que o ícone fica acima de tudo */
+}
+
+.hamburger input {
+    display: none;
+}
+
+.hamburger svg {
+    height: 3em;
+    transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line {
+    fill: none;
+    stroke: white;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 3;
+    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+        stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-top-bottom {
+    stroke-dasharray: 12 63;
+}
+
+.hamburger input:checked + svg {
+    transform: rotate(-45deg);
+}
+
+.hamburger input:checked + svg .line-top-bottom {
+    stroke-dasharray: 20 300;
+    stroke-dashoffset: -32.42;
+}
+
+/* Menu lateral */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 100vh;
+    background-color: #333;
+    color: white;
+    overflow: hidden;
+    transition: right 0.3s ease;
+    padding-top: 60px;
+    z-index: 1; /* Abaixo do botão de menu */
+}
+
+.side-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.side-menu ul li {
+    padding: 15px 20px;
+}
+
+.side-menu ul li a {
+    color: white;
+    text-decoration: none;
+}

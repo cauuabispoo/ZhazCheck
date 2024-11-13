@@ -49,3 +49,24 @@ $(document).ready(function () {
         });
     }
 });
+
+
+
+// Função para atualizar os labels com base no valor do localStorage
+function atualizarLabels() {
+    // Obter o valor armazenado no localStorage (supondo que a chave seja 'tipoServico')
+    const tipoServico = localStorage.getItem('tipoLacre'); // Pode ser 'venda' ou 'manutencao'
+
+    // Verifica o valor e altera os labels
+    if (tipoServico === 'venda') {
+        document.querySelector('label[for="OSAnterior"]').innerHTML = 'PV:<sup>*</sup>';
+        document.querySelector('label[for="dateManutencao"]').innerHTML = 'Data da Revisão:<sup>*</sup>';
+    } else if (tipoServico === 'manutencao') {
+        // Caso o valor seja 'manutencao', mantém os valores padrão
+        document.querySelector('label[for="OSAnterior"]').innerHTML = 'OS anterior:<sup>*</sup>';
+        document.querySelector('label[for="dateManutencao"]').innerHTML = 'Data da manutenção:<sup>*</sup>';
+    }
+}
+
+// Chama a função quando a página carregar
+document.addEventListener('DOMContentLoaded', atualizarLabels);

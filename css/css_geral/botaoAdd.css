@@ -1,32 +1,11 @@
-/* Estilo do contêiner que agrupa a tabela e o botão */
-.container {
-  position: relative;
-  width: 100%;
-  /* Para garantir que a tabela e o botão fiquem no mesmo layout */
-}
 
-/* Estilo para a tabela */
-.table {
-  width: 70%;
-  /* Ajuste conforme necessário */
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Estilo do botão */
-.botaoAdd {
-  position: absolute;
-  /* Posiciona o botão de forma absoluta em relação ao contêiner pai */
-  right: 0px;
-  /* Alinha o botão à direita */
-  top: 7%;
-  /* Centraliza verticalmente */
-  transform: translateY(-50%);
-  /* Ajusta o alinhamento vertical */
-}
 
 /* Botão (conforme seu CSS anterior) */
+.teste{
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 .Btn {
   display: flex;
   align-items: center;
@@ -40,7 +19,9 @@
   overflow: hidden;
   transition-duration: .3s;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
-  background: linear-gradient(144deg, rgba(0, 151, 178, 1) 35%, rgba(126, 217, 87, 1) 100%);
+  background: linear-gradient(90deg, rgba(0, 151, 178, 1) 35%, rgba(126, 217, 87, 1) 100%);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
 }
 
 .sign {
