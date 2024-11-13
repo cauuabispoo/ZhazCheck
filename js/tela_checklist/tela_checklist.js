@@ -123,14 +123,14 @@ function gerarChecklist() {
                 'MÓDULO LASER', 'FONTE DE ALIMENTAÇÃO', 'COMUNICAÇÃO', 'LCD', 'TOUCH', 'WI-FI', 'SISTEMA OPERACIONAL', 'CONFIGURAÇÕES DO CLIENTE'];
             break;
         case 'impressora':
-            itens = ['CARCAÇAS', 'PLACA PRINCIPAL', 'MODELO/NÚMERO DE SÉRIE', 'PARAFUSOS', 'ACESSÓRIOS', 'CABO DE COMUNICAÇÃO', 'FONTE DE ALIMENTAÇÃO', 
-                'ROLETE DE BORRACHA', 'CABEÇA DE IMPRESSÃO', 'CORREIAS/ENGRENAGENS', 'LCD', 'TOUCH', 'SENSORES DE ETIQUETA', 'SENSOR DO RIBBON', 
+            itens = ['CARCAÇAS', 'PLACA PRINCIPAL', 'MODELO/NÚMERO DE SÉRIE', 'PARAFUSOS', 'ACESSÓRIOS', 'CABO DE COMUNICAÇÃO', 'FONTE DE ALIMENTAÇÃO',
+                'ROLETE DE BORRACHA', 'CABEÇA DE IMPRESSÃO', 'CORREIAS/ENGRENAGENS', 'LCD', 'TOUCH', 'SENSORES DE ETIQUETA', 'SENSOR DO RIBBON',
                 'ALIMENTADOR', 'TRACIONADOR', 'BOTÕES', 'GUIA DE ETIQUETA', 'TRAVAS', 'SERIAL', 'PARALELA', 'ETHERNET', 'USB', 'BLUETOOTH', 'WI-FI', 'BATERIA', 'CONFIGURAÇÃO'];
             break;
         case 'celular':
-            itens = ['CARCAÇAS', 'TAMPA DA BATERIA', 'PLACA PRINCIPAL', 'PLACA SECUNDÁRIA', 'MODELO/NÚMERO DE SÉRIE', 'ACESSÓRIOS', 'TOUCH', 'LCD', 
-                'CÂMERA(S) TRASEIRA', 'CÂMERA FRONTAL', 'WI-FI/BLUETOOTH', 'ALTO-FALANTE AURICULAR', 'ALTO-FALANTE PRINCIPAL', 'MICROFONE', 
-                'CONECTOR DE ENTRADA P2', 'BATERIA', 'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'BOTÕES LATERAIS', 'CONEXÃO NAS REDES GSM(CARTÃO SIM)', 
+            itens = ['CARCAÇAS', 'TAMPA DA BATERIA', 'PLACA PRINCIPAL', 'PLACA SECUNDÁRIA', 'MODELO/NÚMERO DE SÉRIE', 'ACESSÓRIOS', 'TOUCH', 'LCD',
+                'CÂMERA(S) TRASEIRA', 'CÂMERA FRONTAL', 'WI-FI/BLUETOOTH', 'ALTO-FALANTE AURICULAR', 'ALTO-FALANTE PRINCIPAL', 'MICROFONE',
+                'CONECTOR DE ENTRADA P2', 'BATERIA', 'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'BOTÕES LATERAIS', 'CONEXÃO NAS REDES GSM(CARTÃO SIM)',
                 'COMPARTIMENTO DO CARTÃO SD', 'SENSOR BIOMÉTRICO', 'SISTEMA OPERACIONAL'];
             break;
         default:
@@ -217,7 +217,7 @@ function gerarChecklist() {
             } else {
                 observacoes = observacoes.filter(observacao => observacao.pecaReprovada !== itemNome);
                 localStorage.setItem('observacoes', JSON.stringify(observacoes));
-                if (itemNome === 'TOUCH' && novaSelecao != 'reprovado') {
+                if (itemNome === 'TOUCH' && novaSelecao === 'aprovado') {
                     abrirModalConfirmacao(
                         "Deseja adicionar a película de hidrogel?",
                         () => {
@@ -654,22 +654,25 @@ const combinacoesMap = {
 
 // Dados locais: cada item pode ter múltiplos tipos de equipamentos associados
 const dados = [
-    { id: 1, nome: 'Substituição de componente', equipamentos: ['TOUCH', 'CARCAÇAS', 'LENTE', 'PARAFUSOS',
+    {
+        id: 1, nome: 'Substituição de componente', equipamentos: ['TOUCH', 'CARCAÇAS', 'LENTE', 'PARAFUSOS',
             'LCD', 'PLACA PRINCIPAL', 'PLACA POWERBOARD', 'WI-FI', 'MÓDULO LASER', 'ALTO-FALANTE', 'CÂMERA', 'TECLADO', 'GATILHO/BOTÕES LAT.', 'BATERIA',
-            'TRAVAS DA BATERIA/TAMPA', 'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'GATILHO', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'CARREGAMENTO/COMUNICAÇÃO', 
-            'ROLETE DE BORRACHA', 'CABEÇA DE IMPRESSÃO', 'CORREIAS/ENGRENAGENS', 'SENSORES DE ETIQUETA', 'SENSOR DO RIBBON', 'ALIMENTADOR', 'TRACIONADOR', 'BOTÕES', 
+            'TRAVAS DA BATERIA/TAMPA', 'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'GATILHO', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'CARREGAMENTO/COMUNICAÇÃO',
+            'ROLETE DE BORRACHA', 'CABEÇA DE IMPRESSÃO', 'CORREIAS/ENGRENAGENS', 'SENSORES DE ETIQUETA', 'SENSOR DO RIBBON', 'ALIMENTADOR', 'TRACIONADOR', 'BOTÕES',
             'GUIA DE ETIQUETA', 'TRAVAS', 'SERIAL', 'PARALELA', 'ETHERNET', 'USB', 'BLUETOOTH'], valor: '1'
     },
 
-    { id: 10, nome: 'Instalação de componente', equipamentos: ['TOUCH', 'CARCAÇAS', 'LENTE', 'PARAFUSOS',
+    {
+        id: 10, nome: 'Instalação de componente', equipamentos: ['TOUCH', 'CARCAÇAS', 'LENTE', 'PARAFUSOS',
             'LCD', 'PLACA PRINCIPAL', 'PLACA POWERBOARD', 'WI-FI', 'MÓDULO LASER', 'ALTO-FALANTE', 'CÂMERA', 'TECLADO', 'GATILHO/BOTÕES LAT.', 'BATERIA',
-            'TRAVAS DA BATERIA/TAMPA', 'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'GATILHO', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'ROLETE DE BORRACHA', 
-            'CABEÇA DE IMPRESSÃO', 'CORREIAS/ENGRENAGENS', 'SENSORES DE ETIQUETA', 'SENSOR DO RIBBON', 'ALIMENTADOR', 'TRACIONADOR', 'BOTÕES', 'GUIA DE ETIQUETA', 
+            'TRAVAS DA BATERIA/TAMPA', 'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'GATILHO', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'ROLETE DE BORRACHA',
+            'CABEÇA DE IMPRESSÃO', 'CORREIAS/ENGRENAGENS', 'SENSORES DE ETIQUETA', 'SENSOR DO RIBBON', 'ALIMENTADOR', 'TRACIONADOR', 'BOTÕES', 'GUIA DE ETIQUETA',
             'TRAVAS'], valor: '10'
     },
 
-    { id: 2, nome: 'Recuperação de placa', equipamentos: ['PLACA PRINCIPAL', 'PLACA POWERBOARD', 'WI-FI', 'MÓDULO LASER', 'CÂMERA', 'TECLADO', 'GATILHO/BOTÕES LAT.',
-            'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'ALTO-FALANTE', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'CARREGAMENTO/COMUNICAÇÃO', 'SENSORES DE ETIQUETA', 
+    {
+        id: 2, nome: 'Recuperação de placa', equipamentos: ['PLACA PRINCIPAL', 'PLACA POWERBOARD', 'WI-FI', 'MÓDULO LASER', 'CÂMERA', 'TECLADO', 'GATILHO/BOTÕES LAT.',
+            'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'ALTO-FALANTE', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'CARREGAMENTO/COMUNICAÇÃO', 'SENSORES DE ETIQUETA',
             'SENSOR DO RIBBON', 'ALIMENTADOR', 'TRACIONADOR', 'BOTÕES', 'SERIAL', 'PARALELA', 'ETHERNET', 'USB', 'BLUETOOTH'], valor: '2'
     },
 
@@ -695,11 +698,12 @@ const dados = [
 
     { id: 14, nome: 'Intalação da configuração do cliente', equipamentos: ['CONFIGURAÇÕES DO CLIENTE'], valor: '14' },
 
-    { id: 15, nome: 'Observação', equipamentos: ['TOUCH', 'CARCAÇAS', 'LENTE', 'PARAFUSOS', 'observacoes', 'MODELO/NÚMERO DE SÉRIE',
+    {
+        id: 15, nome: 'Observação', equipamentos: ['TOUCH', 'CARCAÇAS', 'LENTE', 'PARAFUSOS', 'observacoes', 'MODELO/NÚMERO DE SÉRIE',
             'LCD', 'PLACA PRINCIPAL', 'PLACA POWERBOARD', 'WI-FI', 'MÓDULO LASER', 'ALTO-FALANTE', 'CÂMERA', 'TECLADO', 'GATILHO/BOTÕES LAT.', 'BATERIA',
             'TRAVAS DA BATERIA/TAMPA', 'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'SISTEMA OPERACIONAL', 'CONFIGURAÇÕES DO CLIENTE', 'GATILHO', 'CABO DE COMUNICAÇÃO',
-            'FONTE DE ALIMENTAÇÃO', 'CONFIGURAÇÃO', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'CARREGAMENTO/COMUNICAÇÃO', 'ROLETE DE BORRACHA', 
-            'CABEÇA DE IMPRESSÃO', 'CORREIAS/ENGRENAGENS', 'SENSORES DE ETIQUETA', 'SENSOR DO RIBBON', 'ALIMENTADOR', 'TRACIONADOR', 'BOTÕES', 'GUIA DE ETIQUETA', 'TRAVAS', 
+            'FONTE DE ALIMENTAÇÃO', 'CONFIGURAÇÃO', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'CARREGAMENTO/COMUNICAÇÃO', 'ROLETE DE BORRACHA',
+            'CABEÇA DE IMPRESSÃO', 'CORREIAS/ENGRENAGENS', 'SENSORES DE ETIQUETA', 'SENSOR DO RIBBON', 'ALIMENTADOR', 'TRACIONADOR', 'BOTÕES', 'GUIA DE ETIQUETA', 'TRAVAS',
             'SERIAL', 'PARALELA', 'ETHERNET', 'USB', 'BLUETOOTH'], valor: '15'
     },
 ];
@@ -707,7 +711,7 @@ const dados = [
 
 const filtro = {
     'TOUCH': ['touch'],
-    'ACESSÓRIOS': ['capa ', 'hidrogel', 'pelicula ', 'capinha', 'manopla', 'gatilho', 'pistola', 'ALCA'],
+    'ACESSÓRIOS': ['capa', 'hidrogel', 'pelicula ', 'capinha', 'manopla', 'gatilho', 'pistola', 'ALCA'],
     'CABO DE COMUNICAÇÃO': ['cabo'],
     'FONTE DE ALIMENTAÇÃO': ['FONTE'],
     'PLACA PRINCIPAL': ['PLACA PRINCIPAL'],
@@ -715,33 +719,33 @@ const filtro = {
     'LENTE': ['LENTE'],
     'PARAFUSOS': ['PARAFUSO'],
     'LCD': ['LCD'],
-    'PLACA POWERBOARD': ['PLACA POWERBOARD', 'POWERBOARD'], 
-    'WI-FI': ['WIFI', 'WI-FI'], 
-    'MÓDULO LASER': ['MODULO', 'DIODO'], 
-    'ALTO-FALANTE': ['ALTO-FALANTE', 'ALTOFALANTE', 'ALTO FALANTE'], 
-    'CÂMERA': ['CAMERA'], 
-    'TECLADO': ['TECLADO'], 
-    'GATILHO/BOTÕES LAT.': ['GATILHO', 'BOTOES', 'BOTAO'], 
+    'PLACA POWERBOARD': ['PLACA POWERBOARD', 'POWERBOARD'],
+    'WI-FI': ['WIFI', 'WI-FI'],
+    'MÓDULO LASER': ['MODULO', 'DIODO'],
+    'ALTO-FALANTE': ['ALTO-FALANTE', 'ALTOFALANTE', 'ALTO FALANTE'],
+    'CÂMERA': ['CAMERA'],
+    'TECLADO': ['TECLADO'],
+    'GATILHO/BOTÕES LAT.': ['GATILHO', 'BOTOES', 'BOTAO'],
     'BATERIA': ['BATERIA'],
-    'TRAVAS DA BATERIA/TAMPA': ['TRAVA', 'TRAVAS', 'TAMPA'], 
-    'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)': ['SYNC'], 
-    'GATILHO': ['GATILHO'], 
-    'BASE DE COMUNICAÇÃO BLUETOOTH': ['BERCO', 'BASE', 'PLACA', 'CARCACA'], 
-    'CARREGAMENTO/COMUNICAÇÃO': ['PLACA'], 
-    'ROLETE DE BORRACHA': ['ROLETE'], 
-    'CABEÇA DE IMPRESSÃO': ['CABECA'], 
-    'CORREIAS/ENGRENAGENS': ['CORREIA', 'ENGRENAGEM', 'ENGRENAGENS'], 
-    'SENSORES DE ETIQUETA': ['SENSOR'], 
-    'SENSOR DO RIBBON': ['SENSOR'], 
-    'ALIMENTADOR': [''], 
-    'TRACIONADOR': [''], 
-    'BOTÕES': ['BOTOES', 'BOTAO'], 
-    'GUIA DE ETIQUETA': ['GUIA'], 
-    'TRAVAS': ['TRAVA', 'TRAVAS'], 
-    'SERIAL': ['PLACA'], 
-    'PARALELA': ['PLACA'], 
-    'ETHERNET': ['PLACA'], 
-    'USB': ['PLACA'], 
+    'TRAVAS DA BATERIA/TAMPA': ['TRAVA', 'TRAVAS', 'TAMPA'],
+    'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)': ['SYNC'],
+    'GATILHO': ['GATILHO'],
+    'BASE DE COMUNICAÇÃO BLUETOOTH': ['BERCO', 'BASE', 'PLACA', 'CARCACA'],
+    'CARREGAMENTO/COMUNICAÇÃO': ['PLACA'],
+    'ROLETE DE BORRACHA': ['ROLETE'],
+    'CABEÇA DE IMPRESSÃO': ['CABECA'],
+    'CORREIAS/ENGRENAGENS': ['CORREIA', 'ENGRENAGEM', 'ENGRENAGENS'],
+    'SENSORES DE ETIQUETA': ['SENSOR'],
+    'SENSOR DO RIBBON': ['SENSOR'],
+    'ALIMENTADOR': [''],
+    'TRACIONADOR': [''],
+    'BOTÕES': ['BOTOES', 'BOTAO'],
+    'GUIA DE ETIQUETA': ['GUIA'],
+    'TRAVAS': ['TRAVA', 'TRAVAS'],
+    'SERIAL': ['PLACA'],
+    'PARALELA': ['PLACA'],
+    'ETHERNET': ['PLACA'],
+    'USB': ['PLACA'],
     'BLUETOOTH': ['PLACA'],
 };
 
@@ -1037,6 +1041,7 @@ function atualizarVariavelGlobal(selectId, value) {
 
 document.getElementById('adicionar').addEventListener('click', () => {
     salvarObservacao();
+
 });
 
 // Função para salvar os dados do modal em um array no localStorage
@@ -1125,14 +1130,29 @@ function salvarObservacao() {
             () => {
                 observacoes.push(pelicula);
                 localStorage.setItem('observacoes', JSON.stringify(observacoes));
+                document.getElementById('modal').style.display = 'none';
+                abrirModalConfirmacao(
+                    "Deseja adicionar mais alguma peça?",
+                    () => {
+                        abrirModal(itemReprovado);
+                    },
+                    () => {
+                    }
+                );
             },
             () => {
                 localStorage.setItem('observacoes', JSON.stringify(observacoes));
+                document.getElementById('modal').style.display = 'none';
+                abrirModalConfirmacao(
+                    "Deseja adicionar mais alguma peça?",
+                    () => {
+                        abrirModal(itemReprovado);
+                    },
+                    () => {
+                    }
+                );
             }
         );
-
-        // Fechar o modal após salvar
-        document.getElementById('modal').style.display = 'none';
     } else {
         observacoes.push(observacao); // Adicionar a nova observação
 
@@ -1141,5 +1161,13 @@ function salvarObservacao() {
 
         // Fechar o modal após salvar
         document.getElementById('modal').style.display = 'none';
+        abrirModalConfirmacao(
+            "Deseja adicionar mais alguma peça?",
+            () => {
+                abrirModal(itemReprovado);
+            },
+            () => {
+            }
+        );
     }
 }
