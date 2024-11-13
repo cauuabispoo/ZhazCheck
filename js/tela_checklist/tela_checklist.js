@@ -116,7 +116,7 @@ function gerarChecklist() {
             break;
         case 'leitor':
             itens = ['CARCAÇAS', 'LENTE', 'GATILHO', 'PLACA PRINCIPAL', 'MODELO/NÚMERO DE SÉRIE', 'ALTO-FALANTE',
-                'MÓDULO LASER', 'CABO DE COMUNICAÇÃO', 'FONTE DE ALIMENTAÇÃO', 'CONFIGURAÇÃO', 'BATERIA', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'CARREGAMENTO/COMUNICAÇÃO'];
+                'MÓDULO LASER', 'ACESSÓRIOS', 'CABO DE COMUNICAÇÃO', 'FONTE DE ALIMENTAÇÃO', 'CONFIGURAÇÃO', 'BATERIA', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'CARREGAMENTO/COMUNICAÇÃO'];
             break;
         case 'busca':
             itens = ['CARCAÇAS', 'LENTE', 'PLACA PRINCIPAL', 'MODELO/NÚMERO DE SÉRIE', 'ALTO-FALANTE',
