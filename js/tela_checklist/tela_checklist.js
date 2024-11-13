@@ -707,7 +707,7 @@ const dados = [
 
 const filtro = {
     'TOUCH': ['touch'],
-    'ACESSÓRIOS': ['capa ', 'hidrogel', 'pelicula ', 'capinha', 'manopla', 'gatilho', 'pistola', 'SUPORTE'],
+    'ACESSÓRIOS': ['capa ', 'hidrogel', 'pelicula ', 'capinha', 'manopla', 'gatilho', 'pistola', 'SUPORTE', 'ADAPTADOR'],
     'CABO DE COMUNICAÇÃO': ['cabo'],
     'FONTE DE ALIMENTAÇÃO': ['FONTE'],
     'PLACA PRINCIPAL': ['PLACA PRINCIPAL', 'PLACA'],
