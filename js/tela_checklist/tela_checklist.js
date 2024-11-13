@@ -120,7 +120,7 @@ function gerarChecklist() {
             break;
         case 'busca':
             itens = ['CARCAÇAS', 'LENTE', 'PLACA PRINCIPAL', 'MODELO/NÚMERO DE SÉRIE', 'ALTO-FALANTE',
-                'MÓDULO LASER', 'FONTE DE ALIMENTAÇÃO', 'CONFIGURAÇÃO', 'LCD', 'TOUCH', 'WI-FI', 'SISTEMA OPERACIONAL', 'CONFIGURAÇÕES DO CLIENTE'];
+                'MÓDULO LASER', 'FONTE DE ALIMENTAÇÃO', 'LCD', 'TOUCH', 'WI-FI', 'SISTEMA OPERACIONAL', 'CONFIGURAÇÕES DO CLIENTE'];
             break;
         case 'impressora':
             itens = ['CARCAÇAS', 'PLACA PRINCIPAL', 'MODELO/NÚMERO DE SÉRIE', 'PARAFUSOS', 'CABO DE COMUNICAÇÃO', 'FONTE DE ALIMENTAÇÃO', 
