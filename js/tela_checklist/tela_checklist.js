@@ -717,7 +717,7 @@ const filtro = {
     'LCD': ['LCD'],
     'PLACA POWERBOARD': ['PLACA POWERBOARD', 'POWERBOARD'], 
     'WI-FI': ['WIFI', 'WI-FI'], 
-    'MÓDULO LASER': ['MODULO'], 
+    'MÓDULO LASER': ['MODULO', 'DIODO'], 
     'ALTO-FALANTE': ['ALTO-FALANTE', 'ALTOFALANTE', 'ALTO FALANTE'], 
     'CÂMERA': ['CAMERA'], 
     'TECLADO': ['TECLADO'], 
