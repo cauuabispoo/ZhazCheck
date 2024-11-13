@@ -243,7 +243,7 @@ async function gerarLaudo() {
     switch (obs.valorSelecionadoGlobal) {
       case 1: // Substituição de componente
         peca0.push(obs.pecaSelecionadoGlobal);
-        diagnostico += `  - ${peca} (OBS:${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
+        diagnostico += `  - ${peca} (OBS: ${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
         if (peca === "DIODO LASER") {
           if (obs.opcSelecionadoGlobal === "n") {
             recuperacaoNecessaria += `  - ${peca} -> (SV0064) -> (PARA SUBSTITUIR É NECESSÁRIO A RECUPERAÇÃO)\n`;
@@ -263,7 +263,7 @@ async function gerarLaudo() {
 
       case 2: // Recuperação de placa
         nivel = obs.nivelSelecionadoGlobal === "n1" ? "N1 (SV0036)" : obs.nivelSelecionadoGlobal === "n2" ? "N2 (SV0074)" : "N3 (SV0075)";
-        diagnostico += `  - ${peca} (OBS:${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
+        diagnostico += `  - ${peca} (OBS: ${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           recuperacaoNecessaria += `  - ${peca} -> ${nivel}\n`;
           if (nivel === 'N1 (SV0036)') {
@@ -287,7 +287,7 @@ async function gerarLaudo() {
 
       case 3: // Recuperação de carcaça
         const peca1 = obs.obsCarcacaDefeitoSelecionadoGlobal;
-        diagnostico += `  - ${peca1} (OBS:${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
+        diagnostico += `  - ${peca1} (OBS: ${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           recuperacaoNecessaria += `  - ${peca1}\n`;
           verificaCarcaca = '1';
@@ -298,7 +298,7 @@ async function gerarLaudo() {
         break;
 
       case 4: // Recuperação de bateria
-        diagnostico += `  - CARCAÇA DA BATERIA DANIFICADA (OBS:${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
+        diagnostico += `  - CARCAÇA DA BATERIA DANIFICADA (OBS: ${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RECUPERAÇÃO DA BATERIA -> (SV0071)\n\n`;
           peca0.push('SV0071');
@@ -320,7 +320,7 @@ async function gerarLaudo() {
         break;
 
       case 6: // Restauração da memória
-        diagnostico += `  - SISTEMA OPERACIONAL (OBS:${obs.obsDefeitoSelecionadoGlobal}) -> DEFEITO\n`;
+        diagnostico += `  - SISTEMA OPERACIONAL (OBS: ${obs.obsDefeitoSelecionadoGlobal}) -> DEFEITO\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RESTAURAÇÃO DA MEMÓRIA FLASH ROM -> (SV0040)\n\n`;
           peca0.push('SV0040');
@@ -380,7 +380,7 @@ async function gerarLaudo() {
         break;
 
       case 12: // Configuração do leitor
-        diagnostico += `  - LEITOR DESCONFIGURADO (OBS:${obs.obsDefeitoSelecionadoGlobal})\n`;
+        diagnostico += `  - LEITOR DESCONFIGURADO (OBS: ${obs.obsDefeitoSelecionadoGlobal})\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A CONFIGURAÇÃO DO LEITOR -> (SV0052)\n\n`;
           peca0.push('SV0052');
@@ -391,7 +391,7 @@ async function gerarLaudo() {
         break;
 
       case 13: // Recuperação do cabo de comunicação
-        diagnostico += `  - CABO DE COMUNICAÇÃO DANIFICADO (OBS:${obs.obsDefeitoSelecionadoGlobal})\n`;
+        diagnostico += `  - CABO DE COMUNICAÇÃO DANIFICADO (OBS: ${obs.obsDefeitoSelecionadoGlobal})\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RECUPERAÇÃO DO CABO -> (SV0037)\n\n`;
           peca0.push('SV0037');
@@ -402,7 +402,7 @@ async function gerarLaudo() {
         break;
 
       case 14: // Intalação da configuração do cliente
-        diagnostico += `  - INSTALAÇÃO DA CONFIGURAÇÃO DO CLIENTE (OBS:${obs.obsDefeitoSelecionadoGlobal})\n`;
+        diagnostico += `  - INSTALAÇÃO DA CONFIGURAÇÃO DO CLIENTE (OBS: ${obs.obsDefeitoSelecionadoGlobal})\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A INSTALAÇÃO DA CONFIGURAÇÃO DO CLIENTE -> (SV0044)\n\n`;
           peca0.push('SV0044');
