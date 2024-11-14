@@ -517,12 +517,15 @@ async function gerarLaudo() {
       laudo += `INSTALAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${instalacaoOpcional}\n`;
     }
 
-  } else if (!diagnostico && acessorioOpcional) {
+  } else if (!diagnostico && acessorioOpcional || observacao) {
     laudo += `  - FORAM REALIZADOS TODOS OS TESTES E O EQUIPAMENTO NÃO APRESENTOU NENHUM DEFEITO\n`;
 
-    if (checklistLaudo) {
+    if (observacao) {
+      laudo += `${checklistLaudo}\n\n  OBSERVAÇÕES:\n${observacao}\n`;
+    } else {
       laudo += `${checklistLaudo}\n`;
     }
+  
     laudo += "\nSOLUÇÃO:\n";
     if (acessorioOpcional) {
       laudo += `INSTALAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${acessorioOpcional}\n`;
