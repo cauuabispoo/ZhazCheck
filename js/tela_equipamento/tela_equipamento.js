@@ -1,18 +1,5 @@
-$(document).ready(() => {
-  const verificatipoServico = localStorage.getItem('tipoServico');
-
-  if (!verificatipoServico) {
-      window.location.href = "../index.html";
-      localStorage.clear();
-  }
-});
-
-
-
 let tipoEquipamento = "";
 let modeloEquipamento = "";
-const tipoServico = localStorage.getItem('tipoServico');
-
 
 $(document).ready(function () {
   let dataFromCSV = []; // Variável para armazenar os dados do CSV
@@ -176,9 +163,7 @@ $(document).ready(function () {
 
     // Atualiza o segundo select com base no valor selecionado
     if (value) {
-      if (tipoServico === 'laudo'){
-        updateSecondSelect(value);
-      }
+      updateSecondSelect(value);
       tipoEquipamento = value;
     }
   });
@@ -191,54 +176,63 @@ $(document).ready(function () {
 });
 
 
-document.getElementById("goBack").addEventListener("click", function () {
-  localStorage.removeItem('modeloEquipamento');
-  localStorage.removeItem('selectedOption');
-  localStorage.removeItem('tipoServico');
-  window.location.href = "tipoServico.html";
-});
-
 
 // Armazenar o valor selecionado e redirecionar
 document.getElementById("proceed").addEventListener("click", function () {
   const alertBox = document.getElementById("alertBox");
 
-  if (tipoServico === 'laudo'){
-    if (tipoEquipamento === "" || modeloEquipamento === "") {
-      // Exibe o alerta
-      alertBox.classList.remove("hidden");
-      alertBox.style.display = "block";
-  
-      // Oculta o alerta após 3 segundos
-      setTimeout(() => {
-        alertBox.style.display = "none";
-      }, 3000);
-    } else {
-      // Armazena a opção no localStorage e redireciona
-      localStorage.setItem("selectedOption", tipoEquipamento);
-      localStorage.setItem("modeloEquipamento", modeloEquipamento);
-  
-      window.location.href = "garantia.html";
-    }
+  if (tipoEquipamento === "" || modeloEquipamento === "") {
+    // Exibe o alerta
+    alertBox.classList.remove("hidden");
+    alertBox.style.display = "block";
+
+    // Oculta o alerta após 3 segundos
+    setTimeout(() => {
+      alertBox.style.display = "none";
+    }, 3000);
   } else {
-    if (tipoEquipamento === "") {
-      // Exibe o alerta
-      alertBox.classList.remove("hidden");
-      alertBox.style.display = "block";
-  
-      // Oculta o alerta após 3 segundos
-      setTimeout(() => {
-        alertBox.style.display = "none";
-      }, 3000);
-    } else {
-      // Armazena a opção no localStorage e redireciona
-      localStorage.setItem("selectedOption", tipoEquipamento);
-      localStorage.setItem("modeloEquipamento", modeloEquipamento);
-  
-      window.location.href = "checklist.html";
-    }
+    // Armazena a opção no localStorage e redireciona
+    localStorage.setItem("selectedOption", tipoEquipamento);
+    localStorage.setItem("modeloEquipamento", modeloEquipamento);
+    window.location.href = "garantia.html";
   }
 });
+
+
+
+
+
+//TIMEOUT
+
+let timeoutId; // Armazena o ID do timeout
+const tempoInatividade = 60000; // 5000ms = 5 segundos
+
+// Função para iniciar o timeout de redirecionamento
+function iniciarTimeout() {
+  timeoutId = setTimeout(() => {
+    window.location.href = "../index.html"; // Página de destino
+  }, tempoInatividade);
+}
+
+// Função para resetar o timeout sempre que houver interação
+function resetarTimeout() {
+  clearTimeout(timeoutId); // Cancela o timeout anterior
+  iniciarTimeout(); // Reinicia o timeout
+}
+
+// Adiciona os eventos de interação na página
+function monitorarInteracao() {
+  document.addEventListener("click", resetarTimeout);
+  document.addEventListener("mousemove", resetarTimeout);
+  document.addEventListener("keydown", resetarTimeout);
+  document.addEventListener("touchstart", resetarTimeout); // Para dispositivos móveis
+}
+
+// Inicia o monitoramento ao carregar a página
+window.onload = function () {
+  monitorarInteracao();
+  iniciarTimeout(); // Começa o timeout logo no início
+};
 
 const customSelect = document.querySelector('.custom-select');
 const customOptions = document.querySelector('.custom-options');
