@@ -1,7 +1,8 @@
 $(document).ready(() => {
     const verficaEquipamento = localStorage.getItem('selectedOption');
+    const verificatipoServico = localStorage.getItem('tipoServico');
 
-    if (!verficaEquipamento) {
+    if (!verficaEquipamento || !verificatipoServico) {
         window.location.href = "../index.html";
         localStorage.clear();
     }
@@ -105,7 +106,8 @@ function atualizarVariavelGlobal(selectId, value) {
 
 
 document.getElementById("goBack").addEventListener("click", function () {
-    localStorage.clear();
+    localStorage.removeItem('modeloEquipamento');
+    localStorage.removeItem('selectedOption');
     window.location.href = "equipamento.html";
 });
 

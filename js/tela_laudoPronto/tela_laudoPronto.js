@@ -2,8 +2,10 @@ $(document).ready(() => {
   const verficaEquipamento = localStorage.getItem('selectedOption');
   const verficaLacre = localStorage.getItem('lacre');
   const verificaCheck = localStorage.getItem("resultadoChecklist");
+  const verificatipoServico = localStorage.getItem('tipoServico');
 
-  if (!verficaEquipamento || !verficaLacre || !verificaCheck) {
+
+  if (!verficaEquipamento || !verificaCheck || !verificatipoServico) {
     window.location.href = "../index.html";
     localStorage.clear();
   }
@@ -73,14 +75,30 @@ async function carregarEquipamentos() {
 
 
 // Função para encontrar a palavra-chave dentro de uma peça
+const pecasNaoEncontradas = [];
 function filtrarPalavraChave(nomePeca, palavrasChave) {
+  // Array para armazenar as peças que não encontraram a palavra-chave
+
+  // Percorre todas as palavras-chave e verifica se alguma está presente no nome da peça
   for (const palavra of palavrasChave) {
+    // Se encontrar a palavra-chave, retorna a palavra em maiúsculas e sai da função
     if (nomePeca.toLowerCase().includes(palavra.toLowerCase())) {
       return palavra.toUpperCase(); // Retorna a palavra-chave encontrada em maiúsculas
     }
   }
-  return "PALAVRA NÃO ENCONTRADA"; // Caso nenhuma palavra seja encontrada
+
+  // Se nenhuma palavra-chave for encontrada, adiciona a peça ao array
+  pecasNaoEncontradas.push(nomePeca);
+
+
+  // Após o loop, se houver peças não encontradas, exibe um único alerta
+  
+  // Retorna a mensagem 'PALAVRA NÃO ENCONTRADA' quando não encontrar nenhuma palavra-chave
+  return "PALAVRA NÃO ENCONTRADA";
+  
 }
+
+
 
 
 
@@ -108,22 +126,9 @@ async function gerarLaudo() {
 
   const textarea = document.getElementById('checklistTextArea');
   const checklistSalvo = localStorage.getItem('resultadoChecklist');
-  let checklistLaudo = '';
+  let checklistLaudo = "";
 
 
-  if (checklistSalvo) {
-    container1.classList.remove('hidden'); // Remove hidden do contêiner
-    textarea.classList.remove('hidden'); // Remove hidden do textarea
-    const resultadoArray = JSON.parse(checklistSalvo);
-    const textoFormatado = resultadoArray
-      .map(item => `  - ${item.item} -> ${item.status}`) // Formatação desejada
-      .join('\n'); // Quebra de linha entre itens
-
-    textarea.value = textoFormatado.toUpperCase();
-    checklistLaudo = textoFormatado;
-  } else {
-    textarea.value = '';
-  }
 
   const dataGarantia = tipoLacre === "manutencao" ? 90 : tipoLacre === "venda" ? 365 : 0; // Agora é número
   const textomanu = tipoLacre === "manutencao" ? "MANUTENÇÃO" : tipoLacre === "venda" ? "REVISÃO" : "";
@@ -210,6 +215,22 @@ async function gerarLaudo() {
 
   if (identificadores) {
     identificadores = `- ${identificadores}\n`; // Adiciona o identificador com quebra de linha
+  }
+
+  if (checklistSalvo) {
+    container1.classList.remove('hidden'); // Remove hidden do contêiner
+    textarea.classList.remove('hidden'); // Remove hidden do textarea
+    const resultadoArray = JSON.parse(checklistSalvo);
+    const textoFormatado = resultadoArray
+      .map(item => `  - ${item.item} -> ${item.status}`) // Formatação desejada
+      .join('\n'); // Quebra de linha entre itens
+
+    textarea.value += `  ${identificadores}`;
+    textarea.value += textoFormatado.toUpperCase();
+    checklistLaudo += identificadores;
+    checklistLaudo += textoFormatado;
+  } else {
+    textarea.value = '';
   }
 
   // Variáveis para armazenar diagnósticos e tipos de substituição
@@ -420,6 +441,9 @@ async function gerarLaudo() {
         break;
     }
   }
+  if (pecasNaoEncontradas.length > 0) {
+    alert("Por favor, entre em contato com o administrador 'Cauã Bispo' para adicionar as palavras chaves das seguintes peças:\n\n" + pecasNaoEncontradas.join("\n"));
+  }
 
   // Monta o laudo com os blocos dinâmicos
   let laudo = `${infoBasica}${identificadores}CONFORME O DIAGNÓSTICO TÉCNICO, FOI OBSERVADO:\n`;
@@ -509,27 +533,30 @@ async function gerarLaudo() {
 
   laudo += "REVISÃO E LIMPEZA - (MÃO DE OBRA)";
 
-  // Exibe o laudo na caixa de texto
-  laudoTextarea.value = laudo.trim().toUpperCase(); // Garante que tudo esteja em maiúsculas
+  const tipoServico = localStorage.getItem('tipoServico');
+  if (tipoServico === 'laudo') {
+    // Exibe o laudo na caixa de texto
+    laudoTextarea.value = laudo.trim().toUpperCase(); // Garante que tudo esteja em maiúsculas
 
-  const container = document.getElementById('pecas-container');
+    const container = document.getElementById('pecas-container');
 
-  // Adiciona os checkboxes para cada peça
-  peca0.forEach(peca => {
-    const checkboxHtml = `
-        <label class="container1">
-        <span>${peca}</span>
-                <input type="checkbox" onclick="copiarPeca('${peca}')" />
-                <svg viewBox="0 0 384 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="clipboard">
-                    <path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"></path>
-                </svg>
-                <svg viewBox="0 0 384 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="clipboard-check">
-                    <path d="M192 0c-41.8 0-77.4 26.7-90.5 64H64C28.7 64 0 92.7 0 128V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H282.5C269.4 26.7 233.8 0 192 0zm0 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM305 273L177 401c-9.4 9.4-24.6 9.4-33.9 0L79 337c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L271 239c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"></path>
-                </svg>
-            </label>
-        `;
-    container.insertAdjacentHTML('beforeend', checkboxHtml);
-  });
+    // Adiciona os checkboxes para cada peça
+    peca0.forEach(peca => {
+      const checkboxHtml = `
+          <label class="container1">
+          <span>${peca}</span>
+                  <input type="checkbox" onclick="copiarPeca('${peca}')" />
+                  <svg viewBox="0 0 384 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="clipboard">
+                      <path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"></path>
+                  </svg>
+                  <svg viewBox="0 0 384 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="clipboard-check">
+                      <path d="M192 0c-41.8 0-77.4 26.7-90.5 64H64C28.7 64 0 92.7 0 128V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H282.5C269.4 26.7 233.8 0 192 0zm0 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM305 273L177 401c-9.4 9.4-24.6 9.4-33.9 0L79 337c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L271 239c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"></path>
+                  </svg>
+              </label>
+          `;
+      container.insertAdjacentHTML('beforeend', checkboxHtml);
+    });
+  }
 }
 
 // Chama a função ao carregar a página

@@ -1,8 +1,11 @@
+const tipoServico = localStorage.getItem('tipoServico');
+
 $(document).ready(() => {
     const verficaEquipamento = localStorage.getItem('selectedOption');
-    const verficaLacre = localStorage.getItem('lacre');
+    const verificatipoServico = localStorage.getItem('tipoServico');
 
-    if (!verficaEquipamento || !verficaLacre) {
+
+    if (!verficaEquipamento || !verificatipoServico) {
         window.location.href = "../index.html";
         localStorage.clear();
     } else {
@@ -17,21 +20,25 @@ document.getElementById("goBack").addEventListener("click", function () {
     localStorage.removeItem("resultadoChecklist");
     localStorage.removeItem("observacoes");
 
-    if (lacreValue === 'sim') {
-        localStorage.removeItem("mac");
-        localStorage.removeItem("serial");
-        localStorage.removeItem("imei");
-        localStorage.removeItem("osAnterior");
-        localStorage.removeItem("dataManutencao");
-        localStorage.removeItem("obsUltimoServico");
-        window.location.href = "lacre.html";
-    } else {
-        localStorage.removeItem("mac");
-        localStorage.removeItem("serial");
-        localStorage.removeItem("imei");
-        localStorage.removeItem('lacre');
-        localStorage.removeItem('tipoLacre');
-        window.location.href = "garantia.html";
+    if (tipoServico === 'laudo'){
+        if (lacreValue === 'sim') {
+            localStorage.removeItem("mac");
+            localStorage.removeItem("serial");
+            localStorage.removeItem("imei");
+            localStorage.removeItem("osAnterior");
+            localStorage.removeItem("dataManutencao");
+            localStorage.removeItem("obsUltimoServico");
+            window.location.href = "lacre.html";
+        } else {
+            localStorage.removeItem("mac");
+            localStorage.removeItem("serial");
+            localStorage.removeItem("imei");
+            localStorage.removeItem('lacre');
+            localStorage.removeItem('tipoLacre');
+            window.location.href = "garantia.html";
+        }
+    } else{
+        window.location.href = "equipamento.html";
     }
 });
 
@@ -154,88 +161,86 @@ function gerarChecklist() {
         }
     });
 
-    atualizarChecklist()
 
-
-
-
-
-    // Adiciona o evento de alteração aos radio buttons
-    document.querySelectorAll('.checklist-item input[type="radio"]').forEach(radio => {
-        radio.addEventListener('change', function () {
-            const itemNome = this.name;
-            const novaSelecao = this.value;
-            const selecaoAnteriorItem = selecaoAnterior[itemNome];
-            let observacoes = JSON.parse(localStorage.getItem('observacoes')) || [];
-
-            // Criar objeto com os valores preenchidos
-            const pelicula = {
-                pecaReprovada: itemNome,
-                valorSelecionadoGlobal: 9,
-                pecaSelecionadoGlobal: 'PROTHIDRO23',
-                nivelSelecionadoGlobal: '',
-                causaDefeitoSelecionadoGlobal: '',
-                obsDefeitoSelecionadoGlobal: '',
-                opcSelecionadoGlobal: ''
-            };
-            let peliculaConfirm = observacoes.some(observacao => observacao.pecaSelecionadoGlobal === 'PROTHIDRO23')
-                ? 'PROTHIDRO23'
-                : null;
-
-            // Só abre o modal se a mudança for de 'reprovado' para 'aprovado' ou 'não possui'
-            if (selecaoAnteriorItem === 'reprovado' && (novaSelecao === 'aprovado' || novaSelecao === 'X (NÃO POSSUI)')) {
-                abrirModalConfirmacao(
-                    "O serviço escolhido será deletado. Deseja continuar?",
-                    () => {
-                        if (itemNome === 'TOUCH' && peliculaConfirm === 'PROTHIDRO23') {
-                            abrirModalConfirmacao(
-                                "Deseja remover a película de hidrogel?",
-                                () => {
-                                    // Confirmação: Atualiza o localStorage e salva a nova seleção
-                                    observacoes = observacoes.filter(observacao => observacao.pecaReprovada !== itemNome);
-                                    localStorage.setItem('observacoes', JSON.stringify(observacoes));
-                                    selecaoAnterior[itemNome] = novaSelecao;
-                                },
-                                () => {
-                                    observacoes = observacoes.filter(observacao => observacao.pecaReprovada !== itemNome);
-                                    observacoes.push(pelicula);
-                                    localStorage.setItem('observacoes', JSON.stringify(observacoes));
-                                    selecaoAnterior[itemNome] = novaSelecao;
-                                }
-                            );
-                        } else {
-                            observacoes = observacoes.filter(observacao => observacao.pecaReprovada !== itemNome);
-                            localStorage.setItem('observacoes', JSON.stringify(observacoes));
-                            selecaoAnterior[itemNome] = novaSelecao;
-                        }
-                    },
-                    () => {
-                        // Cancelamento: Reverte para 'reprovado'
-                        document.querySelector(`input[name="${itemNome}"][value="reprovado"]`).checked = true;
-                    }
-                );
-            } else {
-                observacoes = observacoes.filter(observacao => observacao.pecaReprovada !== itemNome);
-                localStorage.setItem('observacoes', JSON.stringify(observacoes));
-                if (itemNome === 'TOUCH' && novaSelecao === 'aprovado') {
+    if (tipoServico === 'laudo'){
+        atualizarChecklist()
+        // Adiciona o evento de alteração aos radio buttons
+        document.querySelectorAll('.checklist-item input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                const itemNome = this.name;
+                const novaSelecao = this.value;
+                const selecaoAnteriorItem = selecaoAnterior[itemNome];
+                let observacoes = JSON.parse(localStorage.getItem('observacoes')) || [];
+    
+                // Criar objeto com os valores preenchidos
+                const pelicula = {
+                    pecaReprovada: itemNome,
+                    valorSelecionadoGlobal: 9,
+                    pecaSelecionadoGlobal: 'PROTHIDRO23',
+                    nivelSelecionadoGlobal: '',
+                    causaDefeitoSelecionadoGlobal: '',
+                    obsDefeitoSelecionadoGlobal: '',
+                    opcSelecionadoGlobal: ''
+                };
+                let peliculaConfirm = observacoes.some(observacao => observacao.pecaSelecionadoGlobal === 'PROTHIDRO23')
+                    ? 'PROTHIDRO23'
+                    : null;
+    
+                // Só abre o modal se a mudança for de 'reprovado' para 'aprovado' ou 'não possui'
+                if (selecaoAnteriorItem === 'reprovado' && (novaSelecao === 'aprovado' || novaSelecao === 'X (NÃO POSSUI)')) {
                     abrirModalConfirmacao(
-                        "Deseja adicionar a película de hidrogel?",
+                        "O serviço escolhido será deletado. Deseja continuar?",
                         () => {
-                            observacoes.push(pelicula);
-                            localStorage.setItem('observacoes', JSON.stringify(observacoes));
-                            selecaoAnterior[itemNome] = novaSelecao;
+                            if (itemNome === 'TOUCH' && peliculaConfirm === 'PROTHIDRO23') {
+                                abrirModalConfirmacao(
+                                    "Deseja remover a película de hidrogel?",
+                                    () => {
+                                        // Confirmação: Atualiza o localStorage e salva a nova seleção
+                                        observacoes = observacoes.filter(observacao => observacao.pecaReprovada !== itemNome);
+                                        localStorage.setItem('observacoes', JSON.stringify(observacoes));
+                                        selecaoAnterior[itemNome] = novaSelecao;
+                                    },
+                                    () => {
+                                        observacoes = observacoes.filter(observacao => observacao.pecaReprovada !== itemNome);
+                                        observacoes.push(pelicula);
+                                        localStorage.setItem('observacoes', JSON.stringify(observacoes));
+                                        selecaoAnterior[itemNome] = novaSelecao;
+                                    }
+                                );
+                            } else {
+                                observacoes = observacoes.filter(observacao => observacao.pecaReprovada !== itemNome);
+                                localStorage.setItem('observacoes', JSON.stringify(observacoes));
+                                selecaoAnterior[itemNome] = novaSelecao;
+                            }
                         },
                         () => {
-                            selecaoAnterior[itemNome] = novaSelecao;
+                            // Cancelamento: Reverte para 'reprovado'
+                            document.querySelector(`input[name="${itemNome}"][value="reprovado"]`).checked = true;
                         }
                     );
                 } else {
-                    // Se a mudança não requer confirmação, atualiza o valor anterior
-                    selecaoAnterior[itemNome] = novaSelecao;
+                    observacoes = observacoes.filter(observacao => observacao.pecaReprovada !== itemNome);
+                    localStorage.setItem('observacoes', JSON.stringify(observacoes));
+                    if (itemNome === 'TOUCH' && novaSelecao === 'aprovado') {
+                        abrirModalConfirmacao(
+                            "Deseja adicionar a película de hidrogel?",
+                            () => {
+                                observacoes.push(pelicula);
+                                localStorage.setItem('observacoes', JSON.stringify(observacoes));
+                                selecaoAnterior[itemNome] = novaSelecao;
+                            },
+                            () => {
+                                selecaoAnterior[itemNome] = novaSelecao;
+                            }
+                        );
+                    } else {
+                        // Se a mudança não requer confirmação, atualiza o valor anterior
+                        selecaoAnterior[itemNome] = novaSelecao;
+                    }
                 }
-            }
+            });
         });
-    });
+    }
 }
 
 

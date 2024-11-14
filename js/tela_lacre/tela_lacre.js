@@ -39,8 +39,10 @@ function exibirAlerta() {
 $(document).ready(function () {
     const verficaEquipamento = localStorage.getItem('selectedOption');
     const verficaLacre = localStorage.getItem('lacre');
+    const verificatipoServico = localStorage.getItem('tipoServico');
 
-    if (!verficaEquipamento || !verficaLacre) {
+
+    if (!verficaEquipamento || !verficaLacre || !verificatipoServico) {
         window.location.href = "../index.html";
         localStorage.clear();
     } else {

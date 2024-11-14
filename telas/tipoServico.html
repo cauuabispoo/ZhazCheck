@@ -24,27 +24,20 @@
 
   <main>
     <section>
-      <h1 class="potencial1">Qual o tipo de equipamento?</h1>
+      <h1 class="potencial1">Qual a atividade?</h1>
       <div id="alertBox" class="alert-box hidden">Por favor, selecione uma opção!</div>
       <select name="potencial" id="potencial" class="custom-select sources" placeholder="Selecione">
         <option value="" disabled selected></option>
-        <option value="coletor">Coletor de dados</option>
-        <option value="leitor">Leitor de dados</option>
-        <option value="busca">Busca Preço/Terminal de consulta</option>
-        <option value="impressora">Impressora Térmica</option>
-        <option value="celular">Celular/Tablet</option>
+        <option value="laudo">Laudo</option>
+        <option value="manutencao">Manutenção</option>
       </select>
     </section>
 
-    <section>
-      <h2 class="title">Qual o modelo?</h2>
-      <select name="model" id="model" class="custom-select sources" placeholder="Selecione"></select>
-    </section>
+
 
     <div class="div_voltar">
-      <button class="botao_voltar" id="goBack">Voltar</button>
       <button id="proceed" class="botao_continuar">Continuar</button>
-  </div>
+    </div>
   </main>
 
   <footer>
@@ -55,7 +48,7 @@
   </footer>
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-  <script src="../js/tela_equipamento/tela_equipamento.js"></script>
+  <script src="../js/tela_tipoServico/tela_tipoServico.js"></script>
 </body>
 
 </html>

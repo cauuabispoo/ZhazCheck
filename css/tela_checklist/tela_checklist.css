@@ -492,7 +492,7 @@ sup {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   /* Fundo escuro */
-  z-index: 1000;
+  z-index: 100000;
 }
 
 /* Centralização do conteúdo do modal */
