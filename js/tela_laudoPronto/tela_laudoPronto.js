@@ -225,11 +225,11 @@ async function gerarLaudo() {
       .map(item => `  - ${item.item} -> ${item.status}`) // Formatação desejada
       .join('\n'); // Quebra de linha entre itens
 
-      textarea.value += textoFormatado.toUpperCase();
-      if(identificadores){
-        textarea.value += `  ${identificadores}`;
+    if(identificadores){
+      textarea.value += `  ${identificadores}`;
       checklistLaudo += identificadores;
     }
+    textarea.value += textoFormatado.toUpperCase();
     checklistLaudo += textoFormatado;
   } else {
     textarea.value = '';
