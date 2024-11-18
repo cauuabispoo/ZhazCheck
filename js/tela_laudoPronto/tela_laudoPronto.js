@@ -227,7 +227,6 @@ async function gerarLaudo() {
 
     if(identificadores){
       textarea.value += `  ${identificadores}`;
-      checklistLaudo += identificadores;
     }
     textarea.value += textoFormatado.toUpperCase();
     checklistLaudo += textoFormatado;
