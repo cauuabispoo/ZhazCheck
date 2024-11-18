@@ -269,10 +269,10 @@ async function gerarLaudo() {
         diagnostico += `  - ${peca} (OBS: ${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
         if (peca === "DIODO LASER") {
           if (obs.opcSelecionadoGlobal === "n") {
-            recuperacaoNecessaria += `  - ${peca} -> (SV0064) -> (PARA SUBSTITUIR É NECESSÁRIO A RECUPERAÇÃO)\n`;
+            recuperacaoNecessaria += `  - ${peca} -> (SV0064) -> (PARA SUBSTITUIÇÃO DO COMPONENTENTE É NECESSÁRIO A RECUPERAÇÃO)\n`;
             peca0.push('SV0064');
           } else {
-            recuperacaoOpcional += `  - ${peca} -> (SV0064) -> (PARA SUBSTITUIR É NECESSÁRIO A RECUPERAÇÃO)\n`;
+            recuperacaoOpcional += `  - ${peca} -> (SV0064) -> (PARA SUBSTITUIÇÃO DO COMPONENTENTE É NECESSÁRIO A RECUPERAÇÃO)\n`;
             peca0.push('SV0064');
           }
         } else {
