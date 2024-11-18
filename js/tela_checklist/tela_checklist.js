@@ -720,7 +720,7 @@ const filtro = {
     'CABO DE COMUNICAÇÃO': ['cabo'],
     'FONTE DE ALIMENTAÇÃO': ['FONTE'],
     'PLACA PRINCIPAL': ['PLACA PRINCIPAL'],
-    'CARCAÇAS': ['CARCACA'],
+    'CARCAÇAS': ['CARCACA', 'PE DE APOIO'],
     'LENTE': ['LENTE'],
     'PARAFUSOS': ['PARAFUSO'],
     'LCD': ['LCD'],
