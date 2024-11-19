@@ -442,7 +442,7 @@ async function gerarLaudo() {
         break;
     }
   }
-  if(pecasNaoEncontradas != ""){
+  if(pecasNaoEncontradas.every(item => item != "")){
     if (pecasNaoEncontradas.length > 0) {
       alert("Por favor, entre em contato com o administrador 'Cauã Bispo' para adicionar as palavras chaves das seguintes peças:\n\n" + pecasNaoEncontradas.join("\n"));
     }
