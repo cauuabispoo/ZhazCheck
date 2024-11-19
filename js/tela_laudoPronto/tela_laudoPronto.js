@@ -474,24 +474,13 @@ async function gerarLaudo() {
 
     if (recuperacaoNecessaria) {
       laudo += `NECESSÁRIO A RECUPERAÇÃO DO(S) SEGUINTE(S) ITEM(S):\n${recuperacaoNecessaria}\n`;
-      if (verificaCarcaca) {
-        peca0.push('SV0038');
-      }
-      // Encontra o maior nível no array
-      const maiorNivel = Math.max(...niveisRecuperacao);
-
-      // Adiciona a peça correspondente ao maior nível
-      if (maiorNivel === 1) {
-        peca0.push('SV0036');
-      } else if (maiorNivel === 2) {
-        peca0.push('SV0074');
-      } else if (maiorNivel === 3) {
-        peca0.push('SV0075');
-      }
     }
 
     if (recuperacaoOpcional) {
       laudo += `RECUPERAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${recuperacaoOpcional}\n`;
+    }
+
+    if (recuperacaoOpcional || recuperacaoNecessaria) {
       if (verificaCarcaca) {
         peca0.push('SV0038');
       }
