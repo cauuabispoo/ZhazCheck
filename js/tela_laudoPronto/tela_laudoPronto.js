@@ -453,7 +453,7 @@ async function gerarLaudo() {
 
   if (diagnostico) {
     if (observacao) {
-      laudo += `${diagnostico}\n\n  OBSERVAÇÕES:\n${observacao}\n`;
+      laudo += `${diagnostico}\n  OBSERVAÇÕES:\n${observacao}\n`;
     } else {
       laudo += `${diagnostico}\n`;
     }
@@ -520,7 +520,7 @@ async function gerarLaudo() {
     laudo += `  - FORAM REALIZADOS TODOS OS TESTES E O EQUIPAMENTO NÃO APRESENTOU NENHUM DEFEITO\n`;
 
     if (observacao) {
-      laudo += `${checklistLaudo}\n\n  OBSERVAÇÕES:\n${observacao}\n`;
+      laudo += `${checklistLaudo}\n\n  OBSERVAÇÕES:${observacao}`;
     } else {
       laudo += `${checklistLaudo}\n`;
     }
