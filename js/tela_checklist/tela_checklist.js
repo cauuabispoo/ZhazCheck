@@ -264,8 +264,8 @@ function abrirModalConfirmacao(texto, confirmCallback, cancelCallback) {
 
     // Define a função de cancelamento
     cancelBtn.onclick = () => {
-        cancelCallback(); // Executa a ação de cancelamento
         modal.classList.add('hidden'); // Fecha o modal
+        cancelCallback(); // Executa a ação de cancelamento
     };
 }
 
