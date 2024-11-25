@@ -884,7 +884,7 @@ async function carregarOpcoes(repro) {
 
 
         // Filtra e adiciona as opções ao select
-        if (repro === 'ACESSÓRIOS') {
+        if (repro === 'ACESSÓRIOS' || repro === 'CABO DE COMUNICAÇÃO' || repro === 'FONTE DE ALIMENTAÇÃO') {
             dados.forEach(item => {
                 if (
                     sectionsToShow.some(section => item.nome.toLowerCase().includes(section.toLowerCase()))
