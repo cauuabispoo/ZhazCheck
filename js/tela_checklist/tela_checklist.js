@@ -277,6 +277,7 @@ function abrirModalConfirmacao(texto, confirmCallback, cancelCallback) {
 
 // Exemplo de uso para outra ação (por exemplo, botão de envio do formulário)
 document.getElementById("submitButton").addEventListener("click", function () {
+    if (tipoServico === 'laudo'){
     abrirModalConfirmacao(
         "Deseja realmente enviar o laudo?",
         () => {
@@ -285,6 +286,16 @@ document.getElementById("submitButton").addEventListener("click", function () {
         () => {
         }
     );
+} else {
+    abrirModalConfirmacao(
+        "Deseja finalizar a menutenção?",
+        () => {
+            salvarChecklist()
+        },
+        () => {
+        }
+    );
+}
 });
 
 
