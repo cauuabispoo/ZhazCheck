@@ -258,7 +258,7 @@ async function gerarLaudo() {
       dgn: "DESGASTE DE USO",
       df: "DEFEITO"
     }[obs.causaDefeitoSelecionadoGlobal] || "CAUSA DESCONHECIDA";
-    if (obs.causaDefeitoSelecionadoGlobal === "USO INDEVIDO"){
+    if (obs.causaDefeitoSelecionadoGlobal === "mau"){
       mauuso = 'MAUUSO';
     }
     const peca = filtrarPalavraChave(pecas[obs.pecaSelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
