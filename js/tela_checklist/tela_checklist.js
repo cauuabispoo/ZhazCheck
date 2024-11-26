@@ -39,6 +39,9 @@ document.getElementById("goBack").addEventListener("click", function () {
         }
     } else{
         window.location.href = "equipamento.html";
+        localStorage.removeItem("mac");
+        localStorage.removeItem("serial");
+        localStorage.removeItem("imei");
     }
 });
 
