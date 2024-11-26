@@ -245,6 +245,7 @@ async function gerarLaudo() {
   let recuperacaoNecessaria = "";
   let recuperacaoOpcional = "";
   let sistema = "";
+  let mauuso = "";
   let peca0 = [];
   let niveisRecuperacao = [];
 
@@ -257,7 +258,9 @@ async function gerarLaudo() {
       dgn: "DESGASTE DE USO",
       df: "DEFEITO"
     }[obs.causaDefeitoSelecionadoGlobal] || "CAUSA DESCONHECIDA";
-
+    if (obs.causaDefeitoSelecionadoGlobal === 'mau'){
+      mauuso = 'MAUUSO';
+    }
     const peca = filtrarPalavraChave(pecas[obs.pecaSelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
 
     var verificaCarcaca;
@@ -450,6 +453,9 @@ async function gerarLaudo() {
 
   // Monta o laudo com os blocos dinâmicos
   let laudo = `${infoBasica}${identificadores}CONFORME O DIAGNÓSTICO TÉCNICO, FOI OBSERVADO:\n`;
+  if (mauuso === 'mauuso'){
+  peca0.push('MAUUSO');
+  }
 
   if (diagnostico) {
     if (observacao) {
