@@ -749,7 +749,7 @@ const filtro = {
     'SENSOR DO RIBBON': ['SENSOR'],
     'ALIMENTADOR': [''],
     'TRACIONADOR': [''],
-    'BOTÕES': ['BOTOES', 'BOTAO'],
+    'BOTÕES': ['BOTOES', 'BOTAO', 'PLACA'],
     'GUIA DE ETIQUETA': ['GUIA'],
     'TRAVAS': ['TRAVA', 'TRAVAS'],
     'SERIAL': ['PLACA'],
