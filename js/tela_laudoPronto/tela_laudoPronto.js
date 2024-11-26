@@ -258,7 +258,7 @@ async function gerarLaudo() {
       dgn: "DESGASTE DE USO",
       df: "DEFEITO"
     }[obs.causaDefeitoSelecionadoGlobal] || "CAUSA DESCONHECIDA";
-    if (obs.causaDefeitoSelecionadoGlobal === 'USO INDEVIDO'){
+    if (obs.causaDefeitoSelecionadoGlobal === "USO INDEVIDO"){
       mauuso = 'MAUUSO';
     }
     const peca = filtrarPalavraChave(pecas[obs.pecaSelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
@@ -453,7 +453,7 @@ async function gerarLaudo() {
 
   // Monta o laudo com os blocos dinâmicos
   let laudo = `${infoBasica}${identificadores}CONFORME O DIAGNÓSTICO TÉCNICO, FOI OBSERVADO:\n`;
-  if (mauuso === 'MAUUSO'){
+  if (mauuso === "MAUUSO"){
   peca0.push('MAUUSO');
   }
 
