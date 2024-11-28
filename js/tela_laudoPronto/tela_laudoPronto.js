@@ -443,6 +443,17 @@ async function gerarLaudo() {
 
       default:
         break;
+
+      case 16: // Recuperação de cutter
+        diagnostico += `  - CUTTER DANIFICADO (OBS: ${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
+        if (obs.opcSelecionadoGlobal === "n") {
+          sistema += `NECESSÁRIO A RECUPERAÇÃO DO CUTTER -> (SV0066)\n\n`;
+          peca0.push('SV0066');
+        } else {
+          sistema += `RECUPERAÇÃO OPCIONAL DO CUTTER -> (SV0066) -> (A CRITÉRIO DO CLIENTE)\n\n`;
+          peca0.push('SV0066');
+        }
+        break;
     }
   }
   if(pecasNaoEncontradas.every(item => item != "")){
