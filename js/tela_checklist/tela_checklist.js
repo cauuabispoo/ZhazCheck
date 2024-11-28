@@ -692,7 +692,7 @@ const dados = [
     {
         id: 2, nome: 'Recuperação de placa', equipamentos: ['PLACA PRINCIPAL', 'PLACA POWERBOARD', 'WI-FI', 'MÓDULO LASER', 'CÂMERA', 'TECLADO', 'GATILHO/BOTÕES LAT.',
             'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)', 'ALTO-FALANTE', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'CARREGAMENTO/COMUNICAÇÃO', 'SENSORES DE ETIQUETA',
-            'SENSOR DO RIBBON', 'ALIMENTADOR', 'TRACIONADOR', 'BOTÕES', 'SERIAL', 'PARALELA', 'ETHERNET', 'USB', 'BLUETOOTH', 'PLACA SECUNDÁRIA', 'SENSOR BIOMÉTRICO', 'CORTADOR', 'PAINEL'], valor: '2'
+            'SENSOR DO RIBBON', 'ALIMENTADOR', 'TRACIONADOR', 'BOTÕES', 'SERIAL', 'PARALELA', 'ETHERNET', 'USB', 'BLUETOOTH', 'PLACA SECUNDÁRIA', 'SENSOR BIOMÉTRICO', 'CORTADOR', 'PAINEL', 'FONTE DE ALIMENTAÇÃO'], valor: '2'
     },
 
     { id: 3, nome: 'Recuperação de carcaça', equipamentos: ['CARCAÇAS', 'TRAVAS DA BATERIA/TAMPA', 'GATILHO', 'BASE DE COMUNICAÇÃO BLUETOOTH', 'TRAVAS', 'CORTADOR', 'TAMPA DA BATERIA', 'PAINEL'], valor: '3' },
@@ -733,7 +733,7 @@ const filtro = {
     'PAINEL': ['PAINEL'],
     'ACESSÓRIOS': ['capa', 'hidrogel', 'pelicula ', 'capinha', 'manopla', 'gatilho', 'pistola', 'ALCA'],
     'CABO DE COMUNICAÇÃO': ['cabo'],
-    'FONTE DE ALIMENTAÇÃO': ['FONTE'],
+    'FONTE DE ALIMENTAÇÃO': ['FONTE', 'PLACA FONTE'],
     'PLACA PRINCIPAL': ['PLACA PRINCIPAL'],
     'CARCAÇAS': ['CARCACA', 'PE DE APOIO', 'EIXO INFERIOR DE ROTACAO', 'CAPA DO SCANNER DE ROTACAO'],
     'LENTE': ['LENTE'],
