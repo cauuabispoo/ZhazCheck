@@ -669,6 +669,7 @@ const combinacoesMap = {
     '13': ['obsSection', 'opcSection'], // Recuperação do cabo de comunicação
     '14': ['obsSection', 'opcSection'], // Intalação da configuração do cliente
     '15': ['obsSection'], // Observação
+    '16': ['causaSection', 'obsSection', 'opcSection'], //Recuperação do Cutter
 };
 
 // Dados locais: cada item pode ter múltiplos tipos de equipamentos associados
@@ -725,6 +726,7 @@ const dados = [
             'CABEÇA DE IMPRESSÃO', 'CORREIAS/ENGRENAGENS', 'SENSORES DE ETIQUETA', 'SENSOR DO RIBBON', 'ALIMENTADOR', 'TRACIONADOR', 'BOTÕES', 'GUIA DE ETIQUETA', 'TRAVAS',
             'SERIAL', 'PARALELA', 'ETHERNET', 'USB', 'BLUETOOTH', 'PLACA SECUNDÁRIA', 'SENSOR BIOMÉTRICO', 'CORTADOR', 'TAMPA DA BATERIA', 'PAINEL'], valor: '15'
     },
+    { id: 16, nome: 'Recuperação de cutter', equipamentos: ['CORTADOR'], valor: '16'},
 ];
 
 
