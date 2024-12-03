@@ -261,8 +261,9 @@ async function gerarLaudo() {
     if (obs.causaDefeitoSelecionadoGlobal === "mau"){
       mauuso = 'MAUUSO';
     }
+    var peca = "";
     if(obs.pecaSelecionadoGlobal != ""){
-      const peca = filtrarPalavraChave(pecas[obs.pecaSelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
+      peca = filtrarPalavraChave(pecas[obs.pecaSelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
     }
     var verificaCarcaca;
     var nivel;
