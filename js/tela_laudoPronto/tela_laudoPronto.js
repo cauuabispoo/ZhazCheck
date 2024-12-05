@@ -260,6 +260,8 @@ async function gerarLaudo() {
     }[obs.causaDefeitoSelecionadoGlobal] || "CAUSA DESCONHECIDA";
     if (obs.causaDefeitoSelecionadoGlobal === "mau"){
       mauuso = 'MAUUSO';
+    } else if (obs.causaDefeitoSelecionadoGlobal === "dgn"){
+      mauuso = 'DGN';
     }
     var peca = "";
     if(obs.pecaSelecionadoGlobal != ""){
@@ -467,7 +469,9 @@ async function gerarLaudo() {
   // Monta o laudo com os blocos dinâmicos
   let laudo = `${infoBasica}${identificadores}CONFORME O DIAGNÓSTICO TÉCNICO, FOI OBSERVADO:\n`;
   if (mauuso === "MAUUSO"){
-  peca0.push('MAUUSO');
+    peca0.push('MAUUSO');
+  } else if (mauuso === "DGN"){
+    peca0.push('DGN');
   }
 
   if (diagnostico) {
