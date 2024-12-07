@@ -14,31 +14,104 @@ $(document).ready(() => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-// Função para ler o arquivo TXT com palavras-chave
-async function carregarPalavrasChave() {
-  try {
-    const response = await fetch("../txt/palavrasChave.txt");
-    if (!response.ok) throw new Error('Erro ao carregar palavras-chave');
-    const texto = await response.text();
-    return texto.split('\n').map(p => p.trim()).filter(Boolean);
-  } catch (error) {
-    console.error(error);
-    alert('Erro ao carregar palavras-chave. Verifique os arquivos.');
-    return [];
+class TrieNode {
+  constructor() {
+    this.children = {};
+    this.isEndOfWord = false;
   }
 }
+
+class Trie {
+  constructor() {
+    this.root = new TrieNode();
+  }
+
+  // Insere uma palavra-chave na Trie
+  insert(word) {
+    let node = this.root;
+    for (const char of word.toLowerCase()) {
+      if (!node.children[char]) {
+        node.children[char] = new TrieNode();
+      }
+      node = node.children[char];
+    }
+    node.isEndOfWord = true;
+  }
+
+  // Busca na frase a palavra-chave mais longa encontrada
+  searchLongestMatch(sentence) {
+    let node = this.root;
+    let match = "";
+    let currentMatch = "";
+
+    for (const char of sentence.toLowerCase()) {
+      if (!node.children[char]) break;
+      currentMatch += char;
+      node = node.children[char];
+
+      if (node.isEndOfWord) {
+        match = currentMatch;
+      }
+    }
+
+    return match ? match.toUpperCase() : null;
+  }
+}
+
+// Array para armazenar peças sem palavras-chave encontradas
+const pecasNaoEncontradas = [];
+
+// Função para filtrar palavra-chave usando a Trie
+function filtrarPalavraChaveTrie(nomePeca, trie) {
+  const palavraChave = trie.searchLongestMatch(nomePeca);
+
+  if (palavraChave) {
+    return palavraChave;
+  }
+
+  // Adiciona ao array se não encontrar nenhuma correspondência
+  pecasNaoEncontradas.push(nomePeca);
+  return "PALAVRA NÃO ENCONTRADA";
+}
+
+// Função para carregar palavras-chave em uma Trie
+async function carregarPalavrasChaveTrie() {
+  try {
+    const response = await fetch("../txt/palavrasChave.txt");
+    if (!response.ok) throw new Error("Erro ao carregar palavras-chave");
+
+    const texto = await response.text();
+    const palavrasChave = texto.split("\n").map(p => p.trim()).filter(Boolean);
+
+    const trie = new Trie();
+    for (const palavra of palavrasChave) {
+      trie.insert(palavra);
+    }
+
+    return trie;
+  } catch (error) {
+    console.error(error);
+    alert("Erro ao carregar palavras-chave. Verifique os arquivos.");
+    return null;
+  }
+}
+
+// Função para exibir um alerta único caso existam peças sem palavras-chave encontradas
+function alertarPecasNaoEncontradas() {
+  if (pecasNaoEncontradas.length > 0) {
+    alert(`Peças sem palavras-chave encontradas: ${pecasNaoEncontradas.join(", ")}`);
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
 // Função para ler o CSV e armazenar as peças em um mapa
 async function carregarPecas() {
@@ -74,32 +147,69 @@ async function carregarEquipamentos() {
 }
 
 
-// Função para encontrar a palavra-chave dentro de uma peça
-const pecasNaoEncontradas = [];
-function filtrarPalavraChave(nomePeca, palavrasChave) {
-  // Array para armazenar as peças que não encontraram a palavra-chave
+// Lista de palavras que devem ser ignoradas pelo corretor
+const excecoes = ["POWERBOARD"];
 
-  // Percorre todas as palavras-chave e verifica se alguma está presente no nome da peça
-  for (const palavra of palavrasChave) {
-    // Se encontrar a palavra-chave, retorna a palavra em maiúsculas e sai da função
-    if (nomePeca.toLowerCase().includes(palavra.toLowerCase())) {
-      return palavra.toUpperCase(); // Retorna a palavra-chave encontrada em maiúsculas
-    }
+// Função para corrigir texto com exceções
+async function corrigirTextoComExcecoes(texto) {
+  const apiUrl = "https://api.languagetool.org/v2/check"; // Endpoint da API
+  const linguagem = "pt-br"; // Idioma: português
+
+  // Função para verificar se uma palavra é uma exceção
+  function palavraEhExcecao(palavra) {
+    // Verifica se o texto e a palavra são válidos
+    if (!palavra || typeof palavra !== "string") return false;
+
+    // Retorna true se a palavra estiver na lista de exceções
+    return excecoes.some(excecao => palavra.includes(excecao));
   }
 
-  // Se nenhuma palavra-chave for encontrada, adiciona a peça ao array
-  pecasNaoEncontradas.push(nomePeca);
+  // Se o texto for nulo ou não for uma string, retorna o texto original
+  if (!texto || typeof texto !== "string") {
+    return texto; // Retorna o texto original
+  }
 
+  // Ignorar correção se o texto contiver apenas palavras que são exceções
+  if (palavraEhExcecao(texto)) {
+    return texto; // Retorna o texto original
+  }
 
-  // Após o loop, se houver peças não encontradas, exibe um único alerta
-  
-  // Retorna a mensagem 'PALAVRA NÃO ENCONTRADA' quando não encontrar nenhuma palavra-chave
-  return "PALAVRA NÃO ENCONTRADA";
-  
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `text=${encodeURIComponent(texto)}&language=${linguagem}`,
+    });
+
+    const data = await response.json();
+    let textoCorrigido = texto;
+
+    if (data.matches) {
+      data.matches.forEach(match => {
+        const erro = match.context.text.slice(match.offset, match.offset + match.length);
+        const correcao = match.replacements[0]?.value; // Usa a primeira sugestão de correção
+
+        // Não corrige se o erro está na lista de exceções
+        if (palavraEhExcecao(erro)) {
+          return; // Ignora a correção para essa palavra
+        }
+
+        // Substitui o erro pela correção
+        if (correcao) {
+          const regex = new RegExp(erro, "g");
+          textoCorrigido = textoCorrigido.replace(regex, correcao);
+        }
+      });
+    }
+
+    return textoCorrigido;
+  } catch (error) {
+    console.error("Erro ao corrigir o texto:", error);
+    return texto; // Retorna o texto original em caso de erro
+  }
 }
-
-
-
 
 
 
@@ -108,7 +218,7 @@ async function gerarLaudo() {
   const pecas = await carregarPecas();
   const equipamentos = await carregarEquipamentos();
   const laudoTextarea = document.getElementById("laudo");
-  const palavrasChave = await carregarPalavrasChave(); // Carregar palavras-chave do arquivo TXT
+  const palavrasChave = await carregarPalavrasChaveTrie(); // Carregar palavras-chave do arquivo TXT
   const container1 = document.querySelector(".container2"); // Seleciona o contêiner
 
   // Dados do localStorage
@@ -265,36 +375,40 @@ async function gerarLaudo() {
     }
     var peca = "";
     if(obs.pecaSelecionadoGlobal != ""){
-      peca = filtrarPalavraChave(pecas[obs.pecaSelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
+      peca = filtrarPalavraChaveTrie(pecas[obs.pecaSelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
     }
     var verificaCarcaca;
     var nivel;
+    const pecaCorrigida = await corrigirTextoComExcecoes(peca);
+    const obsDefeitoCorrigido = await corrigirTextoComExcecoes(obs.obsDefeitoSelecionadoGlobal);
+    const obsCarcacaDefeitoCorrigido = await corrigirTextoComExcecoes(obs.obsCarcacaDefeitoSelecionadoGlobal);
+
     switch (obs.valorSelecionadoGlobal) {
       case 1: // Substituição de componente
         peca0.push(obs.pecaSelecionadoGlobal);
-        diagnostico += `  - ${peca} (OBS: ${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
+        diagnostico += `  - ${pecaCorrigida} (OBS: ${obsDefeitoCorrigido}) -> ${causa}\n`;
         if (peca === "DIODO LASER") {
           if (obs.opcSelecionadoGlobal === "n") {
-            recuperacaoNecessaria += `  - ${peca} -> (SV0064) -> (PARA SUBSTITUIÇÃO DO COMPONENTE É NECESSÁRIO A RECUPERAÇÃO)\n`;
+            recuperacaoNecessaria += `  - ${pecaCorrigida} -> (SV0064) -> (PARA SUBSTITUIÇÃO DO COMPONENTE É NECESSÁRIO A RECUPERAÇÃO)\n`;
             peca0.push('SV0064');
           } else {
-            recuperacaoOpcional += `  - ${peca} -> (SV0064) -> (PARA SUBSTITUIÇÃO DO COMPONENTE É NECESSÁRIO A RECUPERAÇÃO)\n`;
+            recuperacaoOpcional += `  - ${pecaCorrigida} -> (SV0064) -> (PARA SUBSTITUIÇÃO DO COMPONENTE É NECESSÁRIO A RECUPERAÇÃO)\n`;
             peca0.push('SV0064');
           }
         } else {
           if (obs.opcSelecionadoGlobal === "n") {
-            substituicaoNecessaria += `  - ${peca}\n`;
+            substituicaoNecessaria += `  - ${pecaCorrigida}\n`;
           } else {
-            substituicaoOpcional += `  - ${peca} -> (A CRITÉRIO DO CLIENTE)\n`;
+            substituicaoOpcional += `  - ${pecaCorrigida} -> (A CRITÉRIO DO CLIENTE)\n`;
           }
         }
         break;
 
       case 2: // Recuperação de placa
         nivel = obs.nivelSelecionadoGlobal === "n1" ? "N1 (SV0036)" : obs.nivelSelecionadoGlobal === "n2" ? "N2 (SV0074)" : "N3 (SV0075)";
-        diagnostico += `  - ${peca} (OBS: ${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
+        diagnostico += `  - ${pecaCorrigida} (OBS: ${obsDefeitoCorrigido}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          recuperacaoNecessaria += `  - ${peca} -> ${nivel}\n`;
+          recuperacaoNecessaria += `  - ${pecaCorrigida} -> ${nivel}\n`;
           if (nivel === 'N1 (SV0036)') {
             niveisRecuperacao.push(1); // N1 é representado pelo valor 1
           } else if (nivel === 'N2 (SV0074)') {
@@ -303,7 +417,7 @@ async function gerarLaudo() {
             niveisRecuperacao.push(3); // N3 é representado pelo valor 3
           };
         } else {
-          recuperacaoOpcional += `  - ${peca} -> ${nivel} -> (A CRITÉRIO DO CLIENTE)\n`;
+          recuperacaoOpcional += `  - ${pecaCorrigida} -> ${nivel} -> (A CRITÉRIO DO CLIENTE)\n`;
           if (nivel === 'N1 (SV0036)') {
             niveisRecuperacao.push(1); // N1 é representado pelo valor 1
           } else if (nivel === 'N2 (SV0074)') {
@@ -315,8 +429,8 @@ async function gerarLaudo() {
         break;
 
       case 3: // Recuperação de carcaça
-        const peca1 = obs.obsCarcacaDefeitoSelecionadoGlobal;
-        diagnostico += `  - ${peca1} (OBS: ${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
+        const peca1 = obsCarcacaDefeitoCorrigido;
+        diagnostico += `  - ${peca1} (OBS: ${obsDefeitoCorrigido}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           recuperacaoNecessaria += `  - ${peca1}\n`;
           verificaCarcaca = '1';
@@ -327,7 +441,7 @@ async function gerarLaudo() {
         break;
 
       case 4: // Recuperação de bateria
-        diagnostico += `  - CARCAÇA DA BATERIA DANIFICADA (OBS: ${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
+        diagnostico += `  - CARCAÇA DA BATERIA DANIFICADA (OBS: ${obsDefeitoCorrigido}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RECUPERAÇÃO DA BATERIA -> (SV0071)\n\n`;
           peca0.push('SV0071');
@@ -338,7 +452,7 @@ async function gerarLaudo() {
         break;
 
       case 5: // Atualização do sistema Android
-        diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
+        diagnostico += `  - ${obsDefeitoCorrigido}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A ATUALIZAÇÃO DO SISTEMA ANDROID -> (SV0042)\n\n`;
           peca0.push('SV0042');
@@ -349,7 +463,7 @@ async function gerarLaudo() {
         break;
 
       case 6: // Restauração da memória
-        diagnostico += `  - SISTEMA OPERACIONAL (OBS: ${obs.obsDefeitoSelecionadoGlobal}) -> DEFEITO\n`;
+        diagnostico += `  - SISTEMA OPERACIONAL (OBS: ${obsDefeitoCorrigido}) -> DEFEITO\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RESTAURAÇÃO DA MEMÓRIA FLASH ROM -> (SV0040)\n\n`;
           peca0.push('SV0040');
@@ -360,7 +474,7 @@ async function gerarLaudo() {
         break;
 
       case 7: // Upgrade de Firmware
-        diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
+        diagnostico += `  - ${obsDefeitoCorrigido}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO O UPGRADE DA FIRMWARE -> (SV0046)\n\n`;
           peca0.push('SV0046');
@@ -371,7 +485,7 @@ async function gerarLaudo() {
         break;
 
       case 8: // Downgrade de Firmware
-        diagnostico += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
+        diagnostico += `  - ${obsDefeitoCorrigido}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO O DOWNGRADE DA FIRMWARE -> (SV0047)\n\n`;
           peca0.push('SV0047');
@@ -387,18 +501,18 @@ async function gerarLaudo() {
           acessorioOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE)\n`;
           instalacaoOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE)\n`;
         } else {
-          acessorioOpcional += `  - ${peca} - ${obs.obsDefeitoSelecionadoGlobal} -> (A CRITÉRIO DO CLIENTE)\n`;
-          instalacaoOpcional += `  - ${peca} - ${obs.obsDefeitoSelecionadoGlobal} -> (A CRITÉRIO DO CLIENTE)\n`;
+          acessorioOpcional += `  - ${pecaCorrigida} - ${obsDefeitoCorrigido} -> (A CRITÉRIO DO CLIENTE)\n`;
+          instalacaoOpcional += `  - ${pecaCorrigida} - ${obsDefeitoCorrigido} -> (A CRITÉRIO DO CLIENTE)\n`;
         }
         break;
 
       case 10: // Instalação de componente
         peca0.push(obs.pecaSelecionadoGlobal);
-        diagnostico += `  - ${peca} (OBS:${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
+        diagnostico += `  - ${pecaCorrigida} (OBS:${obsDefeitoCorrigido}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
-          instalacaoNecessaria += `  - ${peca}\n`;
+          instalacaoNecessaria += `  - ${pecaCorrigida}\n`;
         } else {
-          instalacaoOpcional += `  - ${peca} -> (A CRITÉRIO DO CLIENTE)\n`;
+          instalacaoOpcional += `  - ${pecaCorrigida} -> (A CRITÉRIO DO CLIENTE)\n`;
         }
         break;
 
@@ -409,7 +523,7 @@ async function gerarLaudo() {
         break;
 
       case 12: // Configuração do leitor
-        diagnostico += `  - LEITOR DESCONFIGURADO (OBS: ${obs.obsDefeitoSelecionadoGlobal})\n`;
+        diagnostico += `  - LEITOR DESCONFIGURADO (OBS: ${obsDefeitoCorrigido})\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A CONFIGURAÇÃO DO LEITOR -> (SV0052)\n\n`;
           peca0.push('SV0052');
@@ -420,7 +534,7 @@ async function gerarLaudo() {
         break;
 
       case 13: // Recuperação do cabo de comunicação
-        diagnostico += `  - CABO DE COMUNICAÇÃO DANIFICADO (OBS: ${obs.obsDefeitoSelecionadoGlobal})\n`;
+        diagnostico += `  - CABO DE COMUNICAÇÃO DANIFICADO (OBS: ${obsDefeitoCorrigido})\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RECUPERAÇÃO DO CABO -> (SV0037)\n\n`;
           peca0.push('SV0037');
@@ -431,7 +545,7 @@ async function gerarLaudo() {
         break;
 
       case 14: // Intalação da configuração do cliente
-        diagnostico += `  - INSTALAÇÃO DA CONFIGURAÇÃO DO CLIENTE (OBS: ${obs.obsDefeitoSelecionadoGlobal})\n`;
+        diagnostico += `  - INSTALAÇÃO DA CONFIGURAÇÃO DO CLIENTE (OBS: ${obsDefeitoCorrigido})\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A INSTALAÇÃO DA CONFIGURAÇÃO DO CLIENTE -> (SV0044)\n\n`;
           peca0.push('SV0044');
@@ -442,14 +556,14 @@ async function gerarLaudo() {
         break;
 
       case 15: // Observação
-        observacao += `  - ${obs.obsDefeitoSelecionadoGlobal}\n`;
+        observacao += `  - ${obsDefeitoCorrigido}\n`;
         break;
 
       default:
         break;
 
       case 16: // Recuperação de cutter
-        diagnostico += `  - CUTTER DANIFICADO (OBS: ${obs.obsDefeitoSelecionadoGlobal}) -> ${causa}\n`;
+        diagnostico += `  - CUTTER DANIFICADO (OBS: ${obsDefeitoCorrigido}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RECUPERAÇÃO DO CUTTER -> (SV0066)\n\n`;
           peca0.push('SV0066');
