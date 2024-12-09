@@ -716,7 +716,7 @@ const dados = [
 
     { id: 13, nome: 'Recuperação do cabo de comunicação', equipamentos: ['CABO DE COMUNICAÇÃO'], valor: '13' },
 
-    { id: 14, nome: 'Intalação da configuração do cliente', equipamentos: ['CONFIGURAÇÕES DO CLIENTE'], valor: '14' },
+    { id: 14, nome: 'Instalação da configuração do cliente', equipamentos: ['CONFIGURAÇÕES DO CLIENTE'], valor: '14' },
 
     {
         id: 15, nome: 'Observação', equipamentos: ['TOUCH', 'CARCAÇAS', 'LENTE', 'PARAFUSOS', 'observacoes', 'MODELO/NÚMERO DE SÉRIE',
