@@ -38,23 +38,34 @@ class Trie {
     node.isEndOfWord = true;
   }
 
-  // Busca na frase a palavra-chave mais longa encontrada
+  // Busca a palavra-chave mais longa na frase a partir de cada posição
   searchLongestMatch(sentence) {
-    let node = this.root;
-    let match = "";
-    let currentMatch = "";
+    let longestMatch = "";
 
-    for (const char of sentence.toLowerCase()) {
-      if (!node.children[char]) break;
-      currentMatch += char;
-      node = node.children[char];
+    // Percorrer cada posição na frase
+    for (let i = 0; i < sentence.length; i++) {
+      let node = this.root;
+      let currentMatch = "";
+      
+      // Tenta encontrar uma palavra a partir da posição i
+      for (let j = i; j < sentence.length; j++) {
+        const char = sentence[j].toLowerCase();
+        
+        if (!node.children[char]) break; // Não encontrou correspondência, sai do loop
+        
+        currentMatch += sentence[j]; // Adiciona o caractere à correspondência
+        node = node.children[char];  // Move para o próximo nó da Trie
 
-      if (node.isEndOfWord) {
-        match = currentMatch;
+        if (node.isEndOfWord) {
+          // Se for o fim de uma palavra válida, armazena a correspondência
+          if (currentMatch.length > longestMatch.length) {
+            longestMatch = currentMatch; // Atualiza a palavra mais longa encontrada
+          }
+        }
       }
     }
 
-    return match ? match.toUpperCase() : null;
+    return longestMatch ? longestMatch.toUpperCase() : null;
   }
 }
 
@@ -96,12 +107,6 @@ async function carregarPalavrasChaveTrie() {
   }
 }
 
-// Função para exibir um alerta único caso existam peças sem palavras-chave encontradas
-function alertarPecasNaoEncontradas() {
-  if (pecasNaoEncontradas.length > 0) {
-    alert(`Peças sem palavras-chave encontradas: ${pecasNaoEncontradas.join(", ")}`);
-  }
-}
 
 
 
