@@ -233,6 +233,7 @@ async function gerarLaudo() {
   const osAnterior = localStorage.getItem("osAnterior");
   const dataManutencao = localStorage.getItem("dataManutencao");
   const obsUltimoServico = localStorage.getItem("obsUltimoServico");
+  const obsUltimoServicoCorrigido = await corrigirTextoComExcecoes(obsUltimoServico);
   const mac = localStorage.getItem("mac");
   const serial = localStorage.getItem("serial");
   const imei = localStorage.getItem("imei");
@@ -314,7 +315,7 @@ async function gerarLaudo() {
     infoBasica =
       `${textoOS}: ${osAnterior} - ` +
       `DATA DA ${textomanu}: ${formatarData(dataManutencao)} - ` +
-      `OBS: ${obsUltimoServico} - ` +
+      `OBS: ${obsUltimoServicoCorrigido} - ` +
       `${garantiaStatus} (GARANTIA ATÉ: ${dataFimGarantia} - ${dataGarantia} DIAS)\n` +
       `\nOS ATUAL:\n`;
   }
