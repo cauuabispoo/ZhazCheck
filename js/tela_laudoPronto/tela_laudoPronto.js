@@ -362,6 +362,7 @@ async function gerarLaudo() {
   let recuperacaoOpcional = "";
   let sistema = "";
   let mauuso = "";
+  let dgn = "";
   let peca0 = [];
   let niveisRecuperacao = [];
 
@@ -377,7 +378,7 @@ async function gerarLaudo() {
     if (obs.causaDefeitoSelecionadoGlobal === "mau"){
       mauuso = 'MAUUSO';
     } else if (obs.causaDefeitoSelecionadoGlobal === "dgn"){
-      mauuso = 'DGN';
+      dgn = 'DGN';
     }
     var peca = "";
     if(obs.pecaSelecionadoGlobal != ""){
@@ -590,7 +591,7 @@ async function gerarLaudo() {
   let laudo = `${infoBasica}${identificadores}CONFORME O DIAGNÓSTICO TÉCNICO, FOI OBSERVADO:\n`;
   if (mauuso === "MAUUSO"){
     peca0.push('MAUUSO');
-  } else if (mauuso === "DGN"){
+  } else if (dgn === "DGN"){
     peca0.push('DGN');
   }
 
