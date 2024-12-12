@@ -153,7 +153,7 @@ async function carregarEquipamentos() {
 
 
 // Lista de palavras que devem ser ignoradas pelo corretor
-const excecoes = ["POWERBOARD", "SYNC"];
+const excecoes = ["POWERBOARD", "SYNC", "WI-FI"];
 
 // Função para corrigir texto com exceções
 async function corrigirTextoComExcecoes(texto) {
