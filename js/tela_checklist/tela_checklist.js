@@ -288,7 +288,7 @@ document.getElementById("submitButton").addEventListener("click", function () {
     );
 } else {
     abrirModalConfirmacao(
-        "Deseja finalizar a menutenção?",
+        "Deseja finalizar a manutenção?",
         () => {
             salvarChecklist()
         },
