@@ -392,7 +392,7 @@ async function gerarLaudo() {
 
     switch (obs.valorSelecionadoGlobal) {
       case 1: // Substituição de componente
-        peca0.push(`${obs.pecaSelecionadoGlobal}`);
+        peca0.push(obs.pecaSelecionadoGlobal);
         diagnostico += `  - ${pecaCorrigida} (OBS: ${obsDefeitoCorrigido}) -> ${causa}\n`;
         if (peca === "DIODO LASER") {
           if (obs.opcSelecionadoGlobal === "n") {
