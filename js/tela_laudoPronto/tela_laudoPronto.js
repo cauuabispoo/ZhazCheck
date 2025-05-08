@@ -515,7 +515,7 @@ async function gerarLaudo() {
 
       case 10: // Instalação de componente
         peca0.push(obs.pecaSelecionadoGlobal);
-        diagnostico += `  - ${pecaCorrigida} (OBS:${obsDefeitoCorrigido}) -> ${causa}\n`;
+        diagnostico += `  - ${pecaCorrigida} (OBS: ${obsDefeitoCorrigido}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           instalacaoNecessaria += `  - ${pecaCorrigida}\n`;
         } else {
