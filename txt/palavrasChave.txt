@@ -142,3 +142,4 @@ SUPORTE DO RIBBON
 TAMPA FRONTAL E TRASEIRA COM PROTECAO
 BOTAO RESET
 BATERIA DE BACKUP
+BATERIA (Peça descontinuada. A bateria do coletor TC20 está atualmente indisponível no mercado)
