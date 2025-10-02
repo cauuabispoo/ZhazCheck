@@ -146,3 +146,4 @@ BATERIA (Peça descontinuada. A bateria do coletor TC20 está atualmente indispo
 PLACA PRINCIPAL DO BERCO
 CONECTOR DA BATERIA
 PLACA DO CONECTOR USB TIPO C
+PLACA DO SYNC / CHARGE
