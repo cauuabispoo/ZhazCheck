@@ -23,7 +23,7 @@ body {
 }
 
 .logo_titulo {
-    font-size: 50;
+    font-size: 50px;
     color: white;
     font-weight: bold;
 }
@@ -87,4 +87,22 @@ body {
 .button:focus::after {
     animation: none;
     display: none;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 480px) {
+    .logo_titulo {
+        font-size: 2rem;
+    }
+
+    .button {
+        min-width: 85vw;
+        min-height: 54px;
+        font-size: 18px;
+    }
+
+    .button::before {
+        min-width: calc(85vw + 12px);
+        min-height: calc(54px + 12px);
+    }
 }

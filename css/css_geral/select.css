@@ -205,3 +205,11 @@ label {
     max-width: 200px;
   }
 }
+
+@media (max-width: 480px) {
+  .custom-select-trigger {
+    min-width: 85vw;
+    max-width: 85vw;
+    padding: 0 60px 0 15px;
+  }
+}

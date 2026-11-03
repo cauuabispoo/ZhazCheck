@@ -14,98 +14,6 @@ $(document).ready(() => {
 
 
 
-class TrieNode {
-  constructor() {
-    this.children = {};
-    this.isEndOfWord = false;
-  }
-}
-
-class Trie {
-  constructor() {
-    this.root = new TrieNode();
-  }
-
-  // Insere uma palavra-chave na Trie
-  insert(word) {
-    let node = this.root;
-    for (const char of word.toLowerCase()) {
-      if (!node.children[char]) {
-        node.children[char] = new TrieNode();
-      }
-      node = node.children[char];
-    }
-    node.isEndOfWord = true;
-  }
-
-  // Busca a palavra-chave mais longa na frase a partir de cada posição
-  searchLongestMatch(sentence) {
-    let longestMatch = "";
-
-    // Percorrer cada posição na frase
-    for (let i = 0; i < sentence.length; i++) {
-      let node = this.root;
-      let currentMatch = "";
-      
-      // Tenta encontrar uma palavra a partir da posição i
-      for (let j = i; j < sentence.length; j++) {
-        const char = sentence[j].toLowerCase();
-        
-        if (!node.children[char]) break; // Não encontrou correspondência, sai do loop
-        
-        currentMatch += sentence[j]; // Adiciona o caractere à correspondência
-        node = node.children[char];  // Move para o próximo nó da Trie
-
-        if (node.isEndOfWord) {
-          // Se for o fim de uma palavra válida, armazena a correspondência
-          if (currentMatch.length > longestMatch.length) {
-            longestMatch = currentMatch; // Atualiza a palavra mais longa encontrada
-          }
-        }
-      }
-    }
-
-    return longestMatch ? longestMatch.toUpperCase() : null;
-  }
-}
-
-// Array para armazenar peças sem palavras-chave encontradas
-const pecasNaoEncontradas = [];
-
-// Função para filtrar palavra-chave usando a Trie
-function filtrarPalavraChaveTrie(nomePeca, trie) {
-  const palavraChave = trie.searchLongestMatch(nomePeca);
-
-  if (palavraChave) {
-    return palavraChave;
-  }
-
-  // Adiciona ao array se não encontrar nenhuma correspondência
-  pecasNaoEncontradas.push(nomePeca);
-  return "PALAVRA NÃO ENCONTRADA";
-}
-
-// Função para carregar palavras-chave em uma Trie
-async function carregarPalavrasChaveTrie() {
-  try {
-    const response = await fetch("../txt/palavrasChave.txt");
-    if (!response.ok) throw new Error("Erro ao carregar palavras-chave");
-
-    const texto = await response.text();
-    const palavrasChave = texto.split("\n").map(p => p.trim()).filter(Boolean);
-
-    const trie = new Trie();
-    for (const palavra of palavrasChave) {
-      trie.insert(palavra);
-    }
-
-    return trie;
-  } catch (error) {
-    console.error(error);
-    alert("Erro ao carregar palavras-chave. Verifique os arquivos.");
-    return null;
-  }
-}
 
 
 
@@ -117,39 +25,6 @@ async function carregarPalavrasChaveTrie() {
 
 
 
-
-// Função para ler o CSV e armazenar as peças em um mapa
-async function carregarPecas() {
-  const response = await fetch("../csv/CadastroItens(CadastroItens).csv");
-  const csv = await response.text();
-  const linhas = csv.trim().split('\n').slice(1); // Ignora o cabeçalho
-
-  // Cria um objeto onde cada ID é uma chave e o nome da peça é o valor
-  const mapaPecas = {};
-  for (const linha of linhas) {
-    const [id, nome] = linha.split(',').map(campo => campo.trim());
-    mapaPecas[id.toUpperCase()] = nome; // Armazena no objeto com ID em maiúsculas
-  }
-
-  return mapaPecas;
-}
-
-
-// Função para ler o CSV e armazenar as peças em um mapa
-async function carregarEquipamentos() {
-  const response = await fetch("../csv/equipamentos.csv");
-  const csv = await response.text();
-  const linhas = csv.trim().split('\n').slice(1); // Ignora o cabeçalho
-
-  // Cria um objeto onde cada ID é uma chave e o nome da peça é o valor
-  const mapaPecas = {};
-  for (const linha of linhas) {
-    const [id, modelo, equipamento, servico] = linha.split(',').map(campo => campo.trim());
-    mapaPecas[id] = servico; // Armazena no objeto com ID em maiúsculas
-  }
-
-  return mapaPecas;
-}
 
 
 // Lista de palavras que devem ser ignoradas pelo corretor
@@ -220,10 +95,7 @@ async function corrigirTextoComExcecoes(texto) {
 
 // Função para gerar o laudo completo
 async function gerarLaudo() {
-  const pecas = await carregarPecas();
-  const equipamentos = await carregarEquipamentos();
   const laudoTextarea = document.getElementById("laudo");
-  const palavrasChave = await carregarPalavrasChaveTrie(); // Carregar palavras-chave do arquivo TXT
   const container1 = document.querySelector(".container2"); // Seleciona o contêiner
 
   // Dados do localStorage
@@ -361,46 +233,41 @@ async function gerarLaudo() {
   let recuperacaoNecessaria = "";
   let recuperacaoOpcional = "";
   let sistema = "";
-  let mauuso = "";
-  let dgn = "";
-  let peca0 = [];
-  let niveisRecuperacao = [];
 
-  const servico = equipamentos[modeloEquipamento.toUpperCase()];
-  peca0.push(servico);
+  // Pré-busca todas as correções de texto em paralelo (em vez de uma chamada
+  // sequencial por observação), reduzindo bastante o tempo total de geração
+  // do laudo quando há várias peças/observações.
+  const correcoes = await Promise.all(
+    observacoes.map(async (obs) => {
+      const peca = obs.pecaSelecionadoGlobal || "";
+      const [pecaCorrigida, obsDefeitoCorrigido, obsCarcacaDefeitoCorrigido] = await Promise.all([
+        corrigirTextoComExcecoes(peca),
+        corrigirTextoComExcecoes(obs.obsDefeitoSelecionadoGlobal),
+        corrigirTextoComExcecoes(obs.obsCarcacaDefeitoSelecionadoGlobal),
+      ]);
+      return { peca, pecaCorrigida, obsDefeitoCorrigido, obsCarcacaDefeitoCorrigido };
+    })
+  );
+
   // Processa as observações e distribui conforme o tipo
-  for (const obs of observacoes) {
+  for (let i = 0; i < observacoes.length; i++) {
+    const obs = observacoes[i];
+    const { peca, pecaCorrigida, obsDefeitoCorrigido, obsCarcacaDefeitoCorrigido } = correcoes[i];
     const causa = {
       mau: "USO INDEVIDO",
       dgn: "DESGASTE DE USO",
       df: "DEFEITO"
     }[obs.causaDefeitoSelecionadoGlobal] || "CAUSA DESCONHECIDA";
-    if (obs.causaDefeitoSelecionadoGlobal === "mau"){
-      mauuso = 'MAUUSO';
-    } else if (obs.causaDefeitoSelecionadoGlobal === "dgn"){
-      dgn = 'DGN';
-    }
-    var peca = "";
-    if(obs.pecaSelecionadoGlobal != ""){
-      peca = filtrarPalavraChaveTrie(pecas[obs.pecaSelecionadoGlobal], palavrasChave) || "PEÇA DESCONHECIDA";
-    }
-    var verificaCarcaca;
     var nivel;
-    const pecaCorrigida = await corrigirTextoComExcecoes(peca);
-    const obsDefeitoCorrigido = await corrigirTextoComExcecoes(obs.obsDefeitoSelecionadoGlobal);
-    const obsCarcacaDefeitoCorrigido = await corrigirTextoComExcecoes(obs.obsCarcacaDefeitoSelecionadoGlobal);
 
     switch (obs.valorSelecionadoGlobal) {
       case 1: // Substituição de componente
-        peca0.push(obs.pecaSelecionadoGlobal);
         diagnostico += `  - ${pecaCorrigida} (OBS: ${obsDefeitoCorrigido}) -> ${causa}\n`;
-        if (peca === "DIODO LASER") {
+        if (peca === "MÓDULO LASER") {
           if (obs.opcSelecionadoGlobal === "n") {
             recuperacaoNecessaria += `  - ${pecaCorrigida} -> (SV0064) -> (PARA SUBSTITUIÇÃO DO COMPONENTE É NECESSÁRIO A RECUPERAÇÃO)\n`;
-            peca0.push('SV0064');
           } else {
             recuperacaoOpcional += `  - ${pecaCorrigida} -> (SV0064) -> (PARA SUBSTITUIÇÃO DO COMPONENTE É NECESSÁRIO A RECUPERAÇÃO)\n`;
-            peca0.push('SV0064');
           }
         } else {
           if (obs.opcSelecionadoGlobal === "n") {
@@ -416,22 +283,8 @@ async function gerarLaudo() {
         diagnostico += `  - ${pecaCorrigida} (OBS: ${obsDefeitoCorrigido}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           recuperacaoNecessaria += `  - ${pecaCorrigida} -> ${nivel}\n`;
-          if (nivel === 'N1 (SV0036)') {
-            niveisRecuperacao.push(1); // N1 é representado pelo valor 1
-          } else if (nivel === 'N2 (SV0074)') {
-            niveisRecuperacao.push(2); // N2 é representado pelo valor 2
-          } else if (nivel === 'N3 (SV0075)') {
-            niveisRecuperacao.push(3); // N3 é representado pelo valor 3
-          };
         } else {
           recuperacaoOpcional += `  - ${pecaCorrigida} -> ${nivel} -> (A CRITÉRIO DO CLIENTE)\n`;
-          if (nivel === 'N1 (SV0036)') {
-            niveisRecuperacao.push(1); // N1 é representado pelo valor 1
-          } else if (nivel === 'N2 (SV0074)') {
-            niveisRecuperacao.push(2); // N2 é representado pelo valor 2
-          } else if (nivel === 'N3 (SV0075)') {
-            niveisRecuperacao.push(3); // N3 é representado pelo valor 3
-          }
         }
         break;
 
@@ -440,10 +293,8 @@ async function gerarLaudo() {
         diagnostico += `  - ${peca1} (OBS: ${obsDefeitoCorrigido}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           recuperacaoNecessaria += `  - ${peca1}\n`;
-          verificaCarcaca = '1';
         } else {
           recuperacaoOpcional += `  - ${peca1} -> (A CRITÉRIO DO CLIENTE)\n`;
-          verificaCarcaca = '1';
         }
         break;
 
@@ -451,10 +302,8 @@ async function gerarLaudo() {
         diagnostico += `  - CARCAÇA DA BATERIA DANIFICADA (OBS: ${obsDefeitoCorrigido}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RECUPERAÇÃO DA BATERIA -> (SV0071)\n\n`;
-          peca0.push('SV0071');
         } else {
           sistema += `RECUPERAÇÃO OPCIONAL DA BATERIA -> (SV0071) -> (A CRITÉRIO DO CLIENTE)\n\n`;
-          peca0.push('SV0071');
         }
         break;
 
@@ -462,10 +311,8 @@ async function gerarLaudo() {
         diagnostico += `  - ${obsDefeitoCorrigido}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A ATUALIZAÇÃO DO SISTEMA ANDROID -> (SV0042)\n\n`;
-          peca0.push('SV0042');
         } else {
           sistema += `ATUALIZAÇÃO OPCIONAL DO SISTEMA ANDROID -> (SV0042) -> (A CRITÉRIO DO CLIENTE)\n\n`;
-          peca0.push('SV0042');
         }
         break;
 
@@ -473,10 +320,8 @@ async function gerarLaudo() {
         diagnostico += `  - SISTEMA OPERACIONAL (OBS: ${obsDefeitoCorrigido}) -> DEFEITO\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RESTAURAÇÃO DA MEMÓRIA FLASH ROM -> (SV0040)\n\n`;
-          peca0.push('SV0040');
         } else {
           sistema += `RESTAURAÇÃO OPCIONAL DA MEMÓRIA FLASH ROM -> (SV0040) -> (A CRITÉRIO DO CLIENTE)\n\n`;
-          peca0.push('SV0040');
         }
         break;
 
@@ -484,10 +329,8 @@ async function gerarLaudo() {
         diagnostico += `  - ${obsDefeitoCorrigido}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO O UPGRADE DA FIRMWARE -> (SV0046)\n\n`;
-          peca0.push('SV0046');
         } else {
           sistema += `UPGRADE OPCIONAL DA FIRMWARE -> (SV0046) -> (A CRITÉRIO DO CLIENTE)\n\n`;
-          peca0.push('SV0046');
         }
         break;
 
@@ -495,16 +338,13 @@ async function gerarLaudo() {
         diagnostico += `  - ${obsDefeitoCorrigido}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO O DOWNGRADE DA FIRMWARE -> (SV0047)\n\n`;
-          peca0.push('SV0047');
         } else {
           sistema += `DOWNGRADE OPCIONAL DA FIRMWARE -> (SV0047) -> (A CRITÉRIO DO CLIENTE)\n\n`;
-          peca0.push('SV0047');
         }
         break;
 
       case 9: // Acessórios
-        peca0.push(obs.pecaSelecionadoGlobal);
-        if (peca === "PELICULA PROTETORA HIDROGEL") {
+        if (peca === "PROTHIDRO23") {
           acessorioOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE)\n`;
           instalacaoOpcional += `  - PELÍCULA DE HIDROGEL -> (PARA AUMENTAR A VIDA ÚTIL E PROTEÇÃO CONTRA PANCADAS NA TELA DE TOQUE)\n`;
         } else {
@@ -514,7 +354,6 @@ async function gerarLaudo() {
         break;
 
       case 10: // Instalação de componente
-        peca0.push(obs.pecaSelecionadoGlobal);
         diagnostico += `  - ${pecaCorrigida} (OBS: ${obsDefeitoCorrigido}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           instalacaoNecessaria += `  - ${pecaCorrigida}\n`;
@@ -526,17 +365,14 @@ async function gerarLaudo() {
       case 11: // Regulagem do módulo laser
         diagnostico += `  - MÓDULO LASER DESREGULADO\n`;
         sistema += `NECESSÁRIO A REGULAGEM DO MÓDULO LASER -> (SV0053)\n\n`;
-        peca0.push('SV0053');
         break;
 
       case 12: // Configuração do leitor
         diagnostico += `  - LEITOR DESCONFIGURADO (OBS: ${obsDefeitoCorrigido})\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A CONFIGURAÇÃO DO LEITOR -> (SV0052)\n\n`;
-          peca0.push('SV0052');
         } else {
           sistema += `CONFIGURAÇÃO OPCIONAL DO LEITOR -> (SV0052) -> (A CRITÉRIO DO CLIENTE)\n\n`;
-          peca0.push('SV0052');
         }
         break;
 
@@ -544,10 +380,8 @@ async function gerarLaudo() {
         diagnostico += `  - CABO DE COMUNICAÇÃO DANIFICADO (OBS: ${obsDefeitoCorrigido})\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RECUPERAÇÃO DO CABO -> (SV0037)\n\n`;
-          peca0.push('SV0037');
         } else {
           sistema += `RECUPERAÇÃO OPCIONAL DO CABO -> (SV0037) -> (A CRITÉRIO DO CLIENTE)\n\n`;
-          peca0.push('SV0037');
         }
         break;
 
@@ -555,10 +389,8 @@ async function gerarLaudo() {
         diagnostico += `  - INSTALAÇÃO DA CONFIGURAÇÃO DO CLIENTE (OBS: ${obsDefeitoCorrigido})\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A INSTALAÇÃO DA CONFIGURAÇÃO DO CLIENTE -> (SV0044)\n\n`;
-          peca0.push('SV0044');
         } else {
           sistema += `INSTALAÇÃO OPCIONAL DA CONFIGURAÇÃO DO CLIENTE -> (SV0044)\n\n`;
-          peca0.push('SV0044');
         }
         break;
 
@@ -573,27 +405,14 @@ async function gerarLaudo() {
         diagnostico += `  - CUTTER DANIFICADO (OBS: ${obsDefeitoCorrigido}) -> ${causa}\n`;
         if (obs.opcSelecionadoGlobal === "n") {
           sistema += `NECESSÁRIO A RECUPERAÇÃO DO CUTTER -> (SV0066)\n\n`;
-          peca0.push('SV0066');
         } else {
           sistema += `RECUPERAÇÃO OPCIONAL DO CUTTER -> (SV0066) -> (A CRITÉRIO DO CLIENTE)\n\n`;
-          peca0.push('SV0066');
         }
         break;
     }
   }
-  if(pecasNaoEncontradas.every(item => item != "")){
-    if (pecasNaoEncontradas.length > 0) {
-      alert("Por favor, entre em contato com o administrador 'Cauã Bispo' para adicionar as palavras chaves das seguintes peças:\n\n" + pecasNaoEncontradas.join("\n"));
-    }
-  }
-
   // Monta o laudo com os blocos dinâmicos
   let laudo = `${infoBasica}${identificadores}CONFORME O DIAGNÓSTICO TÉCNICO, FOI OBSERVADO:\n`;
-  if (mauuso === "MAUUSO"){
-    peca0.push('MAUUSO');
-  } else if (dgn === "DGN"){
-    peca0.push('DGN');
-  }
 
   if (diagnostico) {
     if (observacao) {
@@ -622,23 +441,6 @@ async function gerarLaudo() {
 
     if (recuperacaoOpcional) {
       laudo += `RECUPERAÇÃO OPCIONAL DO(S) SEGUINTE(S) ITEM(S):\n${recuperacaoOpcional}\n`;
-    }
-
-    if (recuperacaoOpcional || recuperacaoNecessaria) {
-      if (verificaCarcaca) {
-        peca0.push('SV0038');
-      }
-      // Encontra o maior nível no array
-      const maiorNivel = Math.max(...niveisRecuperacao);
-
-      // Adiciona a peça correspondente ao maior nível
-      if (maiorNivel === 1) {
-        peca0.push('SV0036');
-      } else if (maiorNivel === 2) {
-        peca0.push('SV0074');
-      } else if (maiorNivel === 3) {
-        peca0.push('SV0075');
-      }
     }
 
     if (instalacaoNecessaria) {
@@ -676,25 +478,6 @@ async function gerarLaudo() {
   if (tipoServico === 'laudo') {
     // Exibe o laudo na caixa de texto
     laudoTextarea.value = laudo.trim().toUpperCase(); // Garante que tudo esteja em maiúsculas
-
-    const container = document.getElementById('pecas-container');
-
-    // Adiciona os checkboxes para cada peça
-    peca0.forEach(peca => {
-      const checkboxHtml = `
-          <label class="container1">
-          <span>${peca}</span>
-                  <input type="checkbox" onclick="copiarPeca('${peca}')" />
-                  <svg viewBox="0 0 384 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="clipboard">
-                      <path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"></path>
-                  </svg>
-                  <svg viewBox="0 0 384 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="clipboard-check">
-                      <path d="M192 0c-41.8 0-77.4 26.7-90.5 64H64C28.7 64 0 92.7 0 128V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H282.5C269.4 26.7 233.8 0 192 0zm0 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM305 273L177 401c-9.4 9.4-24.6 9.4-33.9 0L79 337c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L271 239c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"></path>
-                  </svg>
-              </label>
-          `;
-      container.insertAdjacentHTML('beforeend', checkboxHtml);
-    });
   }
 }
 
@@ -733,23 +516,6 @@ const textareaChecklist = document.getElementById('checklistTextArea');
 // Configura os eventos de cada checkbox
 configurarCheckbox(checkboxLaudo, textareaLaudo);
 configurarCheckbox(checkboxChecklist, textareaChecklist);
-
-
-function copiarPeca(peca) {
-  navigator.clipboard.writeText(peca).catch(err => {
-    console.error('Erro ao copiar: ', err);
-  });
-
-  // Desmarcar o checkbox após 3 segundos
-  const checkboxes = document.querySelectorAll('.container1 input');
-  checkboxes.forEach(checkbox => {
-    if (checkbox.checked) {
-      setTimeout(() => {
-        checkbox.checked = false; // Desmarca o checkbox
-      }, 1000);
-    }
-  });
-}
 
 
 document.getElementById("proceed").addEventListener("click", function () {

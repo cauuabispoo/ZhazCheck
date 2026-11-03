@@ -33,10 +33,6 @@ textarea::-webkit-scrollbar {
   background-color: #0062ff;
 }
 
-.cards .green {
-  background-color: #18cd5e;
-}
-
 .cards .card {
   display: flex;
   align-items: center;
@@ -127,52 +123,6 @@ textarea::-webkit-scrollbar {
   50% {
     transform: rotate(-10deg) scale(1.2);
   }
-}
-
-.container1 {
-  --color: #000000;
-  --size: 1vw;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  position: relative;
-  cursor: pointer;
-  font-size: var(--size);
-  user-select: none;
-  fill: var(--color);
-  margin: 10px 0;
-}
-
-.container1 span {
-  margin-right: 20px;
-}
-
-.container1 .clipboard {
-  position: absolute;
-  animation: keyframes-fill .5s;
-}
-
-.container1 .clipboard-check {
-  position: absolute;
-  display: none;
-  animation: keyframes-fill .5s;
-}
-
-.container1 input:checked~.clipboard {
-  display: none;
-}
-
-.container1 input:checked~.clipboard-check {
-  display: block;
-}
-
-.container1 input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-  margin-left: 10px;
 }
 
 .container2 {
@@ -337,5 +287,72 @@ button:active {
   }
   .container, .container2 {
     left: 130px;
+  }
+}
+
+/* Cobertura para tablets e smartphones: empilha os cards em coluna única */
+@media (max-width: 768px) {
+  body {
+    padding: 15px;
+  }
+
+  .cards {
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+  }
+
+  .cards .card {
+    width: 100%;
+    max-width: 90vw;
+    height: auto;
+    max-height: none;
+    padding: 20px 0;
+  }
+
+  .cards .card p.tip {
+    font-size: 5vw;
+  }
+
+  textarea {
+    width: 85vw;
+    max-width: 85vw;
+    height: 35vh;
+    max-height: 300px;
+  }
+
+  .container, .container2 {
+    left: auto;
+    --size: 6vw;
+  }
+
+  .botao {
+    position: relative;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .cards .card p.tip {
+    font-size: 6vw;
+  }
+
+  textarea {
+    width: 90vw;
+    max-width: 90vw;
+    height: 30vh;
+  }
+
+  .container, .container2 {
+    --size: 7vw;
+  }
+
+  button {
+    font-size: 4vw;
+    min-width: 160px;
+    min-height: 56px;
   }
 }

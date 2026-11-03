@@ -655,16 +655,16 @@ function showAdditionalContent() {
 
 // Mapeamento das seções a serem exibidas baseado no valor do serviço selecionado
 const combinacoesMap = {
-    '1': ['pecaSection', 'causaSection', 'obsSection', 'opcSection'], // Substituição de componente
-    '10': ['pecaSection', 'causaSection', 'obsSection', 'opcSection'], // Instalação de componente
-    '2': ['pecaSection', 'causaSection', 'obsSection', 'opcSection', 'nivelSection'], // Recuperação de placa
+    '1': ['causaSection', 'obsSection', 'opcSection'], // Substituição de componente
+    '10': ['causaSection', 'obsSection', 'opcSection'], // Instalação de componente
+    '2': ['causaSection', 'obsSection', 'opcSection', 'nivelSection'], // Recuperação de placa
     '3': ['obsCarcacaSection', 'causaSection', 'obsSection', 'opcSection'], // Recuperação de carcaça
     '4': ['causaSection', 'obsSection', 'opcSection'], // Recuperação de bateria Skorpio
     '5': ['obsSection', 'opcSection'], // Atualização do sistema Android
     '6': ['obsSection', 'opcSection'], // Restauração da mémoria
     '7': ['obsSection', 'opcSection'], // Upgrade de Firmware
     '8': ['obsSection', 'opcSection'], // Downgrade de Firmware
-    '9': ['pecaSection', 'obsSection'], // Acessórios
+    '9': ['obsSection'], // Acessórios
     '12': ['obsSection', 'opcSection'], // Configuração do leitor
     '13': ['obsSection', 'opcSection'], // Recuperação do cabo de comunicação
     '14': ['obsSection', 'opcSection'], // Intalação da configuração do cliente
@@ -733,57 +733,6 @@ const dados = [
 ];
 
 
-const filtro = {
-    'TOUCH': ['touch'],
-    'PAINEL': ['PAINEL', 'MEMBRANA'],
-    'ACESSÓRIOS': ['capa', 'hidrogel', 'pelicula', 'capinha', 'manopla', 'gatilho', 'pistola', 'ALCA', 'PEEL OFF', 'fonte'],
-    'CABO DE COMUNICAÇÃO': ['cabo'],
-    'FONTE DE ALIMENTAÇÃO': ['FONTE', 'PLACA FONTE'],
-    'PLACA PRINCIPAL': ['PLACA PRINCIPAL'],
-    'CARCAÇAS': ['CARCACA', 'PE DE APOIO', 'EIXO INFERIOR DE ROTACAO', 'CAPA DO SCANNER DE ROTACAO', 'GABINETE', 'VEDACAO', 'TAMPA DO TEAR OFF', 'TAMPA SUPERIOR CINZA', 'TAMPA DE PROTECAO', 'CONJUNTO SUPERIOR INTERNO'],
-    'LENTE': ['LENTE'],
-    'PARAFUSOS': ['PARAFUSO'],
-    'LCD': ['LCD'],
-    'PLACA POWERBOARD': ['PLACA POWERBOARD', 'POWERBOARD', 'KEY'],
-    'PLACA SECUNDÁRIA': ['PLACA SECUNDARIA', 'PLACA SUB', 'SUBPLACA', 'SUB-PLACA', 'SUB PLACA'],
-    'SENSOR BIOMÉTRICO': ['SENSOR BIOMETRICO', 'BIOMETRIA'],
-    'WI-FI': ['WIFI', 'WI-FI', 'ANTENA'],
-    'MÓDULO LASER': ['MODULO', 'DIODO', 'LASER'],
-    'ALTO-FALANTE': ['ALTO-FALANTE', 'ALTOFALANTE', 'ALTO FALANTE', 'PLACA'],
-    'ALTO-FALANTE PRINCIPAL': ['ALTO-FALANTE', 'ALTOFALANTE', 'ALTO FALANTE', 'PLACA'],
-    'ALTO-FALANTE AURICULAR': ['ALTO-FALANTE', 'ALTOFALANTE', 'ALTO FALANTE', 'PLACA'],
-    'CÂMERA': ['CAMERA'],
-    'CÂMERA(S) TRASEIRA': ['CAMERA'], 
-    'CÂMERA FRONTAL': ['CAMERA'],
-    'TECLADO': ['TECLADO'],
-    'GATILHO/BOTÕES LAT.': ['GATILHO', 'BOTOES', 'BOTAO'],
-    'BATERIA': ['BATERIA'],
-    'TRAVAS DA BATERIA/TAMPA': ['TRAVA', 'TRAVAS', 'TAMPA'],
-    'CARREGAMENTO/COMUNICAÇÃO - (SYNC/CHARGER)': ['SYNC', 'PLACA'],
-    'GATILHO': ['GATILHO'],
-    'BASE DE COMUNICAÇÃO BLUETOOTH': ['BERCO', 'BASE', 'PLACA', 'CARCACA'],
-    'CARREGAMENTO/COMUNICAÇÃO': ['PLACA'],
-    'ROLETE DE BORRACHA': ['ROLETE'],
-    'CABEÇA DE IMPRESSÃO': ['CABECA', 'TOGGLE'],
-    'CORREIAS/ENGRENAGENS': ['CORREIA', 'ENGRENAGEM', 'ENGRENAGENS'],
-    'SENSORES DE ETIQUETA': ['SENSOR'],
-    'SENSOR DO RIBBON': ['SENSOR'],
-    'ALIMENTADOR': [''],
-    'TRACIONADOR': [''],
-    'BOTÕES': ['BOTOES', 'BOTAO', 'PLACA'],
-    'GUIA DE ETIQUETA': ['GUIA'],
-    'TRAVAS': ['TRAVA', 'TRAVAS'],
-    'SERIAL': ['PLACA'],
-    'PARALELA': ['PLACA'],
-    'ETHERNET': ['PLACA'],
-    'USB': ['PLACA'],
-    'BLUETOOTH': ['PLACA'],
-    'CORTADOR': ['CUTTER', 'CORTADOR'],
-    'TAMPA DA BATERIA': ['TAMPA'],
-    'COMPARTIMENTO DO CARTÃO SD': ['PLACA', 'GAVETA'],
-    'CONEXÃO NAS REDES GSM(CARTÃO SIM)': ['PLACA', 'GAVETA'],
-};
-
 function abrirModal(item) {
     const dynamicSectionsDiv = document.getElementById('dynamicSections');
     dynamicSectionsDiv.innerHTML = ''; // Limpa as seções anteriores
@@ -794,10 +743,6 @@ function abrirModal(item) {
             <h2 class="title">Qual o serviço?<sup>*</sup></h2>
             <select name="response" id="response" class="custom-select sources" placeholder="Selecione uma opção">
             </select>
-        </section1>
-        <section1 id="pecaSection" class="hidden">
-            <h2 class="title">Peça:<sup>*</sup></h2>
-            <select name="peca" id="peca" class="custom-select" placeholder="Selecione"></select>
         </section1>
         <section1 id="nivelSection" class="hidden">
             <h2 class="title">Nível:<sup>*</sup></h2>
@@ -877,9 +822,7 @@ document.getElementById('add').addEventListener('click', () => {
 
 
 // Função para carregar opções no select com base no localStorage
-async function carregarOpcoes(repro) {
-    const sectionsToShow = filtro[repro] || [];
-    const modeloEquipamento = localStorage.getItem('modeloEquipamento');
+function carregarOpcoes(repro) {
     const select = $("#response");
     select.empty(); // Limpa o select
 
@@ -890,51 +833,7 @@ async function carregarOpcoes(repro) {
         }
     });
 
-    const select1 = $("#peca");
-    select1.empty(); // Limpa o select
-    select1.append('<option value="" disabled selected></option>'); // Placeholder
-
-    try {
-        const resposta = await fetch('../csv/CadastroItens(CadastroItens).csv'); // Carrega o CSV
-        // const resposta = await fetch('../csv/CadastroItens(CadastroItens).csv');
-        const textoCSV = await resposta.text();
-
-
-        // Converte o CSV em uma lista de objetos
-        const linhas = textoCSV.trim().split('\n').slice(1); // Ignora o cabeçalho
-        const dados = linhas.map(linha => {
-            const [id, nome] = linha.split(',');
-            return { id, nome };
-        });
-
-
-
-        // Filtra e adiciona as opções ao select
-        if (repro === 'ACESSÓRIOS' || repro === 'CABO DE COMUNICAÇÃO' || repro === 'FONTE DE ALIMENTAÇÃO') {
-            dados.forEach(item => {
-                if (
-                    sectionsToShow.some(section => item.nome.toLowerCase().includes(section.toLowerCase()))
-                ) {
-                    select1.append(`<option value="${item.id}">${item.nome}</option>`);
-                }
-            });
-        } else {
-            dados.forEach(item => {
-                if (
-                    item.nome.toLowerCase().includes(modeloEquipamento.toLowerCase()) &&
-                    sectionsToShow.some(section => item.nome.toLowerCase().includes(section.toLowerCase()))
-                ) {
-                    select1.append(`<option value="${item.id}">${item.nome}</option>`);
-                }
-            });
-        }
-
-    } catch (erro) {
-        console.error('Erro ao carregar o CSV:', erro);
-    }
-
     inicializarSelectCustomizado(); // Atualiza o select customizado
-
 }
 
 
@@ -942,7 +841,6 @@ async function carregarOpcoes(repro) {
 
 
 let valorSelecionadoGlobal = ''; // Variável global para armazenar o valor selecionado
-let pecaSelecionadoGlobal = '';
 let nivelSelecionadoGlobal = '';
 let causaDefeitoSelecionadoGlobal = '';
 let obsDefeitoSelecionadoGlobal = '';
@@ -955,7 +853,7 @@ function inicializarSelectCustomizado() {
         const selectId = select.attr("id");
 
         // Renderiza o campo de pesquisa apenas para os selects desejados
-        const isSelectComPesquisa = ['peca'].includes(selectId);
+        const isSelectComPesquisa = [].includes(selectId);
 
         const template = `
 <div class="${select.attr("class")}">
@@ -1056,9 +954,6 @@ function atualizarVariavelGlobal(selectId, value) {
                 document.getElementById(sectionId).classList.remove('hidden');
             });
             break;
-        case 'peca':
-            pecaSelecionadoGlobal = value;
-            break;
         case 'nivel':
             nivelSelecionadoGlobal = value;
             break;
@@ -1083,7 +978,6 @@ document.getElementById('adicionar').addEventListener('click', () => {
 function salvarObservacao() {
     // Obter valores dos inputs que estão visíveis
     const valorSelecionado = valorSelecionadoGlobal;
-    const pecaSelecionado = pecaSelecionadoGlobal;
     const nivelSelecionado = nivelSelecionadoGlobal;
     const causaDefeitoSelecionado = causaDefeitoSelecionadoGlobal;
     const obsDefeito = document.getElementById('obs') ? document.getElementById('obs').value : '';
@@ -1099,7 +993,6 @@ function salvarObservacao() {
     // Checar se os campos visíveis estão preenchidos
     const camposObrigatorios = {
         response: valorSelecionado,
-        peca: pecaSelecionado,
         obsCarcaca: obsCarcacaDefeito,
         nivel: nivelSelecionado,
         causa: causaDefeitoSelecionado,
@@ -1137,7 +1030,7 @@ function salvarObservacao() {
     const observacao = {
         pecaReprovada: itemReprovado,
         valorSelecionadoGlobal: valorSelecionado,
-        pecaSelecionadoGlobal: pecaSelecionado,
+        pecaSelecionadoGlobal: itemReprovado,
         obsCarcacaDefeitoSelecionadoGlobal: obsCarcacaDefeito.toUpperCase(),
         nivelSelecionadoGlobal: nivelSelecionado,
         causaDefeitoSelecionadoGlobal: causaDefeitoSelecionado,

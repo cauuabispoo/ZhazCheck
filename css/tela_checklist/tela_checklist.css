@@ -444,9 +444,9 @@ sup {
 
 @media only screen and (max-width: 600px) {
   .modal-content {
-    height: 50%;
     width: 100vw;
-
+    max-height: 85vh;
+    overflow-y: auto;
   }
 }
 
